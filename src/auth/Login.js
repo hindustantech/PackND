@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+// import { toast } from 'react-toastify';
 
 const Login = () => {
     const [formData, setFormData] = useState({
@@ -49,7 +49,7 @@ const Login = () => {
                 // Save token and redirect
                 localStorage.setItem("id", id);
                 navigate('/home');
-                toast.success(response.message)
+                // toast.success(response.message)
             } else {
                 setError(result.message || 'Login failed. Please try again.');
             }
