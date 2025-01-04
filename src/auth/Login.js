@@ -12,6 +12,7 @@ const Login = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
+    const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -31,7 +32,7 @@ const Login = () => {
 
         try {
             setLoading(true);
-            const response = await fetch('http://projectdemo.ukvalley.com/api/login', {
+            const response = await fetch(`${BASE_URL}/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
