@@ -17,12 +17,29 @@
     width: 12px;
     height: 12px;
     margin-left: 12px;
-}
+}   
 .bg-img {
     background-image: url('/public/icon/hero.png');
     width: 393px;
     height: 350px;
-    background-size: 393px 350px;  /* Exact dimensions */
+    background-size: 393px 350px;  
     background-position: center;
     background-repeat: no-repeat;
 }
+
+
+
+.center-class {
+    /* display: flex; */
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  
+  /* Media query for larger screens (e.g., tablets and desktops) */
+  @media (min-width: 768px) {
+    .center-class {
+      margin: 0 auto;
+      width: 50%; /* Adjust width as needed */
+    }
+  }

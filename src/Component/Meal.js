@@ -8,8 +8,11 @@ import Coupon from './Coupon';
 const Meal = () => {
     const [mealTime, setMealTime] = useState('lunch'); // State for meal time selection
     const [UserData, setUserData] = useState([]);
+    const[Membership,setMembership]=useState([]);
     const [error, setError] = useState(null);
     const user_id = localStorage.getItem("id");
+    const BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
     const getUser = async () => {
         try {
             // Ensure "id" is a string
@@ -17,7 +20,7 @@ const Meal = () => {
                 throw new Error("User ID not found in localStorage.");
             }
 
-            const response = await fetch(`http://projectdemo.ukvalley.com/api/getuser/${user_id}`);
+            const response = await fetch(`${BASE_URL}/getuser/${user_id}`);
 
             if (!response.ok) {
                 throw new Error(`Unexpected response status: ${response.status}`);
@@ -37,6 +40,42 @@ const Meal = () => {
                 const data = await getUser();
                 setUserData(data.user);
                 console.log(data.user)
+            } catch (err) {
+                setError(err.message);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    const getUserPackageAndMenu = async () => {
+        try {
+            // Ensure "id" is a string
+            if (!user_id) {
+                throw new Error("User ID not found in localStorage.");
+            }
+
+            const response = await fetch(`${BASE_URL}/getUserPackageAndMenu/${user_id}`);
+
+            if (!response.ok) {
+                throw new Error(`Unexpected response status: ${response.status}`);
+            }
+
+            const data = await response.json(); // Parse JSON once
+            return data;
+        } catch (error) {
+            console.error("Error fetching user data:", error.message);
+            throw error; // Rethrow for the calling function to handle
+        }
+    };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getUserPackageAndMenu();
+                
+                setMembership(data.data.user_package);
+                console.log(data.data)
             } catch (err) {
                 setError(err.message);
             }
@@ -134,26 +173,26 @@ const Meal = () => {
                     <div className="d-flex">
                         <div style={{ minWidth: '60px' }} className="d-flex align-items-start">
                             <img
-                                src="/api/placeholder/60/60"
+                                src="/meal.png"
                                 alt="Full Meal"
-                                className="rounded object-fit-cover"
-                                style={{ width: '60px', height: '60px' }}
+                                className="rounded object-fit-cover "
+                                style={{ width: '90px', height: '90px' }}
                             />
                         </div>
 
-                        <div className="card-body p-2 p-sm-3 bg-light ">
+                        <div className="card-body p-2 p-sm-3 bg-light  ">
                             <div className="d-flex gap-2 gap-sm-3">
 
                                 <div className="flex-grow-1">
-                                    <div className="mb-1">
-                                        <h6 className="mb-1 fs-7" style={{ fontSize: '0.9rem' }}>Full Meal</h6>
-                                        <span className=" bg-light text-dark border" style={{ fontSize: '0.7rem', fontWeight: 'normal' }}>
+                                    <div className="mb-1 d-flex ">
+                                        <h6 className="mb-1 fs-7" style={{ fontSize: '0.9rem' }}>{Membership.package_name}</h6>
+                                        <span className="  text-dark  " style={{ fontSize: '0.9rem' ,marginLeft:'160px'}}>
                                             Pure veg
                                         </span>
                                     </div>
                                     <div className="d-flex align-items-center flex-wrap gap-1">
                                         <small className="text-muted" style={{ fontSize: '0.75rem' }}>
-                                            Dal, Rice, Bread, 2 Sabji
+                                            {Membership.description}
                                         </small>
 
                                     </div>
@@ -175,7 +214,7 @@ const Meal = () => {
                         </div>
                     </div>
                     {/* Render Lunch or Dinner Component Based on mealTime */}
-                    {mealTime === 'lunch' && <Lunch />}
+                    {mealTime === 'lunch' && <Lunch  />}
                     {mealTime === 'dinner' && <Dinner />}
                 </div>
             </div>

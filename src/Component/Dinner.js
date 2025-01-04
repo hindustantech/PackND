@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import { ArrowBigLeft } from 'lucide-react';
 const Dinner = () => {
     const [selectedDate, setSelectedDate] = useState(null);
     const [weekOffset, setWeekOffset] = useState(0);
@@ -39,24 +39,24 @@ const Dinner = () => {
                 <h6 className="mb-1 text-danger text-center mt-2" style={{ fontSize: '0.9rem', fontWeight: 'bold', minWidth: '50px' }}>Future Meals</h6>
                 <p className="text-muted mb-3 text-center" style={{ fontSize: '0.75rem' }}>Prepare your week meal today</p>
 
-                <div className="d-flex gap-2 overflow-auto">
+                <div className="d-flex gap-2 overflow-auto center-class">
 
                     {dates.map((date) => (
-                        <div key={date.day} style={{ minWidth: '50px' }} onClick={() => handleDateClick(date)}>
-                            <div className={`border rounded-3 p-2 text-center ${selectedDate?.day === date.day ? 'bg-danger text-white' : ''}`}
+                        <div key={date.day} style={{ minWidth: '40px' }} onClick={() => handleDateClick(date)}>
+                            <div className={`border rounded-3 p-1 text-center ${selectedDate?.day === date.day ? 'bg-danger text-white' : ''}`}
                                 style={{
                                     backgroundColor: '#fff',
-                                    boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+                                    boxShadow: '0 1px 1px rgba(0,0,0,0.1)',
                                     cursor: 'pointer'
                                 }}>
                                 <div className="fw-medium" style={{ fontSize: '0.9rem' }}>{date.day}</div>
-                                <div style={{ fontSize: '0.7rem', color: '#666' }}>{date.weekday}</div>
-                                <div style={{ fontSize: '0.7rem', color: '#999' }}>{date.month}</div>
+                                <div style={{ fontSize: '0.5rem', color: '#666' }}>{date.weekday}</div>
+                                <div style={{ fontSize: '0.5rem', color: '#999' }}>{date.month.slice(0,3)}</div>
                             </div>
 
                         </div>
                     ))}
-
+                     <ArrowBigLeft style={{fontSize:'12px'}} onClick={handleNextWeek}/>
                 </div>
             </div>
 

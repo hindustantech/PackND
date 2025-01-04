@@ -104,10 +104,9 @@ const Calendar = ({
             >
               <div className={`p-2 ${isSelected ? 'bg-danger rounded text-white' : ''}`}>
                 <div>{currentDay}</div>
-                {dayData.blog && <small className="d-block text-secondary" style={{ fontSize: '12px' }}>Blog</small>}
-                {dayData.freebie && <small className="d-block text-success" style={{ fontSize: '12px' }}>Freebie</small>}
-                {dayData.reel && <small className="d-block text-danger" style={{ fontSize: '12px' }}>Reel</small>}
-                {dayData.quotes && <small className="d-block text-primary" style={{ fontSize: '12px' }}>Quotes</small>}
+                {dayData.Diner && <small className="d-block text-secondary" style={{ fontSize: '12px' }}>Diner</small>}
+                {dayData.Lunch && <small className="d-block text-success" style={{ fontSize: '12px' }}>Lunch</small>}
+
               </div>
             </div>
           );
@@ -150,10 +149,8 @@ const History = () => {
   ];
 
   const calendarData = {
-    5: { blog: true, freebie: true },
-    14: { reel: true },
-    15: { quotes: true },
-    31: { blog: true, freebie: true, selected: true },
+    5: { Lunch: true, freebie: true },
+    14: { Diner: true },
   };
 
   const changeMonth = (increment) => {
