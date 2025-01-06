@@ -13,7 +13,7 @@ const Profile = () => {
         throw new Error("User ID not found in localStorage.");
       }
 
-      const response = await fetch(`http://projectdemo.ukvalley.com/api/getuser/${user_id}`);
+      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/getuser/${user_id}`);
 
       if (!response.ok) {
         throw new Error(`Unexpected response status: ${response.status}`);
@@ -53,7 +53,7 @@ const Profile = () => {
         >
           <div className="rounded-circle border border-warning overflow-hidden position-relative w-100 h-100">
             <img
-              src="/api/placeholder/96/96"
+              src="/meal.png"
               alt="Profile"
               className="w-100 h-100 object-fit-cover"
             />

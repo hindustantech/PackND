@@ -1,5 +1,6 @@
 import { ArrowBigLeft, ArrowBigRight, Plus, Minus } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 const LoadingPlaceholder = () => (
     <div className="animate-pulse grid grid-cols-2 gap-3">
@@ -16,7 +17,7 @@ const MealOption = ({ option, isSelected, onSelect, category }) => (
     >
         <div className="flex gap-2 items-center">
             <img
-                src={option.image || "/api/placeholder/50/50"}
+                src={option.image || "meal.png"}
                 alt={option.name}
                 className="w-12 h-12 rounded-lg object-cover"
             />
@@ -32,7 +33,7 @@ const MealSection = ({ title, description, options, category, selectedOption, on
     <div className="mb-6">
         <div className="flex items-center gap-2 mb-2">
             <img
-                src="/api/placeholder/20/20"
+                src="meal.png"
                 alt=""
                 className="w-5 h-5 rounded-full"
             />
@@ -45,7 +46,7 @@ const MealSection = ({ title, description, options, category, selectedOption, on
             {isLoading ? (
                 <LoadingPlaceholder />
             ) : error ? (
-                <div className="text-red-500 text-sm">{error}</div>
+                <div className="text-gray-500 text-sm text-center py-4">Meal not updated</div>
             ) : (
                 <div className="grid grid-cols-2 gap-3">
                     {options.map((option) => (
@@ -65,14 +66,14 @@ const MealSection = ({ title, description, options, category, selectedOption, on
 
 const QuantitySelector = ({ quantity, onIncrease, onDecrease }) => (
     <div className="flex items-center justify-center gap-4 mb-6">
-        <button 
+        <button
             onClick={onDecrease}
             className="p-2 rounded-full hover:bg-gray-100 transition-colors duration-200"
         >
             <Minus className="w-5 h-5 text-gray-600" />
         </button>
         <span className="text-lg font-medium">Quantity: {quantity}</span>
-        <button 
+        <button
             onClick={onIncrease}
             className="p-2 rounded-full hover:bg-gray-100 transition-colors duration-200"
         >
@@ -97,45 +98,94 @@ const Dinner = () => {
         sabji2: { data: [], isLoading: true, error: null }
     });
 
+    // Set today's date as default on component mount
+    useEffect(() => {
+        const today = new Date();
+        const defaultDate = {
+            day: today.getDate().toString().padStart(2, '0'),
+            month: (today.getMonth() + 1).toString().padStart(2, '0'),
+            year: today.getFullYear(),
+            weekday: today.toLocaleDateString('en-US', { weekday: 'short' })
+        };
+        setSelectedDate(defaultDate);
+    }, []);
+
     const fetchMealOptions = async (category) => {
+        const userid = localStorage.getItem('id');
         try {
+            if (!userid) {
+                throw new Error('User ID not found');
+            }
+
             setMealOptions(prev => ({
                 ...prev,
                 [category]: { ...prev[category], isLoading: true, error: null }
             }));
-
-            const response = await fetch(`/api/meals/${category}`);
-            if (!response.ok) {
-                throw new Error(`Failed to fetch ${category} options`);
-            }
-
+            
+            const dateStr = `${selectedDate.year}-${selectedDate.month}-${selectedDate.day}`;
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/getTodayMenu/${userid}/${dateStr}`);
             const responseText = await response.text();
-            let data;
+
             try {
-                data = JSON.parse(responseText);
+                const jsonData = JSON.parse(responseText);
+
+                if (!jsonData.data?.menu?.evening?.[0]) {
+                    throw new Error('Menu not found');
+                }
+
+                const eveningMenu = jsonData.data.menu.evening[0];
+                let data = [];
+
+                switch (category) {
+                    case 'bread':
+                        data = [{
+                            id: eveningMenu.bread_id,
+                            name: eveningMenu.bread_name,
+                            quantity: 1
+                        }];
+                        break;
+                    case 'sabji1':
+                        data = [{
+                            id: eveningMenu.sabji1_id,
+                            name: eveningMenu.sabji1_name,
+                            quantity: 1
+                        }];
+                        break;
+                    case 'sabji2':
+                        data = [{
+                            id: eveningMenu.sabji2_id,
+                            name: eveningMenu.sabji2_name,
+                            quantity: 1
+                        }];
+                        break;
+                    default:
+                        data = [];
+                }
+
+                setMealOptions(prev => ({
+                    ...prev,
+                    [category]: { data, isLoading: false, error: null }
+                }));
+
             } catch (e) {
-                console.error(`Invalid JSON for ${category}:`, responseText);
-                throw new Error('Invalid response format');
+                throw new Error('Menu not found');
             }
 
-            setMealOptions(prev => ({
-                ...prev,
-                [category]: { data, isLoading: false, error: null }
-            }));
         } catch (error) {
-            console.error(`Error fetching ${category} options:`, error);
             setMealOptions(prev => ({
                 ...prev,
-                [category]: { ...prev[category], isLoading: false, error: error.message }
+                [category]: { data: [], isLoading: false, error: error.message }
             }));
         }
     };
 
     useEffect(() => {
-        fetchMealOptions('bread');
-        fetchMealOptions('sabji1');
-        fetchMealOptions('sabji2');
-    }, []);
+        if (selectedDate) {
+            fetchMealOptions('bread');
+            fetchMealOptions('sabji1');
+            fetchMealOptions('sabji2');
+        }
+    }, [selectedDate]);
 
     const getWeekDates = (offset) => {
         const today = new Date();
@@ -147,7 +197,7 @@ const Dinner = () => {
             return {
                 day: date.getDate().toString().padStart(2, '0'),
                 weekday: date.toLocaleDateString('en-US', { weekday: 'short' }),
-                month: date.toLocaleDateString('en-US', { month: 'long' }),
+                month: (date.getMonth() + 1).toString().padStart(2, '0'),
                 year: date.getFullYear()
             };
         });
@@ -180,25 +230,30 @@ const Dinner = () => {
 
     const confirmTodayMeal = async () => {
         if (!selectedDate) {
-            alert('Please select a date first');
-            return;
-        }
-        
-        if (!selectedMeals.bread || !selectedMeals.sabji1 || !selectedMeals.sabji2) {
-            alert('Please select one option for each category');
+            toast('Please select a date first');
             return;
         }
 
-        const userid = localStorage.getItem("id");
+        if (!selectedMeals.bread || !selectedMeals.sabji1 || !selectedMeals.sabji2) {
+            toast('Please select one option for each category');
+            return;
+        }
+
+        const user_id = localStorage.getItem("id");
+        const menu_date = `${selectedDate.year}-${selectedDate.month}-${selectedDate.day}`;
+
         const payload = {
-            date: `${selectedDate.year}-${selectedDate.month}-${selectedDate.day}`,
-            meals: selectedMeals,
-            userid,
+            menu_date,
+            sabji1_id: selectedMeals.sabji1,
+            sabji2_id: selectedMeals.sabji2,
+            bread_id: selectedMeals.bread,
+            user_id,
             quantity,
+            meal_time: 'evening'
         };
 
         try {
-            const response = await fetch('http://projectdemo.ukvalley.com/api/confirmMeal', {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/confirmMeal`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -211,7 +266,7 @@ const Dinner = () => {
             if (responseText.trim().startsWith('{')) {
                 const data = JSON.parse(responseText);
                 if (response.ok) {
-                    alert('Meal confirmed successfully!');
+                    toast('Meal confirmed successfully!');
                     setSelectedMeals({
                         bread: null,
                         sabji1: null,
@@ -220,11 +275,11 @@ const Dinner = () => {
                     setSelectedDate(null);
                     setQuantity(1);
                 } else {
-                    alert(`Failed to confirm meal: ${data.message || 'Unknown error'}`);
+                    toast(`Failed to confirm meal: ${data.message || 'Unknown error'}`);
                 }
             } else {
                 if (response.ok) {
-                    alert('Meal confirmed successfully!');
+                    toast('Meal confirmed successfully!');
                     setSelectedMeals({
                         bread: null,
                         sabji1: null,
@@ -233,20 +288,18 @@ const Dinner = () => {
                     setSelectedDate(null);
                     setQuantity(1);
                 } else {
-                    alert(`Server error: ${response.status} ${response.statusText}`);
-                    console.error('Non-JSON response received:', responseText);
+                    toast(`Server error: ${response.status} ${response.statusText}`);
                 }
             }
         } catch (error) {
-            console.error('Error confirming meal:', error);
-            alert('An error occurred while confirming the meal. Please try again.');
+            toast('An error occurred while confirming the meal. Please try again.');
         }
     };
 
     return (
         <div className="max-w-2xl mx-auto p-4">
             <div className="mb-6">
-                <h6 className="text-red-500 text-center font-bold text-sm mb-1">Future Meals</h6>
+                <h6 className="text-red-500 text-center font-bold text-sm mb-1">Evening Meals</h6>
                 <p className="text-gray-500 text-center text-xs mb-4">Prepare your week meal today</p>
 
                 <div className="flex items-center gap-2 justify-between">
@@ -268,7 +321,7 @@ const Dinner = () => {
                             >
                                 <div className="text-sm font-medium">{date.day}</div>
                                 <div className="text-xs opacity-80">{date.weekday}</div>
-                                <div className="text-xs opacity-60">{date.month.slice(0, 3)}</div>
+                                <div className="text-xs opacity-60">{date.month}</div>
                             </div>
                         ))}
                     </div>
@@ -323,13 +376,13 @@ const Dinner = () => {
 
             <div className="mt-6">
                 <button
-                    className="w-full bg-red-500  text-white py-3 px-4 rounded-lg font-medium hover:bg-red-600 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full bg-red-500 text-white py-3 px-2 rounded-lg font-medium hover:bg-red-600 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                     onClick={confirmTodayMeal}
                     disabled={!selectedDate}
-                    style={{fontSize:'10px'}}
+                    style={{ fontSize: '12px' }}
                 >
-                    {selectedDate 
-                        ? `Confirm Dinner For ${selectedDate.day} ${selectedDate.weekday}, ${selectedDate.month} ${selectedDate.year}`
+                    {selectedDate
+                        ? `Confirm Evening Meal For the Date ${selectedDate.day} ${selectedDate.month} ${selectedDate.year}`
                         : 'Select a date to confirm'}
                 </button>
             </div>

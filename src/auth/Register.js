@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { User, Mail, Phone, Calendar, MapPin, Lock, ArrowRight, Eye, EyeOff,LocateIcon ,Handshake} from 'lucide-react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import axios from 'axios';
-
+import { toast } from 'react-toastify';
+import { Link, useNavigate } from 'react-router-dom';
 const Register = () => {
   const [formData, setFormData] = useState({
     email: '',
@@ -13,6 +14,7 @@ const Register = () => {
     password: '',
     sponcer_id: ''
   });
+  const navigate = useNavigate();
   const base =process.env.REACT_APP_API_BASE_URL;
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -42,8 +44,9 @@ console.log(base)
         `${process.env.REACT_APP_API_BASE_URL}/register`,
         formData
       );
-      alert(response.data.message);
+      toast(response.data.message);
       console.log('Server Response:', response.data);
+      navigate('/login');
     } catch (err) {
       setError(err.response?.data?.message || 'An error occurred while registering. Please try again.');
       console.error('Registration Error:', err);

@@ -1,7 +1,13 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Nav = () => {
+  const navigate = useNavigate();
+  const user_id=localStorage.getItem("id");
+  if(!user_id){
+    navigate('/login');
+  }
   return (
     <nav className="navbar bg-body-tertiary fixed-bottom">
       <div className="container">
@@ -11,7 +17,7 @@ const Nav = () => {
               className={({ isActive }) =>
                 `nav-link text-center text-color`
               }
-              to="/home"
+              to="/"
             >
               {({ isActive }) => (
                 <>

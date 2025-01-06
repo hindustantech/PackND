@@ -1,129 +1,218 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Nav from './Nav';
-import { PartyPopper, Gift, Sun, Moon, Award } from 'lucide-react';
+import { Package, Gift, Sun, Moon, Award } from 'lucide-react';
 import Lunch from './Lunch';
 import Dinner from './Dinner';
-import Coupon from './Coupon';
 
 const Meal = () => {
-    const [mealTime, setMealTime] = useState('lunch'); // State for meal time selection
+    const [mealTime, setMealTime] = useState('lunch');
     const [UserData, setUserData] = useState([]);
-    const[Membership,setMembership]=useState([]);
+    const [Membership, setMembership] = useState(null);
     const [error, setError] = useState(null);
+    const [showMembershipModal, setShowMembershipModal] = useState(false);
     const user_id = localStorage.getItem("id");
     const BASE_URL = process.env.REACT_APP_API_BASE_URL;
+    const navigate = useNavigate();
 
+    // Modal body class effect
+    useEffect(() => {
+        if (showMembershipModal) {
+            document.body.classList.add('modal-open');
+        } else {
+            document.body.classList.remove('modal-open');
+        }
+
+        // Cleanup on component unmount
+        return () => {
+            document.body.classList.remove('modal-open');
+        };
+    }, [showMembershipModal]);
+
+    // API Functions
     const getUser = async () => {
         try {
-            // Ensure "id" is a string
             if (!user_id) {
                 throw new Error("User ID not found in localStorage.");
             }
 
             const response = await fetch(`${BASE_URL}/getuser/${user_id}`);
-
             if (!response.ok) {
-                throw new Error(`Unexpected response status: ${response.status}`);
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
 
-            const data = await response.json(); // Parse JSON once
+            const data = await response.json();
             return data;
         } catch (error) {
             console.error("Error fetching user data:", error.message);
-            throw error; // Rethrow for the calling function to handle
+            throw error;
         }
     };
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const data = await getUser();
-                setUserData(data.user);
-                console.log(data.user)
-            } catch (err) {
-                setError(err.message);
-            }
-        };
-
-        fetchData();
-    }, []);
-
     const getUserPackageAndMenu = async () => {
         try {
-            // Ensure "id" is a string
             if (!user_id) {
                 throw new Error("User ID not found in localStorage.");
             }
 
             const response = await fetch(`${BASE_URL}/getUserPackageAndMenu/${user_id}`);
-
             if (!response.ok) {
-                throw new Error(`Unexpected response status: ${response.status}`);
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
 
-            const data = await response.json(); // Parse JSON once
+            const data = await response.json();
             return data;
         } catch (error) {
-            console.error("Error fetching user data:", error.message);
-            throw error; // Rethrow for the calling function to handle
+            console.error("Error fetching package data:", error.message);
+            throw error;
         }
     };
 
+    // Data Fetching Effects
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchUser = async () => {
             try {
-                const data = await getUserPackageAndMenu();
-                
-                setMembership(data.data.user_package);
-                console.log(data.data)
+                const data = await getUser();
+                setUserData(data.user);
             } catch (err) {
                 setError(err.message);
             }
         };
 
-        fetchData();
+        fetchUser();
     }, []);
+
+    useEffect(() => {
+        const fetchMembership = async () => {
+            try {
+                const data = await getUserPackageAndMenu();
+                const userPackage = data.data.user_package;
+                setMembership(userPackage);
+
+                if (!userPackage) {
+                    setShowMembershipModal(true);
+                }
+            } catch (err) {
+                setError(err.message);
+                setShowMembershipModal(true);
+            }
+        };
+
+        fetchMembership();
+    }, []);
+
+    // Event Handlers
+    const handleSubscribe = () => {
+        setShowMembershipModal(false);
+        document.body.classList.remove('modal-open');
+        navigate('/payment');
+    };
+
+    // Membership Modal Component
+    const MembershipModal = ({ isOpen, onClose, onSubscribe }) => {
+        const handleClose = () => {
+            document.body.classList.remove('modal-open');
+            onClose();
+        };
+
+        if (!isOpen) return null;
+
+        return (
+            <>
+                <div className="modal fade show"
+                    style={{ display: 'block' }}
+                    tabIndex="-1"
+                    role="dialog"
+                    aria-modal="true">
+                    <div className="modal-dialog modal-dialog-centered">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title d-flex align-items-center gap-2">
+                                    <Package className="text-danger" size={20} />
+                                    Membership Required
+                                </h5>
+                                <button type="button"
+                                    className="btn-close"
+                                    aria-label="Close"
+                                    onClick={handleClose}>
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                                <p className="text-muted">
+                                    You need an active membership to access meal services.
+                                    Subscribe now to enjoy our delicious meals!
+                                </p>
+                                <div className="text-center mt-3">
+                                    <p className="text-muted mb-2">Get access to:</p>
+                                    <ul className="list-unstyled">
+                                        <li className="mb-2">✓ Daily fresh meals</li>
+                                        <li className="mb-2">✓ Special discounts</li>
+                                        <li className="mb-2">✓ Surprise items</li>
+                                        <li className="mb-2">✓ Reward points</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div className="modal-footer justify-content-between">
+                                <button type="button"
+                                    className="btn btn-outline-secondary"
+                                    onClick={handleClose}>
+                                    Maybe Later
+                                </button>
+                                <button type="button"
+                                    className="btn btn-danger"
+                                    onClick={onSubscribe}>
+                                    View Membership Plans
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="modal-backdrop fade show"></div>
+            </>
+        );
+    };
+
+    // Main Component Render
     return (
         <div className="d-flex flex-column min-vh-100 mb-4">
-            {/* Scrollable Content */}
             <div className="flex-grow-1 overflow-auto mb-4">
-                {/* Hero Section with Happy New Year */}
+                {/* Hero Section */}
                 <div className="position-relative">
-                    <div
-                        className=" p-4 text-white rounded-bottom-4 bg-img"
-                        // style={{ backgroundImage: 'linear-gradient(to bottom, #4a148c, #7b1fa2)' }}
-                    >
+                    <div className="p-4 text-white rounded-bottom-4 bg-img">
                         <div className="d-flex justify-content-between align-items-start mb-4">
-                            {/* <img src="/logo1.png" alt="PacknD" className="h-8" /> */}
-                            {/* <img src="/icon/lang.png" className="px-3 py-1 border border-white rounded-full hover:bg-white hover:text-blue-600 transition-colors" /> */}
-
-                        </div>
-                        {/* <h1 className="text-center display-6 fw-bold mb-4">HAPPY NEW YEAR</h1> */}
-                        <div className=" mb-3">
-                            {/* <Coupon /> */}
                         </div>
                     </div>
                 </div>
 
-                {/* Meal Time Selection */}
+                {/* Main Content */}
                 <div className="p-3">
+                    {/* Header */}
                     <div className="d-flex justify-content-between align-items-center mb-4">
                         <div className="d-flex align-items-center">
                             <div className="me-2">
-                                <div className="text-danger fw-bold ">03</div>
+                                <div className="text-danger fw-bold">03</div>
                                 <div className="text-muted">Jan</div>
                             </div>
                             <div>
-                                <div className="fw-bold text-dark" style={{ fontSize: '12px', fontWeight: 'bold' }}>Today’s menu</div>
-                                <div className="text-muted" style={{ fontSize: '9px', color: '6F6F6F' }}>{UserData.address}</div>
+                                <div className="fw-bold text-dark"
+                                    style={{ fontSize: '12px' }}>
+                                    Today's menu
+                                </div>
+                                <div className="text-muted"
+                                    style={{ fontSize: '9px', color: '#6F6F6F' }}>
+                                    {UserData.address}
+                                </div>
                             </div>
                         </div>
-
-                        <button className="btn btn-outline-danger rounded-3 text-xl" style={{ fontSize: '10px' }}>Show Balance</button>
+                        <button className="btn btn-outline-danger rounded-3"
+                            style={{ fontSize: '10px' }}>
+                            Show Balance
+                        </button>
                     </div>
-                    <div className="row g-0 mb-4 rounded-4" style={{ border: '1px solid red', overflow: 'hidden' }}>
 
-
+                    {/* Meal Time Toggle */}
+                    <div className="row g-0 mb-4 rounded-4"
+                        style={{ border: '1px solid red', overflow: 'hidden' }}>
                         {/* Lunch Button */}
                         <div className="col-6" style={{ borderRight: '2px solid red' }}>
                             <button
@@ -133,8 +222,7 @@ const Meal = () => {
                                     backgroundColor: mealTime === 'lunch' ? '#FFD3D3' : '',
                                     color: mealTime === 'lunch' ? 'red' : '',
                                     borderRadius: '0px',
-                                }}
-                            >
+                                }}>
                                 <div className="d-flex align-items-center justify-content-center">
                                     <Sun />
                                     <span className="ms-2">Lunch Meal</span>
@@ -154,8 +242,7 @@ const Meal = () => {
                                     backgroundColor: mealTime === 'dinner' ? '#FFD3D3' : '',
                                     color: mealTime === 'dinner' ? 'red' : '',
                                     borderRadius: '0px',
-                                }}
-                            >
+                                }}>
                                 <div className="d-flex align-items-center justify-content-center">
                                     <Moon />
                                     <span className="ms-2">Dinner Meal</span>
@@ -167,57 +254,78 @@ const Meal = () => {
                         </div>
                     </div>
 
-
-                    {/* Membership */}
+                    {/* Membership Section */}
                     <h6 className="text-danger text-center mb-3">Your Membership Meal</h6>
-                    <div className="d-flex">
-                        <div style={{ minWidth: '60px' }} className="d-flex align-items-start">
-                            <img
-                                src="/meal.png"
-                                alt="Full Meal"
-                                className="rounded object-fit-cover "
-                                style={{ width: '90px', height: '90px' }}
-                            />
-                        </div>
+                    {Membership ? (
+                        <div className="d-flex">
+                            <div style={{ minWidth: '60px' }} className="d-flex align-items-start">
+                                <img
+                                    src="/meal.png"
+                                    alt="Full Meal"
+                                    className="rounded object-fit-cover"
+                                    style={{ width: '90px', height: '90px' }}
+                                />
+                            </div>
 
-                        <div className="card-body p-2 p-sm-3 bg-light  ">
-                            <div className="d-flex gap-2 gap-sm-3">
-
-                                <div className="flex-grow-1">
-                                    <div className="mb-1 d-flex ">
-                                        <h6 className="mb-1 fs-7" style={{ fontSize: '0.9rem' }}>{Membership.package_name}</h6>
-                                        <span className="  text-dark  " style={{ fontSize: '0.9rem' ,marginLeft:'160px'}}>
-                                            Pure veg
-                                        </span>
-                                    </div>
-                                    <div className="d-flex align-items-center flex-wrap gap-1">
-                                        <small className="text-muted" style={{ fontSize: '0.75rem' }}>
-                                            {Membership.description}
-                                        </small>
-
-                                    </div>
-                                    <hr className="my-2" style={{ margin: '0.4rem 0' }} />
-                                    <div className="d-flex flex-column gap-1">
-                                        <div className="d-flex align-items-center gap-1">
-                                            <Gift size={14} className="text-danger" />
-                                            <span className="badge text-dark" style={{ fontSize: '0.5rem', fontWeight: 'normal' }}>
-                                                Surprise Item Today!
+                            <div className="card-body p-2 p-sm-3 bg-light">
+                                <div className="d-flex gap-2 gap-sm-3">
+                                    <div className="flex-grow-1">
+                                        <div className="mb-1 d-flex">
+                                            <h6 className="mb-1" style={{ fontSize: '0.9rem' }}>
+                                                {Membership.package_name}
+                                            </h6>
+                                            <span className="text-dark ms-auto"
+                                                style={{ fontSize: '0.9rem' }}>
+                                                Pure veg
                                             </span>
-                                            <Award size={14} className="text-warning" />
-                                            <span className="badge text-dark" style={{ fontSize: '0.4rem', fontWeight: 'normal' }}>
-                                                Complete 5 non-stop orders and one free
-                                            </span>
+                                        </div>
+                                        <div className="d-flex align-items-center flex-wrap gap-1">
+                                            <small className="text-muted"
+                                                style={{ fontSize: '0.75rem' }}>
+                                                {Membership.description}
+                                            </small>
+                                        </div>
+                                        <hr className="my-2" />
+                                        <div className="d-flex flex-column gap-1">
+                                            <div className="d-flex align-items-center gap-1">
+                                                <Gift size={14} className="text-danger" />
+                                                <span className="badge text-dark"
+                                                    style={{ fontSize: '0.5rem', fontWeight: 'normal' }}>
+                                                    Surprise Item Today!
+                                                </span>
+                                                <Award size={14} className="text-warning" />
+                                                <span className="badge text-dark"
+                                                    style={{ fontSize: '0.4rem', fontWeight: 'normal' }}>
+                                                    Complete 5 non-stop orders and one free
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    {/* Render Lunch or Dinner Component Based on mealTime */}
-                    {mealTime === 'lunch' && <Lunch  />}
-                    {mealTime === 'dinner' && <Dinner />}
+                    ) : (
+                        <div className="text-center text-muted p-4">
+                            <p>No active membership found</p>
+                        </div>
+                    )}
+
+                    {/* Meal Components */}
+                    {Membership && (
+                        <>
+                            {mealTime === 'lunch' && <Lunch />}
+                            {mealTime === 'dinner' && <Dinner />}
+                        </>
+                    )}
                 </div>
             </div>
+
+            {/* Membership Modal */}
+            <MembershipModal
+                isOpen={showMembershipModal}
+                onClose={() => setShowMembershipModal(false)}
+                onSubscribe={handleSubscribe}
+            />
 
             {/* Fixed Navigation */}
             <div className="bg-white shadow-lg">

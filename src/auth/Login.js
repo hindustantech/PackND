@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 // import { toast } from 'react-toastify';
 
 const Login = () => {
@@ -13,6 +14,9 @@ const Login = () => {
     const [error, setError] = useState(null);
     const navigate = useNavigate();
     const BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
+    
+
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -45,12 +49,12 @@ const Login = () => {
             console.log("id",id);
 
             setLoading(false);
-
+            
             if (response.ok) {
-                // Save token and redirect
+                toast(response.message)
                 localStorage.setItem("id", id);
-                navigate('/home');
-                // toast.success(response.message)
+                navigate('/');
+                
             } else {
                 setError(result.message || 'Login failed. Please try again.');
             }

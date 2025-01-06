@@ -25,11 +25,11 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/history" element={<History />} />
           <Route path="/wallet" element={<WalletPage />} />
-          <Route path="/home" element={<Meal />} />
+          <Route path="/" element={<Meal />} />
           <Route path="/lunch" element={<Lunch />} />
           <Route path="/diner" element={<Dinner />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/" element={<Login />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/payment" element={<PaymentPage />} />
 
         </Routes>
