@@ -5,41 +5,85 @@
 
 
 
-.bg-img-hero{
-    background-color: gray;
+.bg-img-hero {
+  background-color: gray;
 }
-.p-b-t{
-    margin-bottom: 14px;
+
+.p-b-t {
+  margin-bottom: 14px;
 }
-.icon-circle{
-    background-color: #7990F8;
-    border-radius: 50%;
-    width: 12px;
-    height: 12px;
-    margin-left: 12px;
-}   
+
+.icon-circle {
+  background-color: #7990F8;
+  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+  margin-left: 12px;
+}
+
 .bg-img {
-    background-image: url('/public/icon/hero.png');
-    width: 393px;
-    height: 350px;
-    background-size: 393px 350px;  
-    background-position: center;
-    background-repeat: no-repeat;
+  background-image: url('/public/icon/hero.png');
+  width: 100%;
+  
+  /* Restrict max width */
+  height: 350px;
+  /* Default height */
+  background-size: cover;
+  /* Ensures the image scales proportionally */
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 auto;
+  /* Centers the element horizontally */
 }
+
+@media (min-width: 768px) {
+
+  /* For tablets and medium devices */
+  .bg-img {
+    max-width: 500px;
+    /* Adjust width for tablets */
+    height: 400px;
+    /* Increase height */
+  }
+}
+
+@media (min-width: 1024px) {
+
+  /* For desktops and larger devices */
+  .bg-img {
+    min-width: 600px;
+    /* Adjust width for desktops */
+    height: 450px;
+    /* Increase height for larger screens */
+  }
+}
+
+@media (min-width: 1440px) {
+
+  /* For extra-large desktops */
+  .bg-img {
+    max-width: 800px;
+    /* Wider background for larger screens */
+    height: 500px;
+    /* Taller height */
+  }
+}
+
 
 
 
 .center-class {
-    /* display: flex; */
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+  /* display: flex; */
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+/* Media query for larger screens (e.g., tablets and desktops) */
+@media (min-width: 768px) {
+  .center-class {
+    margin: 0 auto;
+    width: 50%;
+    /* Adjust width as needed */
   }
-  
-  /* Media query for larger screens (e.g., tablets and desktops) */
-  @media (min-width: 768px) {
-    .center-class {
-      margin: 0 auto;
-      width: 50%; /* Adjust width as needed */
-    }
-  }
+}

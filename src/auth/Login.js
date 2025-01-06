@@ -56,7 +56,7 @@ const Login = () => {
             }
         } catch (err) {
             setLoading(false);
-            setError('An error occurred. Please try again.');
+            setError('An error occurred. Please try again.',err.message);
         }
     };
 

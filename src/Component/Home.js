@@ -56,13 +56,15 @@ const Home = () => {
         fetchData(); // Call the async function
     }, []);
 
-    {error ? (
-        <p style={{ color: 'red' }}>Error: {error}</p>
-      ) : meal ? (
-        <pre>{JSON.stringify(meal, null, 2)}</pre>
-      ) : (
-        <p>Loading...</p>
-      )}
+    {
+        error ? (
+            <p style={{ color: 'red' }}>Error: {error}</p>
+        ) : meal ? (
+            <pre>{JSON.stringify(meal, null, 2)}</pre>
+        ) : (
+            <p>Loading...</p>
+        )
+    }
 
     return (
         <div className="min-vh-100 bg-light mb-4">
@@ -160,28 +162,47 @@ const Home = () => {
                     <h5 className="mb-3">Select the meal type</h5>
                     <div className="row g-3">
                         {meal.map((meal) => (
-                            <div key={meal.id} className="col-4 col-md-6 col-lg-4">
-                                <div className="position-relative rounded-4 overflow-hidden">
+                            <div
+                                key={meal.id}
+                                className="col-12 col-sm-6 col-md-4 col-lg-3"
+                            >
+                                <div
+                                    className="d-flex flex-column position-relative rounded-4 overflow-hidden h-100"
+                                    style={{ minHeight: '200px' }}
+                                >
                                     <img
                                         src="/meal.png"
                                         alt={meal.name}
                                         className="w-100"
                                         style={{ height: '130px', objectFit: 'cover' }}
                                     />
-                                    <div className="position-absolute bottom-0 start-0 w-100 p-2 bg-dark bg-opacity-50 text-white">
-
-                                        <h6 className="mb-0" style={{ fontSize: '0.75rem' /* Equivalent to 12px */ }}>
-                                            <Link to='/payment'>    {meal.package_name}</Link>
+                                    <div
+                                        className="flex-grow-1 position-absolute bottom-0 start-0 w-100 p-2 bg-dark bg-opacity-50 text-white d-flex flex-column justify-content-between"
+                                    >
+                                        <h6
+                                            className="mb-1"
+                                            style={{ fontSize: '0.75rem' }}
+                                        >
+                                            <Link
+                                                to="/payment"
+                                                className="text-decoration-none text-white"
+                                            >
+                                                {meal.package_name}
+                                            </Link>
                                         </h6>
-                                        <small className="text-white-50" style={{ fontSize: '0.65rem' /* Equivalent to 10px */ }}>
+                                        <small
+                                            className="text-white-50"
+                                            style={{ fontSize: '0.65rem' }}
+                                        >
                                             @ {meal.price} only
                                         </small>
-
                                     </div>
                                 </div>
                             </div>
                         ))}
                     </div>
+
+
 
 
                     {/* Customization Section */}

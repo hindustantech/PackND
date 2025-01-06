@@ -39,7 +39,7 @@ console.log(base)
     try {
       setLoading(true);
       const response = await axios.post(
-        `http://projectdemo.ukvalley.com/api/register`,
+        `${process.env.REACT_APP_API_BASE_URL}/register`,
         formData
       );
       alert(response.data.message);

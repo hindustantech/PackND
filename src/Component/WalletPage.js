@@ -14,8 +14,16 @@ const WalletPage = () => {
             <div className="container-fluid bg-dark text-white py-4 mb-2" style={{ borderRadius: '0 0 25px 25px' }}>
                 {/* Header Section */}
                 <div className="d-flex justify-content-between align-items-center px-3">
-                    <h1 className="fw-bold">PACKnD</h1>
-                    <button className="btn btn-outline-light">🌐</button>
+                    <img
+                        src="/logo1.png"
+                        alt="PacknD"
+                        className="h-8"
+                        loading="lazy"
+                    />
+
+                    <button className="px-3 py-1 border  rounded-full hover:bg-white hover:text-blue-600 transition-colors">
+                        立A
+                    </button>
                 </div>
 
                 {/* Profile Section */}
@@ -37,7 +45,7 @@ const WalletPage = () => {
             </div>
 
             {/* Membership and Wallet Sections */}
-            <div className="px-3 mt-n4">
+            <div className="px-3 mt-n4 ">
                 <div className="row g-3">
                     {/* Membership Section */}
                     <div className="col-6" style={{ fontSize: '0.5rem', cursor: 'pointer' }}
@@ -94,7 +102,7 @@ const WalletPage = () => {
             </div>
 
             {/* Rewards Section */}
-            <div className="text-start px-3 mx-1 mt-3">
+            <div className="text-start px-3 mx-1 mt-4">
                 <h4 className="mb-3 mt-2">REWARDS</h4>
 
                 <div className="bg-light p-3 rounded shadow-sm mb-3">
