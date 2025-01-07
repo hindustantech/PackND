@@ -41,7 +41,7 @@ const Profile = () => {
     fetchData();
   }, []);
   return (
-    <div className="min-vh-100 bg-light">
+    <div className="min-vh-100 bg-light mb-4">
       {/* Profile Header */}
       <div
         className="bg-dark text-center text-white py-4 mb-4"

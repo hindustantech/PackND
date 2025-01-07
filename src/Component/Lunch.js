@@ -375,12 +375,12 @@ const Lunch = () => {
                     error={mealOptions.sabji2.error}
                 />
             </div>
-
+{/* 
             <QuantitySelector
                 quantity={quantity}
                 onIncrease={increaseQuantity}
                 onDecrease={decreaseQuantity}
-            />
+            /> */}
 
             <div className="mt-6">
                 <button

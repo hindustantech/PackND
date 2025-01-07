@@ -368,11 +368,11 @@ const Dinner = () => {
                 />
             </div>
 
-            <QuantitySelector
+            {/* <QuantitySelector
                 quantity={quantity}
                 onIncrease={increaseQuantity}
                 onDecrease={decreaseQuantity}
-            />
+            /> */}
 
             <div className="mt-6">
                 <button
