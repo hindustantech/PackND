@@ -15,6 +15,8 @@ import Dinner from "./Component/Dinner";
 import Register from "./auth/Register";
 import Login from "./auth/Login";
 import PaymentPage from "./Component/PaymentPage";
+import UserProfile from "./Component/UserProfile";
+import Referal from "./Component/Referal";
 function App() {
   return (
     <div className="App">
@@ -23,6 +25,8 @@ function App() {
         <Routes>
           {/* <Route path="/" element={<Home />} /> */}
           <Route path="/profile" element={<Profile />} />
+          <Route path="/ref" element={<Referal/>} />
+          
           <Route path="/history" element={<History />} />
           <Route path="/wallet" element={<WalletPage />} />
           <Route path="/" element={<Meal />} />
@@ -31,7 +35,8 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/payment" element={<PaymentPage />} />
-
+          <Route path="/user" element={<UserProfile/>} />
+          
         </Routes>
       </Router>
     </div>

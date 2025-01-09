@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { QrCode, Receipt, ChevronDown } from 'lucide-react';
+import { QrCode, Receipt, ChevronDown, ChevronLeft } from 'lucide-react';
 import { toast } from 'react-toastify';
+import { Link, useNavigate } from 'react-router-dom';
+
 
 const CustomSelect = ({ options, value, onChange, placeholder }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,12 +22,12 @@ const CustomSelect = ({ options, value, onChange, placeholder }) => {
         <span className={`${!selectedOption ? 'text-gray-500' : 'text-gray-900'}`}>
           {selectedOption ? selectedOption.package_name : placeholder}
         </span>
-        <ChevronDown 
-          className={`transform transition-transform ${isOpen ? 'rotate-180' : ''}`} 
+        <ChevronDown
+          className={`transform transition-transform ${isOpen ? 'rotate-180' : ''}`}
           size={20}
         />
       </div>
-      
+
       {isOpen && (
         <div className="absolute z-10 w-full mt-1 bg-white border rounded-lg shadow-lg">
           {options.map((option) => (
@@ -53,6 +55,7 @@ const PaymentPage = () => {
   const [userData, setUserData] = useState([]);
   const [selectedMeal, setSelectedMeal] = useState(null);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     Thash: '',
     receipt: null,
@@ -130,6 +133,7 @@ const PaymentPage = () => {
       formDataToSend.append('receipt', formData.receipt);
       formDataToSend.append('package_id', selectedMeal.id);
       formDataToSend.append('tpin', formData.tpin);
+      formDataToSend.append('tiffin_quantity', formData.tiffin_quantity);
 
       const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/make_deposite`, {
         method: 'POST',
@@ -137,9 +141,9 @@ const PaymentPage = () => {
       });
 
       const contentType = response.headers.get('content-type');
-      
+
       if (!response.ok) {
-        const errorData = contentType?.includes('application/json') 
+        const errorData = contentType?.includes('application/json')
           ? await response.json()
           : await response.text();
         throw new Error(errorData.error || errorData);
@@ -147,6 +151,7 @@ const PaymentPage = () => {
 
       const result = await response.json();
       toast.success(result.message);
+      navigate('/')
     } catch (error) {
       toast.error(error.message);
     }
@@ -159,6 +164,7 @@ const PaymentPage = () => {
           <div className="card shadow">
             <div className="card-header bg-danger text-white p-4">
               <div className="d-flex justify-content-between align-items-center">
+                <ChevronLeft className="w-6 h-6 mr-2 text-white" onClick={() => navigate('/')} />
                 <h1 className="h3 mb-0">Order Details</h1>
                 <Receipt size={32} />
               </div>
@@ -184,12 +190,12 @@ const PaymentPage = () => {
                     style={{
                       backgroundColor:
                         selectedMeal.package_name === 'Gold' ? '#FFD700' :
-                        selectedMeal.package_name === 'Silver' ? '#C0C0C0' :
-                        '#CD7F32',
+                          selectedMeal.package_name === 'Silver' ? '#C0C0C0' :
+                            '#CD7F32',
                       color:
                         selectedMeal.package_name === 'Gold' ? '#000000' :
-                        selectedMeal.package_name === 'Silver' ? '#000000' :
-                        '#FFFFFF'
+                          selectedMeal.package_name === 'Silver' ? '#000000' :
+                            '#FFFFFF'
                     }}
                   >
                     <h5 className="card-title mb-3">{userData.email1}</h5>
@@ -247,6 +253,37 @@ const PaymentPage = () => {
                     required
                   />
                 </div>
+
+                <div className="mb-4">
+                  <label className="form-label">tiffin_quantity of Tifine</label>
+                  <ul className="list-unstyled">
+                    <li>
+                      <input
+                        type="radio"
+                        id="tiffin_quantity30"
+                        name="tiffin_quantity"
+                        value="30"
+                        checked={formData.tiffin_quantity === "30"}
+                        onChange={(e) => setFormData({ ...formData, tiffin_quantity: e.target.value })}
+                        required
+                      />
+                      <label htmlFor="tiffin_quantity30" className="ms-2">30</label>
+                    </li>
+                    <li>
+                      <input
+                        type="radio"
+                        id="tiffin_quantity60"
+                        name="tiffin_quantity"
+                        value="60"
+                        checked={formData.tiffin_quantity === "60"}
+                        onChange={(e) => setFormData({ ...formData, tiffin_quantity: e.target.value })}
+                        required
+                      />
+                      <label htmlFor="tiffin_quantity60" className="ms-2">60</label>
+                    </li>
+                  </ul>
+                </div>
+
 
                 <div className="mb-4">
                   <label className="form-label">Enter Password</label>

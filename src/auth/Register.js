@@ -34,7 +34,7 @@ console.log(base)
     setError(null);
 
     if (!formData.email || !formData.mobile || !formData.dob || !formData.address || !formData.password) {
-      alert('Please fill out all fields.');
+      toast('Please fill out all fields.');
       return;
     }
 
@@ -82,7 +82,7 @@ console.log(base)
                   type="email"
                   name="email"
                   className="form-control"
-                  placeholder="you@example.com"
+                  placeholder="example@gmail.com"
                   value={formData.email}
                   onChange={handleChange}
                   required
@@ -99,7 +99,7 @@ console.log(base)
                   type="mobile"
                   name="mobile"
                   className="form-control"
-                  placeholder="6202400672"
+                  placeholder="9999999999"
                   value={formData.mobile}
                   onChange={handleChange}
                   required
@@ -144,7 +144,7 @@ console.log(base)
               <label className="form-label"> Address</label>
               <div className="input-group">
                 <span className="input-group-text bg-light">
-                  {/* <LocateIcon size={18} /> */}
+                  <LocateIcon size={18} />
                 </span>
                 <input
                   type="address"

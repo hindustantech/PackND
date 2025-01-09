@@ -111,48 +111,49 @@ const Home = () => {
                         <button className="btn btn-outline-danger rounded-3 text-xl" style={{ fontSize: '10px' }}>Show Balance</button>
                     </div>
 
-                    {/* Meal Time Selector */}
-                    <div className="row g-0 mb-4 rounded-4" style={{ border: '1px solid red', overflow: 'hidden' }}>
-                        {/* Lunch Button */}
-                        <div className="col-6" style={{ borderRight: '2px solid red' }}>
-                            <button
-                                className={`btn w-100 ${mealTime === 'lunch' ? '' : 'btn-light text-muted'}`}
-                                onClick={() => setMealTime('lunch')}
-                                style={{
-                                    backgroundColor: mealTime === 'lunch' ? '#FFD3D3' : '',
-                                    color: mealTime === 'lunch' ? 'red' : '',
-                                    borderRadius: '0px',
-                                }}
-                            >
-                                <div className="d-flex align-items-center justify-content-center">
-                                    <Sun />
-                                    <span className="ms-2">Lunch Meal</span>
-                                </div>
-                                <small className="text-muted" style={{ fontSize: '0.8rem' }}>
-                                    9:00 AM to 01:00 PM
-                                </small>
-                            </button>
-                        </div>
+                    <div className="w-full min-w-[280px] max-w-full mb-4 rounded-3xl overflow-hidden border border-red-500">
+                        <div className="flex flex-row w-full">
+                            {/* Lunch Button */}
+                            <div className="w-1/2 border-r border-red-500">
+                                <button
+                                    onClick={() => setMealTime('lunch')}
+                                    className={`w-full min-h-[80px] p-2 sm:p-3 lg:p-4 transition-colors ${mealTime === 'lunch'
+                                        ? 'bg-red-100 text-red-500'
+                                        : 'bg-gray-50 text-gray-500'
+                                        }`}
+                                >
+                                    <div className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2">
+                                        <img src='/nav/Lunch.png' className="w-4 h-4 sm:w-5 sm:h-5" />
+                                        <span className="text-xs sm:text-sm lg:text-base font-medium">
+                                            Lunch Meal
+                                        </span>
+                                    </div>
+                                    <div className="text-[10px] sm:text-xs text-gray-500 mt-1">
+                                        9:00 AM to 01:00 PM
+                                    </div>
+                                </button>
+                            </div>
 
-                        {/* Dinner Button */}
-                        <div className="col-6">
-                            <button
-                                className={`btn w-100 ${mealTime === 'dinner' ? '' : 'btn-light text-muted'}`}
-                                onClick={() => setMealTime('dinner')}
-                                style={{
-                                    backgroundColor: mealTime === 'dinner' ? '#FFD3D3' : '',
-                                    color: mealTime === 'dinner' ? 'red' : '',
-                                    borderRadius: '0px',
-                                }}
-                            >
-                                <div className="d-flex align-items-center justify-content-center">
-                                    <Moon />
-                                    <span className="ms-2">Dinner Meal</span>
-                                </div>
-                                <small className="text-muted" style={{ fontSize: '0.8rem' }}>
-                                    7:00 PM to 10:00 PM
-                                </small>
-                            </button>
+                            {/* Dinner Button */}
+                            <div className="w-1/2">
+                                <button
+                                    onClick={() => setMealTime('dinner')}
+                                    className={`w-full min-h-[80px] p-2 sm:p-3 lg:p-4 transition-colors ${mealTime === 'dinner'
+                                        ? 'bg-red-100 text-red-500'
+                                        : 'bg-gray-50 text-gray-500'
+                                        }`}
+                                >
+                                    <div className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2">
+                                        <img src='/nav/Dinner.png' className="w-4 h-4 sm:w-5 sm:h-5" />
+                                        <span className="text-xs sm:text-sm lg:text-base font-medium">
+                                            Dinner Meal
+                                        </span>
+                                    </div>
+                                    <div className="text-[10px] sm:text-xs text-gray-500 mt-1">
+                                        7:00 PM to 10:00 PM
+                                    </div>
+                                </button>
+                            </div>
                         </div>
                     </div>
 

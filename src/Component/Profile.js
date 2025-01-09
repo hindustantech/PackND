@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { ChevronRight, Edit2 } from 'lucide-react';
 import Nav from './Nav';
-
+import { useNavigate } from 'react-router-dom';
 const Profile = () => {
   const [UserData, setUserData] = useState([]);
   const [error, setError] = useState(null);
   const user_id = localStorage.getItem("id");
+  const navigate = useNavigate();
   const getUser = async () => {
     try {
       // Ensure "id" is a string
@@ -32,7 +33,8 @@ const Profile = () => {
       try {
         const data = await getUser();
         setUserData(data.user);
-       
+        console.log(data.user)
+
       } catch (err) {
         setError(err.message);
       }
@@ -41,87 +43,116 @@ const Profile = () => {
     fetchData();
   }, []);
   return (
-    <div className="min-vh-100 bg-light mb-4">
-      {/* Profile Header */}
-      <div
-        className="bg-dark text-center text-white py-4 mb-4"
-        style={{ borderRadius: '0 0 25px 25px' }}
-      >
+    <>
+      <div className="min-vh-100  mb-4 bg-light">
+        {/* Profile Header */}
         <div
-          className="position-relative mx-auto"
-          style={{ width: '96px', height: '96px', marginBottom: '1rem' }}
+          className="bg-dark text-center text-white py-4 mb-4"
+          style={{ borderRadius: '0 0 25px 25px' }}
         >
-          <div className="rounded-circle border border-warning overflow-hidden position-relative w-100 h-100">
-            <img
-              src="/meal.png"
-              alt="Profile"
-              className="w-100 h-100 object-fit-cover"
-            />
+          <div
+            className="position-relative mx-auto"
+            style={{ width: '96px', height: '96px', marginBottom: '1rem' }}
+          >
+
+            <div
+              style={{
+                backgroundImage: `url('/m/${UserData.package_name}.png')`,
+                backgroundSize: "cover", // Ensures the image covers the entire div
+                backgroundPosition: "center", // Centers the image
+                backgroundRepeat: "no-repeat", // Prevents the image from repeating
+                width: "100%", // Ensure the div takes full width of the parent
+                height: "100%", // Ensure the div takes full height of the parent
+                position: "relative", // To position child elements properly
+              }}
+            >
+              <div
+                className="rounded-circle overflow-hidden position-absolute"
+                style={{
+                  width: "60px", // Adjust width as needed
+                  height: "60px", // Adjust height as needed
+                  top: "50%", // Center vertically
+                  left: "50%", // Center horizontally
+                  transform: "translate(-50%, -50%)", // Perfect centering
+                }}
+              >
+                <img
+                  src="/meal.png"
+                  alt="Profile"
+                  className="w-100 h-100 object-fit-cover"
+                  style={{
+                    objectFit: "cover", // Ensures the image fits within the circle
+                  }}
+                />
+              </div>
+            </div>
+
           </div>
-        </div>
-        <div className="text-warning small mb-2">Gold Member</div>
-        <h1 className="h5">Hello, {UserData.first_name}!</h1>
-      </div>
-
-      {/* Main Content */}
-      <div className="container">
-        <div className="bg-light p-3 mb-3 d-flex justify-content-between align-items-center rounded shadow-sm">
-          <span style={{ fontSize: '14px' }}>Your Profile</span>
-          <Edit2 className="text-secondary" size={20} />
+          <div className="text-warning small mb-2">{UserData.package_name} Member</div>
+          <h1 className="h5">Hello, {UserData.first_name}!</h1>
         </div>
 
-        <div className="bg-light p-3 mb-3 d-flex justify-content-between align-items-center rounded shadow-sm">
+        {/* Main Content */}
+        <div className="container " >
+          <div className=" p-3 mb-3 d-flex justify-content-between align-items-center rounded  " style={{ backgroundColor: "#FFFFFF" }} onClick={() => { navigate('/user') }}>
+            <span style={{ fontSize: '14px' }} >Your Profile</span>
+           <img className='h-6' src='/nav/Pencil.png'/>
+          </div> 
+          {/* 
+        <div className=" p-3 mb-3 d-flex justify-content-between align-items-center rounded " style={{ backgroundColor: "#FFFFFF" }}>
           <span style={{ fontSize: '14px' }}>Appearance</span>
           <div className="d-flex align-items-center">
             <span className="text-secondary me-2">Light</span>
             <ChevronRight className="text-muted" size={20} />
           </div>
-        </div>
+        </div> */}
 
-        {/* Rewards Section */}
-        <div className="mb-4">
-          <div className="bg-light p-3 rounded shadow-sm">
-            <h2 className="h6 mb-3" style={{ fontSize: '14px', fontWeight: 'bold', fontFamily: 'Rethink Sans' }}>
-              REWARDS
-            </h2>
-            <div>
-              <div className="d-flex justify-content-between align-items-center mx-2 mb-3">
-                <span style={{ fontSize: '10px' }}>Refer a friend</span>
-                <ChevronRight className="text-muted" size={20} />
+          {/* Rewards Section */}
+          <div className="mb-4" style={{ backgroundColor: "#FFFFFF" }}>
+            <div className=" p-3 rounded ">
+              <h2 className="h6 mb-3" style={{ fontSize: '14px', fontWeight: 'bold', fontFamily: 'Rethink Sans' }}>
+                REWARDS
+              </h2>
+              <div>
+                <div className="d-flex justify-content-between align-items-center mx-2 mb-3" onClick={() => { navigate('/ref') }}>
+                  <span style={{ fontSize: '10px' }}>Refer a friend</span>
+                  <ChevronRight className="text-muted" size={20} />
+                </div>
+                <div className="d-flex justify-content-between align-items-center mx-2 mb-3">
+                  <span style={{ fontSize: '10px' }}>Claim a Gift Card</span>
+                  <ChevronRight className="text-muted" size={20} />
+                </div>
               </div>
-              <div className="d-flex justify-content-between align-items-center mx-2 mb-3">
-                <span style={{ fontSize: '10px' }}>Claim a Gift Card</span>
-                <ChevronRight className="text-muted" size={20} />
+            </div>
+          </div>
+
+          {/* Help & Support Section */}
+          <div >
+            <div className=" p-3 rounded " style={{ backgroundColor: "#FFFFFF" }}>
+              <h2 className="h6 mb-3" style={{ fontSize: '14px', fontWeight: 'bold' }}>
+                Help & support
+              </h2>
+              <div>
+                <div className="d-flex justify-content-between align-items-center mx-2 mb-3">
+                  <span style={{ fontSize: '10px' }}>Contact Us</span>
+                  <ChevronRight className="text-muted" size={20} />
+                </div>
+                <div className="d-flex justify-content-between align-items-center mx-2 mb-3">
+                  <span style={{ fontSize: '10px' }}>Give us feedback</span>
+                  <ChevronRight className="text-muted" size={20} />
+                </div>
+                <div className="d-flex justify-content-between align-items-center mx-2 mb-3">
+                  <span style={{ fontSize: '10px' }}>Report an issue</span>
+                  <ChevronRight className="text-muted" size={20} />
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Help & Support Section */}
-        <div>
-          <div className="bg-light p-3 rounded shadow-sm">
-            <h2 className="h6 mb-3" style={{ fontSize: '14px', fontWeight: 'bold' }}>
-              Help & support
-            </h2>
-            <div>
-              <div className="d-flex justify-content-between align-items-center mx-2 mb-3">
-                <span style={{ fontSize: '10px' }}>Contact Us</span>
-                <ChevronRight className="text-muted" size={20} />
-              </div>
-              <div className="d-flex justify-content-between align-items-center mx-2 mb-3">
-                <span style={{ fontSize: '10px' }}>Give us feedback</span>
-                <ChevronRight className="text-muted" size={20} />
-              </div>
-              <div className="d-flex justify-content-between align-items-center mx-2 mb-3">
-                <span style={{ fontSize: '10px' }}>Report an issue</span>
-                <ChevronRight className="text-muted" size={20} />
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
-      <Nav />
-    </div>
+
+      <Nav /></>
   );
 };
 

@@ -4,85 +4,91 @@ import { useNavigate } from 'react-router-dom';
 
 const Nav = () => {
   const navigate = useNavigate();
-  const user_id=localStorage.getItem("id");
-  if(!user_id){
+  const user_id = localStorage.getItem("id");
+  if (!user_id) {
     navigate('/login');
   }
+
   return (
-    <nav className="navbar bg-body-tertiary fixed-bottom">
+    <nav className="navbar bg-body-tertiary fixed-bottom mt-2">
       <div className="container">
         <ul className="navbar-nav d-flex flex-row justify-content-around w-100">
           <li className="nav-item">
             <NavLink
-              className={({ isActive }) =>
-                `nav-link text-center text-color`
-              }
+              className={({ isActive }) => `nav-link text-center text-color`}
               to="/"
             >
               {({ isActive }) => (
                 <>
-                  <i
-                    className={`fa fa-home ${isActive ? 'text-danger' : ''}`}
-                    aria-hidden="true"
-                  ></i>
-                  <br />
-                  Home
+                  <img
+                    src={isActive ? '/n/HomeSelected.svg' : '/n/Home.svg'}
+                    alt="Home"
+                    style={{
+                      height: '40px',
+                      marginBottom: '0', // Ensure no extra space below the image
+                    }}
+                  />
+                  <span style={{ fontSize: '12px' }}>Home</span>
                 </>
               )}
             </NavLink>
           </li>
           <li className="nav-item">
             <NavLink
-              className={({ isActive }) =>
-                `nav-link text-center text-color`
-              }
+              className={({ isActive }) => `nav-link text-center text-color`}
               to="/Wallet"
             >
               {({ isActive }) => (
                 <>
-                  <i
-                    className={`fa fa-inr ${isActive ? 'text-danger' : ''}`}
-                    aria-hidden="true"
-                  ></i>
-                  <br />
-                  Wallet
+                  <img
+                    src={isActive ? '/n/WalletSelected.svg' : '/n/Wallet.svg'}
+                    alt="Wallet"
+                    style={{
+                      height: '40px',
+                      marginBottom: '0', // Ensure no extra space below the image
+                    }}
+                  />
+                  <span style={{ fontSize: '12px' }}>Wallet</span>
                 </>
               )}
             </NavLink>
           </li>
           <li className="nav-item">
             <NavLink
-              className={({ isActive }) =>
-                `nav-link text-center text-color`
-              }
+              className={({ isActive }) => `nav-link text-center text-color`}
               to="/history"
             >
               {({ isActive }) => (
                 <>
-                  <i
-                    className={`fa-regular fa-calendar ${isActive ? 'text-danger' : ''}`}
-                    aria-hidden="true"
-                  ></i>
-                  <br />
-                  History
+                  <img
+                    src={isActive ? '/n/HistorySelected.svg' : '/n/History.svg'}
+                    alt="History"
+                    style={{
+                      height: '40px',
+                      marginBottom: '0', // Ensure no extra space below the image
+                    }}
+                  />
+                  <span style={{ fontSize: '12px' }}>History</span>
                 </>
               )}
             </NavLink>
           </li>
           <li className="nav-item">
             <NavLink
-              className={({ isActive }) =>
-                `nav-link text-center text-color`
-              }
+              className={({ isActive }) => `nav-link text-center text-color`}
               to="/profile"
             >
               {({ isActive }) => (
                 <>
-                  <i
-                    className={`fa-solid fa-user ${isActive ? 'text-danger' : ''}`}
-                  ></i>
-                  <br />
-                  Profile
+                  <img
+                    src={isActive ? '/n/ProfileSelected.svg' : '/n/Profile.svg'}
+                    alt="Profile"
+                    style={{
+                      height: '40px',
+                      marginBottom: '0', // Ensure no extra space below the image
+                    }}
+                  />
+                  <span style={{ fontSize: '12px' }}>Profile</span>
                 </>
               )}
             </NavLink>

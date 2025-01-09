@@ -14,7 +14,7 @@ const Meal = () => {
     const user_id = localStorage.getItem("id");
     const BASE_URL = process.env.REACT_APP_API_BASE_URL;
     const navigate = useNavigate();
-
+    const today = new Date();
     // Modal body class effect
     useEffect(() => {
         if (showMembershipModal) {
@@ -190,13 +190,13 @@ const Meal = () => {
                     <div className="d-flex justify-content-between align-items-center mb-4">
                         <div className="d-flex align-items-center">
                             <div className="me-2">
-                                <div className="text-danger fw-bold">03</div>
-                                <div className="text-muted">Jan</div>
+                                <div className="text-danger fw-bold">{today.getDate()}</div>
+                                <div className="text-muted"> {today.toLocaleString('default', { month: 'short' })}</div>
                             </div>
                             <div>
                                 <div className="fw-bold text-dark"
                                     style={{ fontSize: '12px' }}>
-                                    Today's menu
+                                    Welcome {UserData.first_name} !
                                 </div>
                                 <div className="text-muted"
                                     style={{ fontSize: '9px', color: '#6F6F6F' }}>
@@ -205,16 +205,19 @@ const Meal = () => {
                             </div>
                         </div>
                         <button className="btn btn-outline-danger rounded-3"
-                            style={{ fontSize: '10px' }}>
+                            style={{ fontSize: '10px', backgroundColor:'#FFD3D3' }}
+                            onClick={() => { navigate('/wallet') }}
+                            
+                        >
                             Show Balance
                         </button>
                     </div>
 
                     {/* Meal Time Toggle */}
-                    <div className="row g-0 mb-4 rounded-4"
-                        style={{ border: '1px solid red', overflow: 'hidden' }}>
+                    <div className="row g-0 mb-4 rounded-4  mx-5 justify-content-center aling-item-center"
+                        style={{ border: '1px solid red', overflow: 'hidden',   height:'60px'}}>
                         {/* Lunch Button */}
-                        <div className="col-6" style={{ borderRight: '2px solid red' }}>
+                        <div className="col-6 mb-0" style={{ borderRight: '2px solid red' }}>
                             <button
                                 className={`btn w-100 ${mealTime === 'lunch' ? '' : 'btn-light text-muted'}`}
                                 onClick={() => setMealTime('lunch')}
@@ -225,9 +228,9 @@ const Meal = () => {
                                 }}>
                                 <div className="d-flex align-items-center justify-content-center">
                                     <Sun />
-                                    <span className="ms-2">Lunch Meal</span>
+                                    <span className="ms-2 " style={{fontSize:'12px', fontWeight:'bold'}}>Lunch Meal</span>
                                 </div>
-                                <small className="text-muted" style={{ fontSize: '0.8rem' }}>
+                                <small className="text-muted" style={{ fontSize: '10px' }}>
                                     9:00 AM to 01:00 PM
                                 </small>
                             </button>
@@ -245,9 +248,9 @@ const Meal = () => {
                                 }}>
                                 <div className="d-flex align-items-center justify-content-center">
                                     <Moon />
-                                    <span className="ms-2">Dinner Meal</span>
+                                    <span className="ms-2" style={{fontSize:'12px',fontWeight:'bold'}}>Dinner Meal</span>
                                 </div>
-                                <small className="text-muted" style={{ fontSize: '0.8rem' }}>
+                                <small className="text-muted" style={{ fontSize: '10px' }}>
                                     7:00 PM to 10:00 PM
                                 </small>
                             </button>
@@ -255,19 +258,19 @@ const Meal = () => {
                     </div>
 
                     {/* Membership Section */}
-                    <h6 className="text-danger text-center mb-3">Your Membership Meal</h6>
+                    <h6 className="text-danger text-center mb-3" style={{fontWeight:'bold'}}>Your Membership Meal</h6>
                     {Membership ? (
                         <div className="d-flex">
-                            <div style={{ minWidth: '60px' }} className="d-flex align-items-start">
+                            <div style={{ minWidth: '80px' }} className="d-flex align-items-start px-2 ">
                                 <img
                                     src="/meal.png"
                                     alt="Full Meal"
                                     className="rounded object-fit-cover"
-                                    style={{ width: '90px', height: '90px' }}
+                                    style={{ width: '110px', height: '110px' }}
                                 />
                             </div>
 
-                            <div className="card-body p-2 p-sm-3 bg-light">
+                            <div className="card-body p-2 p-sm-3 bg-light rounded ">
                                 <div className="d-flex gap-2 gap-sm-3">
                                     <div className="flex-grow-1">
                                         <div className="mb-1 d-flex">
@@ -279,8 +282,8 @@ const Meal = () => {
                                                 Pure veg
                                             </span>
                                         </div>
-                                        <div className="d-flex align-items-center flex-wrap gap-1">
-                                            <small className="text-muted"
+                                        <div className="d-flex align-items-center flex-wrap gap-1 mb-4">
+                                            <small className="text-muted "
                                                 style={{ fontSize: '0.75rem' }}>
                                                 {Membership.description}
                                             </small>
@@ -288,12 +291,12 @@ const Meal = () => {
                                         <hr className="my-2" />
                                         <div className="d-flex flex-column gap-1">
                                             <div className="d-flex align-items-center gap-1">
-                                                <Gift size={14} className="text-danger" />
+                                               <img src='/nav/gift.png' className='h-5'/>
                                                 <span className="badge text-dark"
                                                     style={{ fontSize: '0.5rem', fontWeight: 'normal' }}>
                                                     Surprise Item Today!
                                                 </span>
-                                                <Award size={14} className="text-warning" />
+                                                <img src='/nav/discount.png' className='h-4'/>
                                                 <span className="badge text-dark"
                                                     style={{ fontSize: '0.4rem', fontWeight: 'normal' }}>
                                                     Complete 5 non-stop orders and one free

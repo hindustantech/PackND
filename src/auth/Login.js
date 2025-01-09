@@ -60,7 +60,8 @@ const Login = () => {
             }
         } catch (err) {
             setLoading(false);
-            setError('An error occurred. Please try again.',err.message);
+            toast.error('Invalid email & password');
+
         }
     };
 
@@ -89,7 +90,7 @@ const Login = () => {
                                     type="email"
                                     name="email"
                                     className="form-control"
-                                    placeholder="you@example.com"
+                                    placeholder="example@gmail.com"
                                     value={formData.email}
                                     onChange={handleChange}
                                     required
