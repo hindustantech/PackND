@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { User, Mail, Phone, Calendar, MapPin, Lock, ArrowRight, Eye, EyeOff,LocateIcon ,Handshake} from 'lucide-react';
+import { User, Mail, Phone, Calendar, MapPin, Lock, ArrowRight, Eye, EyeOff, LocateIcon, Handshake } from 'lucide-react';
 // import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -7,7 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 const Register = () => {
   const [formData, setFormData] = useState({
     email: '',
-    name:'',
+    name: '',
     mobile: '',
     dob: '',
     address: '',
@@ -15,12 +15,12 @@ const Register = () => {
     sponcer_id: ''
   });
   const navigate = useNavigate();
-  const base =process.env.REACT_APP_API_BASE_URL;
+  const base = process.env.REACT_APP_API_BASE_URL;
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-console.log(base)
+  console.log(base)
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -33,6 +33,12 @@ console.log(base)
     e.preventDefault();
     setError(null);
 
+
+    const phoneRegex = /^[0-9]{10}$/;
+    if (!phoneRegex.test(formData.mobile)) {
+      toast('Phone number must be exactly 10 digits.');
+      return;
+    }
     if (!formData.email || !formData.mobile || !formData.dob || !formData.address || !formData.password) {
       toast('Please fill out all fields.');
       return;
@@ -96,16 +102,27 @@ console.log(base)
                   <Phone size={18} />
                 </span>
                 <input
-                  type="mobile"
+                  type="tel"
                   name="mobile"
                   className="form-control"
                   placeholder="9999999999"
                   value={formData.mobile}
-                  onChange={handleChange}
+                  onChange={(e) => {
+                    const value = e.target.value.replace(/\D/g, ''); // Only digits
+                    if (value.length <= 10) {
+                      setFormData((prev) => ({
+                        ...prev,
+                        mobile: value,
+                      }));
+                    }
+                  }}
+                  pattern="\d{10}"
+                  maxLength="10"
                   required
                 />
               </div>
             </div>
+
             <div className="mb-4">
               <label className="form-label">Name</label>
               <div className="input-group">
