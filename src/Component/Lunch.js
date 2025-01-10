@@ -24,7 +24,7 @@ const ExistingOrderDisplay = ({ order }) => {
                     <div>
                         <h6 className="text-red-600 font-bold text-xs">Your Existing Order</h6>
                         <p className="text-red-500/70 text-xs mt-0.5">
-                            Order confirmed for {order.menu_date}
+                            Order confirmed  {order.menu_date}
                         </p>
                     </div>
                 </div>
