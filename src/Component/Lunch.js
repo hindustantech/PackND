@@ -1,4 +1,4 @@
-import {  Plus, Minus } from 'lucide-react';
+import { Plus, Minus } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 
@@ -113,8 +113,8 @@ const MealOption = ({ option, isSelected, onSelect, category, image }) => (
                 className="w-12 h-12 rounded-lg object-cover"
             />
             <div>
-                <div className="text-sm " style={{fontSize:'9px'}}>{option.name}</div>
-                <div className="text-xs text-gray-500" style={{fontSize:'9px'}}>Qty: {option.quantity || 1}</div>
+                <div className="text-sm " style={{ fontSize: '9px' }}>{option.name}</div>
+                <div className="text-xs text-gray-500" style={{ fontSize: '9px' }}>Qty: {option.quantity || 1}</div>
             </div>
         </div>
     </div>
@@ -126,7 +126,7 @@ const MealSection = ({ title, description, options = [], category, selectedOptio
             <img
                 src={img}
                 alt=""
-                className="w-10 h-10 rounded-full"
+                className="w-5 h-5 rounded-full"
             />
             <div>
                 <h6 className="text-sm font-bold">{title}</h6>
@@ -439,7 +439,7 @@ const Lunch = () => {
     const dates = getWeekDates(weekOffset);
 
 
-//  console.log("existingOrder",existingOrder.sabji2_name);
+    //  console.log("existingOrder",existingOrder.sabji2_name);
 
     return (
         <>
@@ -519,7 +519,9 @@ const Lunch = () => {
                                         error={mealOptions.sabji2.error}
                                     />
                                 </div>
-
+                                <h5 className='text-center mt-3 text-danger'>
+                                Selected Date for Lunch  {selectedDate ? `${selectedDate.day} ${new Date(`${selectedDate.month} 1`).toLocaleString('en-US', { month: 'short' })}, ${selectedDate.year}` : ''}
+                                </h5>
                                 <div className="mt-4 flex items-center border px-2 py-2 rounded-lg mb-4 w-full">
                                     <QuantitySelector
                                         quantity={quantity}
@@ -527,19 +529,19 @@ const Lunch = () => {
                                         onDecrease={decreaseQuantity}
                                     />
                                     <button
-                                        className="flex-1 bg-red-500 text-white px-1 py-1 rounded-lg font-medium text-sm hover:bg-red-600 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                                        className="flex-1 bg-red-500 text-white px-2 py-2 rounded-lg font-medium text-sm hover:bg-red-600 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                                         onClick={confirmTodayMeal}
                                         disabled={!selectedDate || isConfirming || mealOptions.bread.error}
-                                        style={{ fontSize: '0.5rem' }}
+                                        style={{ fontSize: '1rem' }}
                                     >
                                         {isConfirming ? (
                                             <div className="flex items-center justify-center gap-2">
                                                 <span>Confirming...</span>
                                             </div>
                                         ) : selectedDate ? (
-                                            `Confirm Lunch for ${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`
+                                            `Confirm Lunch `
                                         ) : (
-                                            'Select a date to confirm lunch'
+                                            'Select a date '
                                         )}
                                     </button>
                                 </div>

@@ -14,87 +14,87 @@ const ExistingOrderDisplay = ({ order }) => {
 
     return (
         <div className="max-w-2xl mx-auto rounded-lg shadow-sm overflow-hidden mb-4">
-        {/* Header Section */}
-        <div className="px-6 py-4 border-b text-center">
-            <div className="flex justify-center items-center gap-3">
-                <div className="p-2 rounded-full">
-                    {/* Optionally, use an icon or text instead of the image */}
-                    <span className="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center text-red-600 text-xs">🍽️</span>
-                </div>
-                <div>
-                    <h6 className="text-red-600 font-bold text-xs">Your Existing Order</h6>
-                    <p className="text-red-500/70 text-xs mt-0.5">
-                        Order confirmed for {order.menu_date}
-                    </p>
+            {/* Header Section */}
+            <div className="px-6 py-4 border-b text-center">
+                <div className="flex justify-center items-center gap-3">
+                    <div className="p-2 rounded-full">
+                        {/* Optionally, use an icon or text instead of the image */}
+                        <span className="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center text-red-600 text-xs">🍽️</span>
+                    </div>
+                    <div>
+                        <h6 className="text-red-600 font-bold text-xs">Your Existing Order</h6>
+                        <p className="text-red-500/70 text-xs mt-0.5">
+                            Order confirmed for {order.menu_date}
+                        </p>
+                    </div>
                 </div>
             </div>
-        </div>
-    
-        {/* Order Details Grid Section */}
-        <div className="p-6">
-            <div className="grid grid-cols-2 gap-4">
-                {/* Bread Section */}
-                <div className="rounded-lg p-4 text-center">
-                    <div className="flex justify-center items-center gap-3 mb-2">
-                        <div className="p-2 rounded-lg">
-                            <span className="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center text-amber-800 text-xs">🍞</span>
-                        </div>
-                        <span className="text-xs font-medium text-amber-800">Bread</span>
-                    </div>
-                    <p className="text-xs font-medium text-gray-800">{order.bread_name}</p>
-                </div>
-    
-                {/* Sabji 1 Section */}
-                <div className="rounded-lg p-4 text-center">
-                    <div className="flex justify-center items-center gap-3 mb-2">
-                        <div className="p-2 rounded-lg">
-                            <span className="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center text-green-800 text-xs">🥦</span>
-                        </div>
-                        <span className="text-xs font-medium text-green-800">Sabji 1</span>
-                    </div>
-                    <p className="text-xs font-medium text-gray-800">{order.sabji1_name}</p>
-                </div>
-    
-                {/* Sabji 2 Section */}
-                <div className="rounded-lg p-4 text-center">
-                    <div className="flex justify-center items-center gap-3 mb-2">
-                        <div className="p-2 rounded-lg">
-                            <span className="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center text-green-800 text-xs">🥬</span>
-                        </div>
-                        <span className="text-xs font-medium text-green-800">Sabji 2</span>
-                    </div>
-                    <p className="text-xs font-medium text-gray-800">{order.sabji2_name}</p>
-                </div>
-    
-                {/* Quantity Section */}
-                <div className="rounded-lg p-4 text-center">
-                    <div className="flex justify-center items-center gap-3 mb-2">
-                        <div className="p-2 rounded-lg">
-                            <div className="w-6 h-6 flex items-center justify-center text-blue-600 font-bold text-xs">
-                                {order.quantity}
+
+            {/* Order Details Grid Section */}
+            <div className="p-6">
+                <div className="grid grid-cols-2 gap-4">
+                    {/* Bread Section */}
+                    <div className="rounded-lg p-4 text-center">
+                        <div className="flex justify-center items-center gap-3 mb-2">
+                            <div className="p-2 rounded-lg">
+                                <span className="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center text-amber-800 text-xs">🍞</span>
                             </div>
+                            <span className="text-xs font-medium text-amber-800">Bread</span>
                         </div>
-                        <span className="text-xs font-medium text-blue-800">Quantity</span>
+                        <p className="text-xs font-medium text-gray-800">{order.bread_name}</p>
                     </div>
-                    <p className="text-xs font-medium text-gray-800">
-                        {order.quantity} {order.quantity > 1 ? 'portions' : 'portion'}
-                    </p>
+
+                    {/* Sabji 1 Section */}
+                    <div className="rounded-lg p-4 text-center">
+                        <div className="flex justify-center items-center gap-3 mb-2">
+                            <div className="p-2 rounded-lg">
+                                <span className="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center text-green-800 text-xs">🥦</span>
+                            </div>
+                            <span className="text-xs font-medium text-green-800">Sabji 1</span>
+                        </div>
+                        <p className="text-xs font-medium text-gray-800">{order.sabji1_name}</p>
+                    </div>
+
+                    {/* Sabji 2 Section */}
+                    <div className="rounded-lg p-4 text-center">
+                        <div className="flex justify-center items-center gap-3 mb-2">
+                            <div className="p-2 rounded-lg">
+                                <span className="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center text-green-800 text-xs">🥬</span>
+                            </div>
+                            <span className="text-xs font-medium text-green-800">Sabji 2</span>
+                        </div>
+                        <p className="text-xs font-medium text-gray-800">{order.sabji2_name}</p>
+                    </div>
+
+                    {/* Quantity Section */}
+                    <div className="rounded-lg p-4 text-center">
+                        <div className="flex justify-center items-center gap-3 mb-2">
+                            <div className="p-2 rounded-lg">
+                                <div className="w-6 h-6 flex items-center justify-center text-blue-600 font-bold text-xs">
+                                    {order.quantity}
+                                </div>
+                            </div>
+                            <span className="text-xs font-medium text-blue-800">Quantity</span>
+                        </div>
+                        <p className="text-xs font-medium text-gray-800">
+                            {order.quantity} {order.quantity > 1 ? 'portions' : 'portion'}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            {/* Footer Section */}
+            <div className="px-6 py-3 border-t text-center">
+                <div className="flex justify-center items-center gap-2">
+                    <p className="text-xs text-gray-500">Order ID: #{order.id || 'N/A'}</p>
+                    <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                        <span className="text-xs font-medium text-green-600">Confirmed</span>
+                    </div>
                 </div>
             </div>
         </div>
-    
-        {/* Footer Section */}
-        <div className="px-6 py-3 border-t text-center">
-            <div className="flex justify-center items-center gap-2">
-                <p className="text-xs text-gray-500">Order ID: #{order.id || 'N/A'}</p>
-                <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                    <span className="text-xs font-medium text-green-600">Confirmed</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    
+
     );
 };
 
@@ -111,8 +111,8 @@ const MealOption = ({ option, isSelected, onSelect, category }) => (
                 className="w-12 h-12 rounded-lg object-cover"
             />
             <div>
-                <div className="text-sm font-medium">{option.name}</div>
-                <div className="text-xs text-gray-500">Qty: {option.quantity || 1}</div>
+                <div className="text-sm " style={{ fontSize: '9px' }}>{option.name}</div>
+                <div className="text-xs text-gray-500" style={{ fontSize: '9px' }}>Qty: {option.quantity || 1}</div>
             </div>
         </div>
     </div>
@@ -440,22 +440,22 @@ const Dinner = () => {
         <>
             <div className="max-w-2xl mx-auto p-4">
                 <div className="mb-6">
-                    <h6 className="text-red-500 text-center font-bold text-sm mb-1">Effectsvening Meals</h6>
+                    <h6 className="text-red-500 text-center font-bold text-sm mb-1">Evening Meals</h6>
                     <p className="text-gray-500 text-center text-xs mb-4">Prepare your week meal today</p>
 
                     <div className="flex justify-between items-center">
 
 
-                        <div className="grid grid-cols-7 gap-2 sm:grid-cols-5 md:grid-cols-7">
+                        <div className="grid grid-cols-7 gap-4 sm:grid-cols-5 md:grid-cols-7">
                             {dates.map((date) => (
                                 <div
                                     key={date.day}
                                     onClick={() => handleDateClick(date)}
                                     className={`min-w-[40px] p-2 text-center cursor-pointer transition-all duration-200 rounded
-          ${selectedDate?.day === date.day
+${selectedDate?.day === date.day
                                             ? 'border border-black rounded'
                                             : 'bg-white hover:bg-gray-50 shadow-sm'}
-          sm:min-w-[50px] md:min-w-[60px] lg:min-w-[70px]`}>
+sm:min-w-[50px] md:min-w-[60px] lg:min-w-[70px]`}>
                                     <span className="block text-xs sm:text-sm md:text-base">{date.day}</span>
                                     <span className="text-xs sm:text-sm md:text-base">{date.weekday}</span>
                                 </div>
@@ -509,7 +509,9 @@ const Dinner = () => {
                                         error={mealOptions.sabji2.error}
                                     />
                                 </div>
-
+                                <h5 className='text-center mt-3 text-danger'>
+                                Selected Date for Lunch  {selectedDate ? `${selectedDate.day} ${new Date(`${selectedDate.month} 1`).toLocaleString('en-US', { month: 'short' })}, ${selectedDate.year}` : ''}
+                                </h5>
                                 <div className="mt-4 flex items-center border px-2 py-2 rounded-lg mb-4 w-full">
                                     <QuantitySelector
                                         quantity={quantity}
@@ -517,19 +519,19 @@ const Dinner = () => {
                                         onDecrease={decreaseQuantity}
                                     />
                                     <button
-                                        className="flex-1 bg-red-500 text-white py-2 px-2 rounded-lg font-medium text-sm hover:bg-red-600 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                                        className="flex-1 bg-red-500 text-white px-2 py-2 rounded-lg font-medium text-sm hover:bg-red-600 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                                         onClick={confirmTodayMeal}
                                         disabled={!selectedDate || isConfirming || mealOptions.bread.error}
-                                        style={{ fontSize: '0.4rem' }}
+                                        style={{ fontSize: '1rem' }}
                                     >
                                         {isConfirming ? (
                                             <div className="flex items-center justify-center gap-2">
                                                 <span>Confirming...</span>
                                             </div>
                                         ) : selectedDate ? (
-                                            `Confirm Dinner for ${selectedDate.day} ${selectedDate.month}, ${selectedDate.year}`
+                                            `Confirm Lunch `
                                         ) : (
-                                            'Select a date to confirm Dinner'
+                                            'Select a date '
                                         )}
                                     </button>
                                 </div>
