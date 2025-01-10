@@ -13,7 +13,7 @@ const ExistingOrderDisplay = ({ order }) => {
     if (!order) return null;
 
     return (
-        <div className="max-w-2xl mx-auto rounded-lg shadow-sm overflow-hidden">
+        <div className="max-w-2xl mx-auto rounded-lg shadow-sm overflow-hidden mb-4">
         {/* Header Section */}
         <div className="px-6 py-4 border-b text-center">
             <div className="flex justify-center items-center gap-3">
@@ -177,19 +177,19 @@ const QuantitySelector = ({ quantity, onIncrease, onDecrease }) => (
     <div className="flex items-center justify-center px-2">
         <button
             onClick={onDecrease}
-            className="flex flex-col border border-red-500 items-center bg-red-500 bg-opacity-30 py-3 px-1 rounded-lg"
+            className="flex flex-col border border-red-500 items-center bg-red-500 bg-opacity-30 py-2 px-1 rounded-lg"
             aria-label="Decrease quantity"
         >
             <Minus className="w-6 h-6" />
         </button>
         <div className="flex flex-col items-center rounded-lg p-2">
-            <span className="text-2xl font-extrabold text-gray-800 select-none">
+            <span className=" font-extrabold text-gray-800 select-none">
                 {quantity}
             </span>
         </div>
         <button
             onClick={onIncrease}
-            className="flex flex-col items-center bg-red-500 bg-opacity-30 rounded-lg px-1 py-3 border border-red-500"
+            className="flex flex-col items-center bg-red-500 bg-opacity-30 rounded-lg px-1 py-2 border border-red-500"
             aria-label="Increase quantity"
         >
             <Plus className="w-6 h-6" />
@@ -520,6 +520,7 @@ const Dinner = () => {
                                         className="flex-1 bg-red-500 text-white py-2 px-2 rounded-lg font-medium text-sm hover:bg-red-600 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                                         onClick={confirmTodayMeal}
                                         disabled={!selectedDate || isConfirming || mealOptions.bread.error}
+                                        style={{ fontSize: '0.4rem' }}
                                     >
                                         {isConfirming ? (
                                             <div className="flex items-center justify-center gap-2">

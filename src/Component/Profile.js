@@ -119,8 +119,8 @@ const Profile = () => {
                   <ChevronRight className="text-muted" size={20} />
                 </div>
                 <div className="d-flex justify-content-between align-items-center mx-2 mb-3">
-                  <span style={{ fontSize: '10px' }}>Claim a Gift Card</span>
-                  <ChevronRight className="text-muted" size={20} />
+                  {/* <span style={{ fontSize: '10px' }}>Claim a Gift Card</span>
+                  <ChevronRight className="text-muted" size={20} /> */}
                 </div>
               </div>
             </div>
@@ -133,17 +133,17 @@ const Profile = () => {
                 Help & support
               </h2>
               <div>
-                <div className="d-flex justify-content-between align-items-center mx-2 mb-3">
+                <div className="d-flex justify-content-between align-items-center mx-2 mb-3" onClick={() => { navigate('/ContactUs') }}>
                   <span style={{ fontSize: '10px' }}>Contact Us</span>
                   <ChevronRight className="text-muted" size={20} />
                 </div>
                 <div className="d-flex justify-content-between align-items-center mx-2 mb-3">
-                  <span style={{ fontSize: '10px' }}>Give us feedback</span>
-                  <ChevronRight className="text-muted" size={20} />
+                  
+                  
                 </div>
                 <div className="d-flex justify-content-between align-items-center mx-2 mb-3">
-                  <span style={{ fontSize: '10px' }}>Report an issue</span>
-                  <ChevronRight className="text-muted" size={20} />
+                  
+                  
                 </div>
               </div>
             </div>

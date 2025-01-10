@@ -159,7 +159,7 @@ const WalletPage = () => {
                 <MembershipInfo membership={membership} />
             </div>
 
-            <div >
+            <div className="mt-2" >
                 <div className="px-3 mt-n2" style={{ backgroundColor: "#FFFFFF" }}>
                     <div className="row g-3">
                         <div
@@ -171,18 +171,18 @@ const WalletPage = () => {
                                 <div className="d-flex align-items-center gap-2">
                                     <img
                                         src={`/m/${(membership?.package_name || "default").toLowerCase()[0]}.png`}
-                                        className="h-6"
+                                        className="h-4 "
                                         alt={`${membership?.package_name || "Default"} Membership`}
                                     />
                                     <span className="fw-semibold">Membership</span>
                                 </div>
                                 <div
-                                    className="fw-bold text-black mx-3"
-                                    style={{ fontSize: "2rem" }}
+                                    className="fw-bold text-black mx-2"
+                                    style={{ fontSize: "1.4rem" }}
                                 >
                                     {membership?.package_name || "N/A"}
                                 </div>
-                                <small className="mx-1" style={{ fontSize: "0.4rem" }}>
+                                <small className="mx-1" style={{ fontSize: "0.3rem",textWrap:'nowrap' }}>
                                     Change Membership From Next Renewal
                                 </small>
                             </div>
@@ -195,7 +195,7 @@ const WalletPage = () => {
                                     <div className="d-flex align-items-center gap-2">
                                         <div
                                             className="bg-danger rounded-circle d-flex align-items-center justify-content-center"
-                                            style={{ width: "24px", height: "24px" }}
+                                            style={{ width: "20px", height: "20px" }}
                                         >
                                             <Wallet className="text-white" style={{ width: "14px", height: "14px" }} />
                                         </div>
@@ -204,12 +204,12 @@ const WalletPage = () => {
                                     <Plus className="text-secondary" size={16} />
                                 </div>
                                 <div className="fs-5 fw-bold mb-0">
-                                    <span className="text-black mx-1 " style={{ fontSize: "1.7rem" }}>
-                                        ₹ {Math.trunc(amount?.balance_amount || 0)}
+                                    <span className="text-black mx-1 " style={{ fontSize: "1rem" }}>
+                                        ₹ {Math.trunc(amount?.balance_amount || 0)}/
 
                                     </span>
-                                    <span className="text-secondary" style={{ fontSize: "" }}>
-                                        / ₹{Math.trunc(amount?.total_amount || 0)}
+                                    <span className="text-secondary" style={{ fontSize: "0.5rem" }}>
+                                         ₹{Math.trunc(amount?.total_amount || 0)}
 
                                     </span>
                                 </div>
@@ -221,12 +221,12 @@ const WalletPage = () => {
                     </div>
                 </div>
 
-                <div className="bg-light p-3 rounded mx-3 mt-3" style={{ backgroundColor: "#FFFFFF" }}>
+                {/* <div className="bg-light p-3 rounded mx-3 mt-3" style={{ backgroundColor: "#FFFFFF" }}>
                     <div className="d-flex justify-content-between align-items-center">
                         <span>Change</span>
                         <ChevronRight className="text-muted" size={20} />
                     </div>
-                </div>
+                </div> */}
 
 
 
@@ -244,8 +244,8 @@ const WalletPage = () => {
                                     <ChevronRight className="text-muted" size={20} />
                                 </div>
                                 <div className="d-flex justify-content-between align-items-center mx-2 mb-3">
-                                    <span style={{ fontSize: '10px' }}>Claim a Gift Card</span>
-                                    <ChevronRight className="text-muted" size={20} />
+                                    {/* <span style={{ fontSize: '10px' }}>Claim a Gift Card</span>
+                                    <ChevronRight className="text-muted" size={20} /> */}
                                 </div>
                             </div>
                         </div>

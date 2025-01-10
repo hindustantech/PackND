@@ -17,6 +17,7 @@ import Login from "./auth/Login";
 import PaymentPage from "./Component/PaymentPage";
 import UserProfile from "./Component/UserProfile";
 import Referal from "./Component/Referal";
+import ContactUs from "./Component/ContactUs";
 function App() {
   return (
     <div className="App">
@@ -36,6 +37,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/payment" element={<PaymentPage />} />
           <Route path="/user" element={<UserProfile/>} />
+          <Route path="/ContactUs" element={<ContactUs/>} />
           
         </Routes>
       </Router>

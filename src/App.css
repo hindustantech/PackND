@@ -5,6 +5,9 @@
 
 
 
+.App{
+  font-family: Rethink Sans;
+}
 .bg-img-hero {
   background-color: gray;
 }
@@ -89,3 +92,13 @@
 }
 
 
+.calanderHeight{
+  width: calc(100%/7);
+}
+.calanderHeight .setHeight{
+  height: 65px;
+}
+
+.font-8{
+  font-size: 8px;
+}

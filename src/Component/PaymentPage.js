@@ -166,7 +166,7 @@ const PaymentPage = () => {
               <div className="d-flex justify-content-between align-items-center">
                 <ChevronLeft className="w-6 h-6 mr-2 text-white" onClick={() => navigate('/')} />
                 <h1 className="h3 mb-0">Order Details</h1>
-                <Receipt size={32} />
+                
               </div>
             </div>
 

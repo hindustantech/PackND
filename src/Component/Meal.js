@@ -228,9 +228,9 @@ const Meal = () => {
                                 }}>
                                 <div className="d-flex align-items-center justify-content-center">
                                     <Sun />
-                                    <span className="ms-2 " style={{fontSize:'12px', fontWeight:'bold'}}>Lunch Meal</span>
+                                    <span className="ms-2  " style={{fontSize:'10px', fontWeight:'bold',textWrap:'nowrap'}}>Lunch Meal</span>
                                 </div>
-                                <small className="text-muted" style={{ fontSize: '10px' }}>
+                                <small className="text-muted" style={{ fontSize: '8px' }}>
                                     9:00 AM to 01:00 PM
                                 </small>
                             </button>
@@ -248,9 +248,9 @@ const Meal = () => {
                                 }}>
                                 <div className="d-flex align-items-center justify-content-center">
                                     <Moon />
-                                    <span className="ms-2" style={{fontSize:'12px',fontWeight:'bold'}}>Dinner Meal</span>
+                                    <span className="ms-2 nowrape" style={{fontSize:'10px',fontWeight:'bold',textWrap:'nowrap'}}>Dinner Meal</span>
                                 </div>
-                                <small className="text-muted" style={{ fontSize: '10px' }}>
+                                <small className="text-muted" style={{ fontSize: '8px' }}>
                                     7:00 PM to 10:00 PM
                                 </small>
                             </button>
@@ -270,7 +270,7 @@ const Meal = () => {
                                 />
                             </div>
 
-                            <div className="card-body p-2 p-sm-3 bg-light rounded ">
+                            <div className="card-body p-2 p-sm-3 bg-light rounded rounded-xl ">
                                 <div className="d-flex gap-2 gap-sm-3">
                                     <div className="flex-grow-1">
                                         <div className="mb-1 d-flex">
@@ -284,21 +284,21 @@ const Meal = () => {
                                         </div>
                                         <div className="d-flex align-items-center flex-wrap gap-1 mb-4">
                                             <small className="text-muted "
-                                                style={{ fontSize: '0.75rem' }}>
+                                                style={{ fontSize: '0.5rem' }}>
                                                 {Membership.description}
                                             </small>
                                         </div>
                                         <hr className="my-2" />
                                         <div className="d-flex flex-column gap-1">
                                             <div className="d-flex align-items-center gap-1">
-                                               <img src='/nav/gift.png' className='h-5'/>
+                                               <img src='/nav/gift.png' className='h-2'/>
                                                 <span className="badge text-dark"
-                                                    style={{ fontSize: '0.5rem', fontWeight: 'normal' }}>
+                                                    style={{ fontSize: '0.2rem', fontWeight: 'normal' }}>
                                                     Surprise Item Today!
                                                 </span>
-                                                <img src='/nav/discount.png' className='h-4'/>
+                                                <img src='/nav/discount.png' className='h-2'/>
                                                 <span className="badge text-dark"
-                                                    style={{ fontSize: '0.4rem', fontWeight: 'normal' }}>
+                                                    style={{ fontSize: '0.2rem', fontWeight: 'normal' }}>
                                                     Complete 5 non-stop orders and one free
                                                 </span>
                                             </div>

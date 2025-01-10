@@ -3,8 +3,8 @@ import { ChevronRight, ChevronLeft } from 'lucide-react';
 import Nav from './Nav';
 
 // Meal Card Component
-const MealCard = ({ meal }) => (
-  <div className="flex mb-4">
+const MealCard = ({ meal, isLast }) => (
+  <div className="flex mb-4" style={{ marginBottom: '14px' }}>
     <span className="text-gray-500 flex justify-center items-center  mx-2">
       {meal.meal_time === 'morning' ? 'Lunch' : 'Dinner'}
     </span>
@@ -19,7 +19,7 @@ const MealCard = ({ meal }) => (
         </span>
       </div>
       <p className="text-gray-500 text-xs mx-2">
-        {meal.sabji1_name}, {meal.sabji2_name}, {meal.bread_name}
+        {meal.sabji1_name}, {meal.sabji2_name}, {meal.bread_name},
       </p>
     </div>
   </div>
@@ -61,7 +61,7 @@ const Calendar = ({
   const getDateColor = (dayData) => {
     if (!dayData) return 'text-danger'; // No meals - Red
     if (dayData.morning && dayData.evening) return 'text-success'; // Both meals - Green
-    return 'text-warning'; // One meal - Yellow
+    return 'text-black'; // One meal - Yellow
   };
 
   const generateCalendar = () => {
@@ -74,7 +74,7 @@ const Calendar = ({
     const headerRow = (
       <div className="d-flex justify-content-between mb-3">
         {weekDays.map((day) => (
-          <div key={day} className="text-center" style={{ width: '14.28%' }}>
+          <div key={day} className="text-center calanderHeight">
             <small className="text-secondary">{day}</small>
           </div>
         ))}
@@ -106,8 +106,8 @@ const Calendar = ({
 
         if (isEmptyStart || isEmptyEnd) {
           days.push(
-            <div key={`empty-${i}`} className="text-center" style={{ width: '14.28%' }}>
-              <div className="p-2"></div>
+            <div key={`empty-${i}`} className="text-center  cursor-pointer border border-gray-200 calanderHeight " >
+              <div className="p-2 setHeight   cursor-pointer calanderHeight ">-</div>
             </div>
           );
         } else {
@@ -115,20 +115,20 @@ const Calendar = ({
           days.push(
             <div
               key={currentDay}
-              className="text-center  cursor-pointer border border-gray-200 "
-              style={{ width: '14.28%', cursor: 'pointer',height:'70px' }}
+              className="text-center  cursor-pointer border border-gray-200 calanderHeight "
+
               onClick={() => handleDateClick(currentDay)}
             >
-              <div className={`p-2 d-flex  flex-column align-items-center justify-content-center ${isSelected ? 'bg-danger text-white rounded text-white' : ''
+              <div className={`d-flex  flex-column align-items-center justify-content-center setHeight ${isSelected ? 'bg-danger text-white rounded text-white' : ''
                 }`}>
                 <div className={!isSelected ? dateColor : ''}>{currentDay}</div>
                 {dayData?.morning && (
-                  <small className="d-flex bg-light justify-content-center text-success text-center border border-gray rounded px-2" style={{ fontSize: '10px', marginBottom: '2px' }}>
+                  <small className="bg-light text-success border border-gray rounded px-1 font-8 mb-1">
                     Lunch
                   </small>
                 )}
                 {dayData?.evening && (
-                  <small className="d-flex bg-light justify-content-center text-gray text-center border border-gray rounded px-2  " style={{ fontSize: '10px' }}>
+                  <small className="bg-light text-black border border-gray rounded px-1 font-8">
                     Dinner
                   </small>
                 )}
@@ -244,86 +244,88 @@ const History = () => {
   }
 
   return (
-    <div className="bg-light min-vh-100 mb-4">
-      {/* Header Section */}
-      <div className="bg-dark p-4 rounded-bottom-4">
-        <div className="d-flex justify-content-between align-items-center mb-4">
-          <img
-            src="/logo1.png"
-            alt="PacknD"
-            className="h-8"
-            loading="lazy"
-          />
-          <div className="bg-light h-7 w-7 d-flex justify-content-center aling-item-center rounded ">
-            <img src="/nav/Translate.png" alt="PacknD" className="h-6" loading="lazy" />
-          </div>
-        </div>
-        <div className="text-white text-center">
-          <p className="fw-bold text-white mb-2">Hey {name} you have ordered</p>
-          <h1
-            className="display-4 fw-bold mb-0"
-            style={{
-              background: 'linear-gradient(90deg, #ECAD0B 95%, #F2C34B 89%, #F6D47D 84%, #FAE1A1 79%, #FCE9B6 75%, #FDECBF 73%, #FCE9B7 66%, #FAE2A3 55%, #F7D581 41%, #F2C553 26%, #F0BC39 19%, #A37400 4%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent'
-            }}
-          >
-            {isLoading ? 'Loading...' : `${totalMeals} Meals`}
-          </h1>
-          <small className="text-white">claim reward &gt;</small>
-        </div>
-      </div>
-
-      {/* Calendar Section */}
-      <div className="p-4">
-        <div className="mb-4">
-          <h2 className="h4 mb-3">Choose Date</h2>
-          <div className="d-flex justify-content-between align-items-center mb-3">
-            <div>
-              <span className="h5">{currentDate.getFullYear()}</span>
-              <span className="ms-4 h5">
-                {currentDate.toLocaleString('default', { month: 'short' })}
-              </span>
-            </div>
-            <div>
-              <button
-                className="btn btn-light me-2"
-                onClick={() => changeMonth(-1)}
-              >
-                <ChevronLeft size={20} />
-              </button>
-              <button
-                className="btn btn-light"
-                onClick={() => changeMonth(1)}
-              >
-                <ChevronRight size={20} />
-              </button>
-            </div>
-          </div>
-          <div className="bg-white rounded-4 p-3">
-            <Calendar
-              currentDate={currentDate}
-              selectedDate={selectedDate}
-              calendarData={calendarData}
-              handleDateClick={handleDateClick}
+    <>
+      <div className="bg-light min-vh-100 mb-5">
+        {/* Header Section */}
+        <div className="bg-dark p-4 rounded-bottom-4">
+          <div className="d-flex justify-content-between align-items-center mb-4">
+            <img
+              src="/logo1.png"
+              alt="PacknD"
+              className="h-8"
+              loading="lazy"
             />
+            <div className="bg-light h-7 w-7 d-flex justify-content-center aling-item-center rounded ">
+              <img src="/nav/Translate.png" alt="PacknD" className="h-6" loading="lazy" />
+            </div>
+          </div>
+          <div className="text-white text-center">
+            <p className="fw-bold text-white mb-2">Hey {name} you have ordered</p>
+            <h1
+              className="display-4 fw-bold mb-0"
+              style={{
+                background: 'linear-gradient(90deg, #ECAD0B 95%, #F2C34B 89%, #F6D47D 84%, #FAE1A1 79%, #FCE9B6 75%, #FDECBF 73%, #FCE9B7 66%, #FAE2A3 55%, #F7D581 41%, #F2C553 26%, #F0BC39 19%, #A37400 4%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent'
+              }}
+            >
+              {isLoading ? 'Loading...' : `${totalMeals} Meals`}
+            </h1>
+            <small className="text-white">claim reward &gt;</small>
           </div>
         </div>
 
-        {/* Orders Section */}
-        <div>
-          <h3 className="mb-4 fw-bold" style={{ fontSize: '12px' }}>
-            YOUR ORDERS ON {selectedDate.toDateString()}
-          </h3>
-          {getSelectedDateMeals().map((meal, index) => (
-            <MealCard key={index} meal={meal} />
-          ))}
-        </div>
-      </div>
+        {/* Calendar Section */}
+        <div className="p-4 mb-3">
+          <div className="mb-4">
+            <h2 className="h4 mb-3">Choose Date</h2>
+            <div className="d-flex justify-content-between align-items-center mb-3">
+              <div>
+                <span className="h5">{currentDate.getFullYear()}</span>
+                <span className="ms-4 h5">
+                  {currentDate.toLocaleString('default', { month: 'short' })}
+                </span>
+              </div>
+              <div>
+                <button
+                  className="btn btn-light me-2"
+                  onClick={() => changeMonth(-1)}
+                >
+                  <ChevronLeft size={20} />
+                </button>
+                <button
+                  className="btn btn-light"
+                  onClick={() => changeMonth(1)}
+                >
+                  <ChevronRight size={20} />
+                </button>
+              </div>
+            </div>
+            <div className="bg-white rounded-4 p-2">
+              <Calendar
+                currentDate={currentDate}
+                selectedDate={selectedDate}
+                calendarData={calendarData}
+                handleDateClick={handleDateClick}
+              />
+            </div>
+          </div>
 
-      {/* Navigation */}
-      <Nav />
-    </div>
+          {/* Orders Section */}
+          <div>
+            <h3 className="mb-2 fw-bold" style={{ fontSize: '12px' }}>
+              YOUR ORDERS ON {selectedDate.toDateString()}
+            </h3>
+            {getSelectedDateMeals().map((meal, index) => (
+              <MealCard key={index} meal={meal} isLast={index === meal.length - 1} />
+            ))}
+          </div>
+        </div>
+
+        {/* Navigation */}
+
+      </div>
+      <Nav /></>
   );
 };
 
