@@ -28,7 +28,7 @@ const Nav = () => {
                       marginBottom: '0', // Ensure no extra space below the image
                     }}
                   />
-                  <span style={{ fontSize: '12px' }}>Home</span>
+                  <span style={{ fontSize: '12px',fontWeight: isActive ? 'bold' : 'normal' }}>Home</span>
                 </>
               )}
             </NavLink>
@@ -48,7 +48,7 @@ const Nav = () => {
                       marginBottom: '0', // Ensure no extra space below the image
                     }}
                   />
-                  <span style={{ fontSize: '12px' }}>Wallet</span>
+                  <span style={{ fontSize: '12px',fontWeight: isActive ? 'bold' : 'normal' }}>Wallet</span>
                 </>
               )}
             </NavLink>
@@ -68,7 +68,7 @@ const Nav = () => {
                       marginBottom: '0', // Ensure no extra space below the image
                     }}
                   />
-                  <span style={{ fontSize: '12px' }}>History</span>
+                  <span style={{ fontSize: '12px', fontWeight: isActive ? 'bold' : 'normal' }}>History</span>
                 </>
               )}
             </NavLink>
@@ -88,7 +88,7 @@ const Nav = () => {
                       marginBottom: '0', // Ensure no extra space below the image
                     }}
                   />
-                  <span style={{ fontSize: '12px' }}>Profile</span>
+                  <span style={{ fontSize: '12px',fontWeight: isActive ? 'bold' : 'normal' }}>Profile</span>
                 </>
               )}
             </NavLink>
