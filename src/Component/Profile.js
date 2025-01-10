@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ChevronRight, Edit2 } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Edit2 } from 'lucide-react';
 import Nav from './Nav';
 import { useNavigate } from 'react-router-dom';
 const Profile = () => {
@@ -50,6 +50,12 @@ const Profile = () => {
           className="bg-dark text-center text-white py-4 mb-4"
           style={{ borderRadius: '0 0 25px 25px' }}
         >
+          <div className="d-flex justify-content-between align-items-center mx-3 ">
+            <ChevronLeft size={24} onClick={() => { navigate('/') }} />
+            <div className="bg-light h-7 w-7 d-flex justify-content-center aling-item-center rounded ">
+              <img src="/nav/Translate.png" alt="PacknD" className="h-6" loading="lazy" />
+            </div>
+          </div>
           <div
             className="position-relative mx-auto"
             style={{ width: '96px', height: '96px', marginBottom: '1rem' }}
@@ -96,8 +102,8 @@ const Profile = () => {
         <div className="container " >
           <div className=" p-3 mb-3 d-flex justify-content-between align-items-center rounded  " style={{ backgroundColor: "#FFFFFF" }} onClick={() => { navigate('/user') }}>
             <span style={{ fontSize: '14px' }} >Your Profile</span>
-           <img className='h-6' src='/nav/Pencil.png'/>
-          </div> 
+            <img className='h-6' src='/nav/Pencil.png' />
+          </div>
           {/* 
         <div className=" p-3 mb-3 d-flex justify-content-between align-items-center rounded " style={{ backgroundColor: "#FFFFFF" }}>
           <span style={{ fontSize: '14px' }}>Appearance</span>
@@ -138,12 +144,12 @@ const Profile = () => {
                   <ChevronRight className="text-muted" size={20} />
                 </div>
                 <div className="d-flex justify-content-between align-items-center mx-2 mb-3">
-                  
-                  
+
+
                 </div>
                 <div className="d-flex justify-content-between align-items-center mx-2 mb-3">
-                  
-                  
+
+
                 </div>
               </div>
             </div>
