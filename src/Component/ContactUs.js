@@ -20,7 +20,7 @@ const ContactUs = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Form Data Submitted:', formData);
+   
     toast.success('Thank you for contacting us!');
     setFormData({ name: '', email: '', subject: '', message: '' });
   };

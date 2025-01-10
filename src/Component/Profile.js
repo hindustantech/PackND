@@ -33,7 +33,7 @@ const Profile = () => {
       try {
         const data = await getUser();
         setUserData(data.user);
-        console.log(data.user)
+       
 
       } catch (err) {
         setError(err.message);

@@ -113,8 +113,8 @@ const MealOption = ({ option, isSelected, onSelect, category, image }) => (
                 className="w-12 h-12 rounded-lg object-cover"
             />
             <div>
-                <div className="text-sm font-medium">{option.name}</div>
-                <div className="text-xs text-gray-500">Qty: {option.quantity || 1}</div>
+                <div className="text-sm " style={{fontSize:'9px'}}>{option.name}</div>
+                <div className="text-xs text-gray-500" style={{fontSize:'9px'}}>Qty: {option.quantity || 1}</div>
             </div>
         </div>
     </div>
@@ -126,7 +126,7 @@ const MealSection = ({ title, description, options = [], category, selectedOptio
             <img
                 src={img}
                 alt=""
-                className="w-5 h-5 rounded-full"
+                className="w-10 h-10 rounded-full"
             />
             <div>
                 <h6 className="text-sm font-bold">{title}</h6>

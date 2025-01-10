@@ -27,7 +27,7 @@ useEffect(() => {
     try {
       const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/getuser/${user_id}`);
       const userData = response.data.user.email;
-      console.log(userData)
+     
       setUser(userData);
      
      
@@ -81,7 +81,7 @@ useEffect(() => {
         formData
       );
       toast(response.data.message);
-      console.log('Server Response:', response.data);
+     
       navigate('/login');
     } catch (err) {
       setError(err.response?.data?.message || 'An error occurred while registering. Please try again.');

@@ -46,7 +46,7 @@ const Home = () => {
             try {
                 const data = await getPackageData();
                 setMeal(data);
-                console.log('Package Data:', data);
+               
             } catch (err) {
                 console.error('Error Fetching Package Data:', err.message);
                 setError(err.message); // Set error state

@@ -186,7 +186,7 @@ const History = () => {
       }
       setUsername(data.data.summary.date_range.username)
       setMealHistory(transformedHistory);
-      console.log()
+     
       setTotalMeals(data.data.summary.total_orders);
     } catch (err) {
       setError(err.message);

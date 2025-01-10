@@ -28,7 +28,7 @@ const UserProfile = () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/getuser/${user_id}`);
         const userData = response.data.user;
-        console.log(userData)
+       
         setUser({
           name: userData.first_name,
           email: userData.email1,

@@ -45,7 +45,7 @@ const WalletPage = () => {
             if (!user_id) {
                 throw new Error("User ID not found in localStorage.");
             }
-            console.log(user_id);
+           
 
             const response = await axios.get(`${BASE_URL}/getUserPackageHistory/${user_id}`);
             return response.data;
@@ -60,7 +60,7 @@ const WalletPage = () => {
             try {
                 const data = await getUserPackageHistory();
                 setAmount(data?.data[0]);
-                console.log("amoun", data.data[0])
+                
             } catch (err) {
                 setError(err.message);
             }

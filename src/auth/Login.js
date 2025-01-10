@@ -46,7 +46,7 @@ const Login = () => {
 
             const result = await response.json();
             const id = result.user.id;
-            console.log("id",id);
+            
 
             setLoading(false);
             
@@ -66,7 +66,7 @@ const Login = () => {
     };
 
     const handleGoogleLogin = () => {
-        console.log('Google login clicked');
+        
         // Implement Google OAuth logic here
     };
 
