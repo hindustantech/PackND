@@ -530,14 +530,14 @@ const Lunch = () => {
                                         className="flex-1 bg-red-500 text-white px-1 py-1 rounded-lg font-medium text-sm hover:bg-red-600 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                                         onClick={confirmTodayMeal}
                                         disabled={!selectedDate || isConfirming || mealOptions.bread.error}
-                                        style={{ fontSize: '0.4rem' }}
+                                        style={{ fontSize: '0.5rem' }}
                                     >
                                         {isConfirming ? (
                                             <div className="flex items-center justify-center gap-2">
                                                 <span>Confirming...</span>
                                             </div>
                                         ) : selectedDate ? (
-                                            `Confirm Lunch for ${selectedDate.day} ${selectedDate.month}, ${selectedDate.year}`
+                                            `Confirm Lunch for ${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`
                                         ) : (
                                             'Select a date to confirm lunch'
                                         )}

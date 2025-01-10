@@ -304,12 +304,12 @@ const Meal = () => {
                                             <div className="d-flex align-items-center gap-1">
                                                 <img src='/nav/gift.png' className='h-2' />
                                                 <span className="badge text-dark"
-                                                    style={{ fontSize: '0.2rem', fontWeight: 'normal' }}>
+                                                    style={{ fontSize: '0.3rem', fontWeight: 'normal' }}>
                                                     Surprise Item Today!
                                                 </span>
                                                 <img src='/nav/discount.png' className='h-2' />
                                                 <span className="badge text-dark"
-                                                    style={{ fontSize: '0.2rem', fontWeight: 'normal' }}>
+                                                    style={{ fontSize: '0.3rem', fontWeight: 'normal' }}>
                                                     Complete 5 non-stop orders and one free
                                                 </span>
                                             </div>

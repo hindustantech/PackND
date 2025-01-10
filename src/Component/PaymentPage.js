@@ -173,7 +173,7 @@ const PaymentPage = () => {
             <div className="card-body p-4">
               <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Select a Meal Package
+                  Select  Meal Package
                 </label>
                 <CustomSelect
                   options={meals}
@@ -255,7 +255,7 @@ const PaymentPage = () => {
                 </div>
 
                 <div className="mb-4">
-                  <label className="form-label">tiffin_quantity of Tifine</label>
+                  <label className="form-label">Quantity of Tiffines</label>
                   <ul className="list-unstyled">
                     <li>
                       <input
