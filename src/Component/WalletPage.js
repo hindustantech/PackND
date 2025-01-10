@@ -60,7 +60,7 @@ const WalletPage = () => {
             try {
                 const data = await getUserPackageHistory();
                 setAmount(data?.data[0]);
-                console.log(data.data[0])
+                console.log("amoun", data.data[0])
             } catch (err) {
                 setError(err.message);
             }
@@ -93,9 +93,9 @@ const WalletPage = () => {
         return (
             <div className="text-center my-4">
 
-                <div className="position-relative d-inline-block">
+                <div className="position-relative d-inline-block mb-5">
                     <div
-                        className="position-absolute top-100 start-50 translate-middle"
+                        className="position-absolute top-100 start-50 translate-middle mt-3"
                         style={{
                             backgroundImage: `url('/m/${membership?.package_name || "default"}.png')`,
                             backgroundSize: "cover", // Ensures the image covers the div
@@ -111,8 +111,8 @@ const WalletPage = () => {
                             alt="Profile"
                             className="rounded-circle"
                             style={{
-                                width: "90px", // Adjusts the size of the image
-                                height: "90px", // Keeps the image square
+                                width: "80px", // Adjusts the size of the image
+                                height: "80px", // Keeps the image square
                                 position: "absolute", // Positions the image relative to the parent div
                                 top: "50%", // Centers the image vertically
                                 left: "50%", // Centers the image horizontally
@@ -123,20 +123,14 @@ const WalletPage = () => {
                 </div>
 
 
-                <p
-                    className="text-gradient mt-4"
-                    style={{
-                        background: "linear-gradient(90deg, #ff7e5f, #feb47b,)", // Define the gradient colors
-                        WebkitBackgroundClip: "text", // Clip the background to the text
-                        WebkitTextFillColor: "transparent", // Make the text fill transparent to reveal the gradient
-                        fontWeight: "bold", // Optional: Add font weight for better visibility
-                        fontSize: "1.5rem", // Optional: Adjust font size for emphasis
-                    }}
-                >
+                <p className="custom-text-gradient mt-4">
                     {membership.package_name} Member
                 </p>
 
-                <p className="text-white mx-2" style={{ fontSize: "1.5rem" }}>
+
+
+                <p className="text-white mx-2" style={{ fontSize: "1.5rem", fontWeight: 'bolder' }}>
+
                     {remainingDays} Days
                 </p>
 
@@ -148,7 +142,7 @@ const WalletPage = () => {
     return (
         <>
             <div className="container-fluid bg-dark text-white py-4 mb-2" style={{ borderRadius: "0 2px 35px 35px" }}>
-                <div className="d-flex justify-content-between align-items-center px-3">
+                <div className="d-flex justify-content-between align-items-center ">
                     <img src="/logo1.png" alt="PacknD" className="h-6" loading="lazy" />
                     <div className="bg-light h-7 w-7 d-flex justify-content-center aling-item-center rounded ">
                         <img src="/nav/Translate.png" alt="PacknD" className="h-6" loading="lazy" />
@@ -182,7 +176,7 @@ const WalletPage = () => {
                                 >
                                     {membership?.package_name || "N/A"}
                                 </div>
-                                <small className="mx-1" style={{ fontSize: "0.3rem",textWrap:'nowrap' }}>
+                                <small className="mx-1" style={{ fontSize: "0.3rem", textWrap: 'nowrap' }}>
                                     Change Membership From Next Renewal
                                 </small>
                             </div>
@@ -209,7 +203,7 @@ const WalletPage = () => {
 
                                     </span>
                                     <span className="text-secondary" style={{ fontSize: "0.5rem" }}>
-                                         ₹{Math.trunc(amount?.total_amount || 0)}
+                                        ₹{Math.trunc(amount?.total_amount || 0)}
 
                                     </span>
                                 </div>

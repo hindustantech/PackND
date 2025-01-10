@@ -262,12 +262,12 @@ const History = () => {
           <div className="text-white text-center">
             <p className="fw-bold text-white mb-2">Hey {name} you have ordered</p>
             <h1
-              className="display-4 fw-bold mb-0"
-              style={{
-                background: 'linear-gradient(90deg, #ECAD0B 95%, #F2C34B 89%, #F6D47D 84%, #FAE1A1 79%, #FCE9B6 75%, #FDECBF 73%, #FCE9B7 66%, #FAE2A3 55%, #F7D581 41%, #F2C553 26%, #F0BC39 19%, #A37400 4%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent'
-              }}
+              className="display-4 fw-bold mb-0 custom-text-gradient"
+              // style={{
+              //   background: '',
+              //   WebkitBackgroundClip: 'text',
+              //   WebkitTextFillColor: 'transparent'
+              // }}
             >
               {isLoading ? 'Loading...' : `${totalMeals} Meals`}
             </h1>

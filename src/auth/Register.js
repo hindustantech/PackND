@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import { User, Mail, Phone, Calendar, MapPin, Lock, ArrowRight, Eye, EyeOff, LocateIcon, Handshake } from 'lucide-react';
 // import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -19,8 +19,28 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+const[user,setUser]=useState(null)
+  
+useEffect(() => {
+  const fetchUser = async () => {
+    const user_id = localStorage.getItem('id');
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/getuser/${user_id}`);
+      const userData = response.data.user.email;
+      console.log(userData)
+      setUser(userData);
+     
+     
+    } catch (err) {
+     
+     
+     
+    }
+  };
 
-  console.log(base)
+  fetchUser();
+}, []);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({

@@ -178,9 +178,20 @@ const Meal = () => {
             <div className="flex-grow-1 overflow-auto mb-4">
                 {/* Hero Section */}
                 <div className="position-relative">
-                    <div className="p-4 text-white rounded-bottom-4 bg-img">
-                        <div className="d-flex justify-content-between align-items-start mb-4">
+                    <div className="p-3 text-white rounded-bottom-4 bg-img">
+
+                        <div className="d-flex justify-content-between align-items-center mb-4">
+                            <img
+                                src="/logo1.png"
+                                alt="PacknD"
+                                className="h-8"
+                                loading="lazy"
+                            />
+                            <div className="bg-light h-7 w-7 d-flex justify-content-center aling-item-center rounded ">
+                                <img src="/nav/Translate.png" alt="PacknD" className="h-6" loading="lazy" />
+                            </div>
                         </div>
+
                     </div>
                 </div>
 
@@ -205,9 +216,9 @@ const Meal = () => {
                             </div>
                         </div>
                         <button className="btn btn-outline-danger rounded-3"
-                            style={{ fontSize: '10px', backgroundColor:'#FFD3D3' }}
+                            style={{ fontSize: '10px', backgroundColor: '#FFD3D3' }}
                             onClick={() => { navigate('/wallet') }}
-                            
+
                         >
                             Show Balance
                         </button>
@@ -215,7 +226,7 @@ const Meal = () => {
 
                     {/* Meal Time Toggle */}
                     <div className="row g-0 mb-4 rounded-4  mx-5 justify-content-center aling-item-center"
-                        style={{ border: '1px solid red', overflow: 'hidden',   height:'60px'}}>
+                        style={{ border: '1px solid red', overflow: 'hidden', height: '60px' }}>
                         {/* Lunch Button */}
                         <div className="col-6 mb-0" style={{ borderRight: '2px solid red' }}>
                             <button
@@ -228,7 +239,7 @@ const Meal = () => {
                                 }}>
                                 <div className="d-flex align-items-center justify-content-center">
                                     <Sun />
-                                    <span className="ms-2  " style={{fontSize:'10px', fontWeight:'bold',textWrap:'nowrap'}}>Lunch Meal</span>
+                                    <span className="ms-2  " style={{ fontSize: '10px', fontWeight: 'bold', textWrap: 'nowrap' }}>Lunch Meal</span>
                                 </div>
                                 <small className="text-muted" style={{ fontSize: '8px' }}>
                                     9:00 AM to 01:00 PM
@@ -248,7 +259,7 @@ const Meal = () => {
                                 }}>
                                 <div className="d-flex align-items-center justify-content-center">
                                     <Moon />
-                                    <span className="ms-2 nowrape" style={{fontSize:'10px',fontWeight:'bold',textWrap:'nowrap'}}>Dinner Meal</span>
+                                    <span className="ms-2 nowrape" style={{ fontSize: '10px', fontWeight: 'bold', textWrap: 'nowrap' }}>Dinner Meal</span>
                                 </div>
                                 <small className="text-muted" style={{ fontSize: '8px' }}>
                                     7:00 PM to 10:00 PM
@@ -258,7 +269,7 @@ const Meal = () => {
                     </div>
 
                     {/* Membership Section */}
-                    <h6 className="text-danger text-center mb-3" style={{fontWeight:'bold'}}>Your Membership Meal</h6>
+                    <h6 className="text-danger text-center mb-3" style={{ fontWeight: 'bold' }}>Your Membership Meal</h6>
                     {Membership ? (
                         <div className="d-flex">
                             <div style={{ minWidth: '80px' }} className="d-flex align-items-start px-2 ">
@@ -291,12 +302,12 @@ const Meal = () => {
                                         <hr className="my-2" />
                                         <div className="d-flex flex-column gap-1">
                                             <div className="d-flex align-items-center gap-1">
-                                               <img src='/nav/gift.png' className='h-2'/>
+                                                <img src='/nav/gift.png' className='h-2' />
                                                 <span className="badge text-dark"
                                                     style={{ fontSize: '0.2rem', fontWeight: 'normal' }}>
                                                     Surprise Item Today!
                                                 </span>
-                                                <img src='/nav/discount.png' className='h-2'/>
+                                                <img src='/nav/discount.png' className='h-2' />
                                                 <span className="badge text-dark"
                                                     style={{ fontSize: '0.2rem', fontWeight: 'normal' }}>
                                                     Complete 5 non-stop orders and one free
