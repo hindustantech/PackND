@@ -35,10 +35,20 @@ const Register = () => {
 
 
     const phoneRegex = /^[0-9]{10}$/;
+    const nameRegex = /^[A-Za-z\s]{2,}$/;  // At least 2 letters, only alphabets and spaces
+
     if (!phoneRegex.test(formData.mobile)) {
       toast('Phone number must be exactly 10 digits.');
       return;
     }
+
+
+    // Name Validation
+    if (!nameRegex.test(formData.name)) {
+      toast('Name must contain only letters and be at least 2 characters long.');
+      return;
+    }
+
     if (!formData.email || !formData.mobile || !formData.dob || !formData.address || !formData.password) {
       toast('Please fill out all fields.');
       return;
@@ -135,11 +145,19 @@ const Register = () => {
                   className="form-control"
                   placeholder="Username"
                   value={formData.name}
-                  onChange={handleChange}
+                  onChange={(e) => {
+                    const value = e.target.value.replace(/[^A-Za-z\s]/g, ''); // Only letters and spaces
+                    setFormData((prev) => ({
+                      ...prev,
+                      name: value,
+                    }));
+                  }}
+                  minLength="2"
                   required
                 />
               </div>
             </div>
+
             <div className="mb-4">
               <label className="form-label">Date of Birth</label>
               <div className="input-group">
