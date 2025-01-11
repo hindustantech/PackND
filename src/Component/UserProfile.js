@@ -28,7 +28,7 @@ const UserProfile = () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/getuser/${user_id}`);
         const userData = response.data.user;
-       
+
         setUser({
           name: userData.first_name,
           email: userData.email1,
@@ -77,8 +77,8 @@ const UserProfile = () => {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
+  // if (loading) return <div>Loading...</div>;
+  // if (error) return <div>{error}</div>;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -99,10 +99,10 @@ const UserProfile = () => {
                 <span className="text-4xl text-blue-600">{user.name.charAt(0)}</span>
               </div>
             )}
-            <label className="absolute bottom-0 right-0 p-1 bg-white rounded-full border cursor-pointer">
+            {/* <label className="absolute bottom-0 right-0 p-1 bg-white rounded-full border cursor-pointer">
               {/* <Edit2 className="w-4 h-4 text-gray-600" /> */}
-              <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
-            </label>
+            {/* <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" /> */}
+            {/* </label> */}
           </div>
         </div>
 

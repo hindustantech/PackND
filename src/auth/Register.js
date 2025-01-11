@@ -1,4 +1,4 @@
-import React, { useState ,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { User, Mail, Phone, Calendar, MapPin, Lock, ArrowRight, Eye, EyeOff, LocateIcon, Handshake } from 'lucide-react';
 // import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -19,27 +19,27 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-const[user,setUser]=useState(null)
-  
-useEffect(() => {
-  const fetchUser = async () => {
-    const user_id = localStorage.getItem('id');
-    try {
-      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/getuser/${user_id}`);
-      const userData = response.data.user.email;
-     
-      setUser(userData);
-     
-     
-    } catch (err) {
-     
-     
-     
-    }
-  };
+  const [user, setUser] = useState(null)
 
-  fetchUser();
-}, []);
+  useEffect(() => {
+    const fetchUser = async () => {
+      const user_id = localStorage.getItem('id');
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/getuser/${user_id}`);
+        const userData = response.data.user.email;
+
+        setUser(userData);
+
+
+      } catch (err) {
+
+
+
+      }
+    };
+
+    fetchUser();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -81,7 +81,7 @@ useEffect(() => {
         formData
       );
       toast(response.data.message);
-     
+
       navigate('/login');
     } catch (err) {
       setError(err.response?.data?.message || 'An error occurred while registering. Please try again.');
@@ -268,13 +268,13 @@ useEffect(() => {
 
             <p className="text-center text-muted small">
               By creating an account, you agree to our{' '}
-              <a href="#" className="text-danger text-decoration-none">
+              <Link to="https://sites.google.com/view/packndterms" className="text-danger text-decoration-none">
                 Terms of Service
-              </a>{' '}
+              </Link>{' '}
               and{' '}
-              <a href="#" className="text-danger text-decoration-none">
+              < Link to="https://sites.google.com/view/packndprivacy" className="text-danger text-decoration-none">
                 Privacy Policy
-              </a>
+              </Link>
             </p>
           </form>
         </div>

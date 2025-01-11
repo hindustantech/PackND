@@ -188,6 +188,7 @@ const PaymentPage = () => {
                   <div
                     className="card-body"
                     style={{
+                      borderRadius:'4px',
                       backgroundColor:
                         selectedMeal.package_name === 'Gold' ? '#FFD700' :
                           selectedMeal.package_name === 'Silver' ? '#C0C0C0' :

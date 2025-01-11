@@ -232,16 +232,16 @@ const History = () => {
     return mealHistory[dateKey] || [];
   };
 
-  if (error) {
-    return (
-      <div className="p-4 text-center text-danger">
-        <p>Error loading meal history: {error}</p>
-        <button className="btn btn-primary" onClick={fetchMealHistory}>
-          Retry
-        </button>
-      </div>
-    );
-  }
+  // if (error) {
+  //   return (
+  //     <div className="p-4 text-center text-danger">
+  //       <p>Error loading meal history: {error}</p>
+  //       <button className="btn btn-primary" onClick={fetchMealHistory}>
+  //         Retry
+  //       </button>
+  //     </div>
+  //   );
+  // }
 
   return (
     <>
@@ -271,7 +271,7 @@ const History = () => {
             >
               {isLoading ? 'Loading...' : `${totalMeals} Meals`}
             </h1>
-            <small className="text-white">claim reward &gt;</small>
+            {/* <small className="text-white">claim reward &gt;</small> */}
           </div>
         </div>
 
