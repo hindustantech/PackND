@@ -207,11 +207,11 @@ const Meal = () => {
                             <div>
                                 <div className="fw-bold text-dark"
                                     style={{ fontSize: '12px' }}>
-                                    Welcome {UserData.first_name} !
+                                    Welcome {UserData?.first_name} !
                                 </div>
                                 <div className="text-muted"
                                     style={{ fontSize: '9px', color: '#6F6F6F' }}>
-                                    {UserData.address}
+                                    {UserData?.address}
                                 </div>
                             </div>
                         </div>

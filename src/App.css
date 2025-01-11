@@ -50,6 +50,16 @@
   }
 }
 
+/* Samsung Galaxy Z Fold (Folded) - 344px width */
+
+/* Samsung Galaxy S8+ - 360px width */
+@media (max-width: 360px) {
+  .bg-img {
+    max-width: 350px;
+    height: 270px;
+  }
+}
+
 @media (min-width: 1024px) {
 
   /* For desktops and larger devices */
@@ -71,6 +81,8 @@
     /* Taller height */
   }
 }
+
+
 
 
 

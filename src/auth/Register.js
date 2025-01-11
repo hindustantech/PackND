@@ -268,11 +268,11 @@ const Register = () => {
 
             <p className="text-center text-muted small">
               By creating an account, you agree to our{' '}
-              <Link to="https://sites.google.com/view/packndterms" className="text-danger text-decoration-none">
+              <Link to="https://sites.google.com/view/packndterms" target="_blank" rel="noopener noreferrer" className="text-danger text-decoration-none">
                 Terms of Service
               </Link>{' '}
               and{' '}
-              < Link to="https://sites.google.com/view/packndprivacy" className="text-danger text-decoration-none">
+              <Link to="https://sites.google.com/view/packndprivacy" target="_blank" rel="noopener noreferrer" className="text-danger text-decoration-none">
                 Privacy Policy
               </Link>
             </p>

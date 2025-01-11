@@ -54,6 +54,7 @@ const PaymentPage = () => {
   const [qrDetails, setQrDetails] = useState([]);
   const [userData, setUserData] = useState([]);
   const [selectedMeal, setSelectedMeal] = useState(null);
+  const [Loding,setLoding]=useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -134,7 +135,7 @@ const PaymentPage = () => {
       formDataToSend.append('package_id', selectedMeal.id);
       formDataToSend.append('tpin', formData.tpin);
       formDataToSend.append('tiffin_quantity', formData.tiffin_quantity);
-
+      setLoding(true);
       const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/make_deposite`, {
         method: 'POST',
         body: formDataToSend,
@@ -151,6 +152,7 @@ const PaymentPage = () => {
 
       const result = await response.json();
       toast.success(result.message);
+      setLoding(false)
       navigate('/')
     } catch (error) {
       toast.error(error.message);
@@ -332,7 +334,7 @@ const PaymentPage = () => {
                   className="btn btn-danger w-100 py-2"
                   disabled={!selectedMeal}
                 >
-                  Confirm Payment
+                    {Loding ? 'Loading...' : 'Confirm Payment'}
                 </button>
               </form>
             </div>
