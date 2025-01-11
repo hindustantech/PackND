@@ -118,11 +118,11 @@ const MealOption = ({ option, isSelected, onSelect, category }) => (
     </div>
 );
 
-const MealSection = ({ title, description, options = [], category, selectedOption, onSelect, isLoading, error, allowMultiple = false }) => (
+const MealSection = ({ title, description, options = [], category, selectedOption, onSelect, isLoading, error, allowMultiple = false },img) => (
     <div className="mb-6">
         <div className="flex items-center gap-2 mb-2">
             <img
-                src="/meal.png"
+                src={img || '/meal.png'}
                 alt=""
                 className="w-5 h-5 rounded-full"
             />
@@ -480,6 +480,7 @@ sm:min-w-[50px] md:min-w-[60px] lg:min-w-[70px]`}>
                                         description="Select your bread preference"
                                         options={mealOptions.bread.data}
                                         category="bread"
+                                        img='/meal/Bread.png'
                                         selectedOption={selectedMeals.bread}
                                         onSelect={handleMealSelection}
                                         isLoading={mealOptions.bread.isLoading}
@@ -491,6 +492,7 @@ sm:min-w-[50px] md:min-w-[60px] lg:min-w-[70px]`}>
                                         description="Select your first sabji"
                                         options={mealOptions.sabji1.data}
                                         category="sabji1"
+                                         img='/meal/sabji1.png'
                                         selectedOption={selectedMeals.sabji1}
                                         onSelect={handleMealSelection}
                                         isLoading={mealOptions.sabji1.isLoading}
@@ -503,6 +505,7 @@ sm:min-w-[50px] md:min-w-[60px] lg:min-w-[70px]`}>
                                         description="Select your second sabji"
                                         options={mealOptions.sabji2.data}
                                         category="sabji2"
+                                         img='/meal/sabji2.png'
                                         selectedOption={selectedMeals.sabji2}
                                         onSelect={handleMealSelection}
                                         isLoading={mealOptions.sabji2.isLoading}

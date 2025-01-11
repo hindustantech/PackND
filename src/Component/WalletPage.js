@@ -195,7 +195,7 @@ const WalletPage = () => {
                                         </div>
                                         <span className="fw-semibold small">Wallet</span>
                                     </div>
-                                    <Plus className="text-secondary" size={16} />
+                                    {/* <Plus className="text-secondary" size={16} /> */}
                                 </div>
                                 <div className="fs-5 fw-bold mb-0">
                                     <span className="text-black mx-1 " style={{ fontSize: "1rem" }}>

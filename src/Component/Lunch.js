@@ -124,7 +124,7 @@ const MealSection = ({ title, description, options = [], category, selectedOptio
     <div className="mb-6">
         <div className="flex items-center gap-2 mb-2">
             <img
-                src={img}
+                src={img || '/meal.png'}
                 alt=""
                 className="w-5 h-5 rounded-full"
             />

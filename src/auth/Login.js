@@ -123,11 +123,11 @@ const Login = () => {
                             </div>
                         </div>
 
-                        <div className="d-flex justify-content-end mb-4">
+                        {/* <div className="d-flex justify-content-end mb-4">
                             <Link to="/forgot-password" className="text-danger text-decoration-none">
                                 Forgot Password?
                             </Link>
-                        </div>
+                        </div> */}
 
                         <button
                             type="submit"

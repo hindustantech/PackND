@@ -92,7 +92,7 @@ const ContactUs = () => {
           <div className="md:col-span-2 text-center">
             <button
               type="submit"
-              className="bg-indigo-500 text-white px-6 py-2 rounded-md hover:bg-indigo-600 transition duration-300 w-full md:w-auto"
+              className="bg-red-500 text-white px-6 py-2 rounded-md hover:bg-indigo-600 transition duration-300 w-full md:w-auto"
             >
               Send Message
             </button>
