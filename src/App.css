@@ -111,3 +111,12 @@
 
   font-size: 30px;
 }
+
+.custom-text-gradient-profile{
+  background: linear-gradient(270.06deg, #A37400 0.26%, #F0BC39 15.84%, #F2C553 23.12%, #F7D581 38.7%, #FAE2A3 53.24%, #FCE9B7 64.66%, #FDECBF 71.94%, #FCE9B6 74.01%, #FAE1A1 78.17%, #F6D47D 83.36%, #F2C34B 88.56%, #ECAD0B 94.79%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: bold;
+
+  font-size: 10px;
+}

@@ -75,7 +75,7 @@ const WalletPage = () => {
 
     const MembershipInfo = ({ membership }) => {
         if (!membership) {
-            return <p className="text-center text-danger">Membership not updated</p>;
+            return <p className="text-center text-danger"> Purches Membership  </p>;
         }
 
         // Parse dates
@@ -164,7 +164,11 @@ const WalletPage = () => {
                             <div className="bg-light p-3 rounded">
                                 <div className="d-flex align-items-center gap-2">
                                     <img
-                                        src={`/m/${(membership?.package_name || "default").toLowerCase()[0]}.png`}
+                                         src={
+                                            membership?.package_name
+                                              ? `/m/${membership.package_name.toLowerCase()[0]}.png`
+                                              : `/m/default.png`  // Fallback image when package name is not found
+                                          }
                                         className="h-4 "
                                         alt={`${membership?.package_name || "Default"} Membership`}
                                     />

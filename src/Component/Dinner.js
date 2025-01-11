@@ -24,64 +24,65 @@ const ExistingOrderDisplay = ({ order }) => {
                     <div>
                         <h6 className="text-red-600 font-bold text-xs">Your Existing Order</h6>
                         <p className="text-red-500/70 text-xs mt-0.5">
-                            Order confirmed for {order.menu_date}
+                            Order confirmed  {order.menu_date}
                         </p>
                     </div>
                 </div>
             </div>
 
             {/* Order Details Grid Section */}
-            <div className="p-6">
-                <div className="grid grid-cols-2 gap-4">
-                    {/* Bread Section */}
-                    <div className="rounded-lg p-4 text-center">
-                        <div className="flex justify-center items-center gap-3 mb-2">
-                            <div className="p-2 rounded-lg">
-                                <span className="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center text-amber-800 text-xs">🍞</span>
-                            </div>
-                            <span className="text-xs font-medium text-amber-800">Bread</span>
-                        </div>
-                        <p className="text-xs font-medium text-gray-800">{order.bread_name}</p>
-                    </div>
+            <div className="max-w-md mx-auto p-6">
+                <div className="">
+                    <h2 className="text-lg font-semibold text-gray-800 text-center mb-4">Order Summary</h2>
 
-                    {/* Sabji 1 Section */}
-                    <div className="rounded-lg p-4 text-center">
-                        <div className="flex justify-center items-center gap-3 mb-2">
-                            <div className="p-2 rounded-lg">
-                                <span className="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center text-green-800 text-xs">🥦</span>
-                            </div>
-                            <span className="text-xs font-medium text-green-800">Sabji 1</span>
-                        </div>
-                        <p className="text-xs font-medium text-gray-800">{order.sabji1_name}</p>
-                    </div>
+                    <div className="grid grid-cols-1 gap-3">
+                        {/* Bread Section */}
+                        <div className='d-flex ' >
+                            <img src='/meal.png' className='w-20 h-20 rounded mx-2' />
+                            <div className="bg-gray-50 rounded-lg p-1  shadow-sm w-100">
 
-                    {/* Sabji 2 Section */}
-                    <div className="rounded-lg p-4 text-center">
-                        <div className="flex justify-center items-center gap-3 mb-2">
-                            <div className="p-2 rounded-lg">
-                                <span className="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center text-green-800 text-xs">🥬</span>
-                            </div>
-                            <span className="text-xs font-medium text-green-800">Sabji 2</span>
-                        </div>
-                        <p className="text-xs font-medium text-gray-800">{order.sabji2_name}</p>
-                    </div>
+                                <div className="flex  mt-1 gap-2 mb-2">
 
-                    {/* Quantity Section */}
-                    <div className="rounded-lg p-4 text-center">
-                        <div className="flex justify-center items-center gap-3 mb-2">
-                            <div className="p-2 rounded-lg">
-                                <div className="w-6 h-6 flex items-center justify-center text-blue-600 font-bold text-xs">
-                                    {order.quantity}
+
+                                    <p className="text-sm font-medium text-gray-700">{order.bread_name} </p>
+                                    <p></p>
                                 </div>
+                                <span className='mt-2'> </span>
                             </div>
-                            <span className="text-xs font-medium text-blue-800">Quantity</span>
                         </div>
-                        <p className="text-xs font-medium text-gray-800">
-                            {order.quantity} {order.quantity > 1 ? 'portions' : 'portion'}
-                        </p>
+                        <div className='d-flex ' >
+                            <img src='/meal.png' className='w-20 h-20 rounded mx-2' />
+                            <div className="bg-gray-50 rounded-lg p-1  shadow-sm w-100">
+
+                                <div className="flex  mt-1 gap-2 mb-2">
+
+
+                                    <p className="text-sm font-medium text-gray-700">{order.sabji1_name} </p>
+                                    <p></p>
+                                </div>
+                                <span className='mt-2'> </span>
+                            </div>
+                        </div>
+                        <div className='d-flex ' >
+                            <img src='/meal.png' className='w-20 h-20 rounded mx-2' />
+                            <div className="bg-gray-50 rounded-lg p-1  shadow-sm w-100">
+
+                                <div className="flex  mt-1 gap-2 mb-2">
+
+
+                                    <p className="text-sm font-medium text-gray-700">{order.sabji2_name} </p>
+                                    <p></p>
+                                </div>
+                                <span className='mt-2'> </span>
+                            </div>
+                        </div>
+
+
+
                     </div>
                 </div>
             </div>
+
 
             {/* Footer Section */}
             <div className="px-6 py-3 border-t text-center">
@@ -94,6 +95,8 @@ const ExistingOrderDisplay = ({ order }) => {
                 </div>
             </div>
         </div>
+
+
 
     );
 };
@@ -118,7 +121,7 @@ const MealOption = ({ option, isSelected, onSelect, category }) => (
     </div>
 );
 
-const MealSection = ({ title, description, options = [], category, selectedOption, onSelect, isLoading, error, allowMultiple = false },img) => (
+const MealSection = ({ title, description, options = [], category, selectedOption, onSelect, isLoading, error, allowMultiple = false }, img) => (
     <div className="mb-6">
         <div className="flex items-center gap-2 mb-2">
             <img
@@ -492,7 +495,7 @@ sm:min-w-[50px] md:min-w-[60px] lg:min-w-[70px]`}>
                                         description="Select your first sabji"
                                         options={mealOptions.sabji1.data}
                                         category="sabji1"
-                                         img='/meal/sabji1.png'
+                                        img='/meal/Sabji1.png'
                                         selectedOption={selectedMeals.sabji1}
                                         onSelect={handleMealSelection}
                                         isLoading={mealOptions.sabji1.isLoading}
@@ -505,7 +508,7 @@ sm:min-w-[50px] md:min-w-[60px] lg:min-w-[70px]`}>
                                         description="Select your second sabji"
                                         options={mealOptions.sabji2.data}
                                         category="sabji2"
-                                         img='/meal/sabji2.png'
+                                        img='/meal/Sabji2.png'
                                         selectedOption={selectedMeals.sabji2}
                                         onSelect={handleMealSelection}
                                         isLoading={mealOptions.sabji2.isLoading}
@@ -513,7 +516,7 @@ sm:min-w-[50px] md:min-w-[60px] lg:min-w-[70px]`}>
                                     />
                                 </div>
                                 <h5 className='text-center mt-3 text-danger'>
-                                Selected Date for Lunch  {selectedDate ? `${selectedDate.day} ${new Date(`${selectedDate.month} 1`).toLocaleString('en-US', { month: 'short' })}, ${selectedDate.year}` : ''}
+                                    Selected Date for Dinner  {selectedDate ? `${selectedDate.day} ${new Date(`${selectedDate.month} 1`).toLocaleString('en-US', { month: 'short' })}, ${selectedDate.year}` : ''}
                                 </h5>
                                 <div className="mt-4 flex items-center border px-2 py-2 rounded-lg mb-4 w-full">
                                     <QuantitySelector
@@ -532,7 +535,7 @@ sm:min-w-[50px] md:min-w-[60px] lg:min-w-[70px]`}>
                                                 <span>Confirming...</span>
                                             </div>
                                         ) : selectedDate ? (
-                                            `Confirm Lunch `
+                                            `Confirm Dinner `
                                         ) : (
                                             'Select a date '
                                         )}

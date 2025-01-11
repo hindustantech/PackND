@@ -163,12 +163,22 @@ const PaymentPage = () => {
         <div className="col-lg-8">
           <div className="card shadow">
             <div className="card-header bg-danger text-white p-4">
-              <div className="d-flex justify-content-between align-items-center">
-                <ChevronLeft className="w-6 h-6 mr-2 text-white" onClick={() => navigate('/')} />
-                <h1 className="h3 mb-0">Order Details</h1>
-                
+              <div className="d-flex align-items-center justify-content-between">
+                {/* Back Button */}
+                <ChevronLeft
+                  className="w-6 h-6 text-white cursor-pointer"
+                  onClick={() => navigate('/Wallet')}
+                  style={{ cursor: 'pointer' }}
+                />
+
+                {/* Centered Title */}
+                <h1 className="h4 mb-0 text-center flex-grow-1">Order Details</h1>
+
+                {/* Placeholder for alignment */}
+                <div style={{ width: '24px' }}></div>
               </div>
             </div>
+
 
             <div className="card-body p-4">
               <div className="mb-4">
@@ -188,7 +198,7 @@ const PaymentPage = () => {
                   <div
                     className="card-body"
                     style={{
-                      borderRadius:'4px',
+                      borderRadius: '4px',
                       backgroundColor:
                         selectedMeal.package_name === 'Gold' ? '#FFD700' :
                           selectedMeal.package_name === 'Silver' ? '#C0C0C0' :
@@ -221,26 +231,27 @@ const PaymentPage = () => {
                 {qrDetails.map((detail, index) => (
                   <div className="col-12" key={index}>
                     <div className="card">
-                      <div className="card-body">
-                        <div className="d-flex justify-content-between align-items-center">
-                          <div>
-                            <h5 className="mb-2">Scan to Pay</h5>
-                            <p className="text-muted mb-0" style={{ fontSize: '12px' }}>
-                              UPI ID: {detail.address}
-                            </p>
-                          </div>
+                      <div className="card-body text-center"> {/* Centered content */}
+
+                        <h5 className="mb-2">Scan to Pay</h5>
+                        <p className="text-muted mb-3" style={{ fontSize: '12px' }}>
+                          UPI ID: {detail.address}
+                        </p>
+
+                        <div className="d-flex justify-content-center align-items-center">
                           <img
                             src={`https://projectdemo.ukvalley.com/public/qrcode/${detail.qr}`}
                             alt="QR Code"
-                            className="img-fluid"
-                            style={{ maxWidth: '120px', height: 'auto' }}
+                            style={{ maxWidth: '150px', height: 'auto' }} // Slightly bigger for visibility
                           />
                         </div>
+
                       </div>
                     </div>
                   </div>
                 ))}
               </div>
+
 
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="mb-4">

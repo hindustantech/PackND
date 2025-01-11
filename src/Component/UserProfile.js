@@ -84,7 +84,7 @@ const UserProfile = () => {
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <div className="flex items-center p-4 bg-red-600">
-        <ChevronLeft className="w-6 h-6 mr-2 text-white" onClick={() => navigate('/')} />
+        <ChevronLeft className="w-6 h-6 mr-2 text-white" onClick={() => navigate('/profile')} />
         <h1 className="text-xl text-white">Your Profile</h1>
       </div>
 

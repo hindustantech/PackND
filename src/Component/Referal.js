@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Nav from './Nav';
 
+import { useNavigate } from 'react-router-dom';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 // ShareReferralButton component
 const ShareReferralButton = ({ referralCode }) => {
   const handleShare = async () => {
@@ -35,7 +37,7 @@ const Referral = () => {
   const [userData, setUserData] = useState({});
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  const navigate = useNavigate();
   const user_id = localStorage.getItem("id");
   const referralCode = userData.email; // Assuming email is used as referral code
 
@@ -97,9 +99,17 @@ const Referral = () => {
           className="bg-gray-900 text-white p-8 mb-4"
           style={{ borderRadius: '0 0 25px 25px' }}
         >
-          <div className="flex flex-col items-center">
+
+          <div className="d-flex   ">
+            <ChevronLeft className="w-10 h-10 mr-2 text-white" onClick={() => navigate('/')} />
+
+
+          </div>
+          <div className="flex flex-col items-center ">
+
+
             <div
-              className="w-24 h-24 mb-6 bg-gray-800 rounded-full flex items-center justify-center"
+              className="w-24 h-24 mb-6 bg-gray-800 rounded-full flex items-center justify-center " style={{marginTop:'-12px'}}
             >
               <svg
                 className="w-12 h-12 text-pink-600"
@@ -166,7 +176,7 @@ const Referral = () => {
           </div>
 
           {/* Invite Button */}
-          
+
         </div>
 
         {/* Navigation */}

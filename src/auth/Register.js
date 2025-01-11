@@ -276,6 +276,20 @@ const Register = () => {
                 Privacy Policy
               </Link>
             </p>
+
+            <div className="text-center mt-2">
+              <span className="text-muted">Already have an account ?</span>
+              <Link
+                to="/login"
+                className="text-red-600 fw-bold text-decoration-none ms-2"
+                style={{ transition: 'color 0.3s ease' }}
+                onMouseOver={(e) => (e.target.style.color = '#0d6efd')}
+                onMouseOut={(e) => (e.target.style.color = '')}
+              >
+                Login
+              </Link>
+            </div>
+
           </form>
         </div>
       </div>

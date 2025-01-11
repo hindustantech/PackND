@@ -94,11 +94,11 @@ const Profile = () => {
             </div>
 
           </div>
-          <p className="custom-text-gradient mt-2">
+          <p className="custom-text-gradient-profile mt-2">
             {UserData.package_name} Member
           </p>
 
-          <h1 className="h5">Hello, {UserData.first_name}!</h1>
+          <h1 className="h3">Hello, {UserData.first_name} !</h1>
         </div>
 
         {/* Main Content */}
