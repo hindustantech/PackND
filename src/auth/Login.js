@@ -74,6 +74,7 @@ const Login = () => {
         <div className="container-fluid min-vh-100 bg-light d-flex align-items-center justify-content-center py-5">
             <div className="card shadow-lg" style={{ maxWidth: '400px', width: '100%' }}>
                 <div className="card-header bg-danger text-white text-center py-4">
+                    <img src='/logo1.png' className='w-40 h-10 d-flex m-auto'/>
                     <h2 className="h3 mb-2">Welcome Back</h2>
                     <p className="text-white-50 mb-0">Please login to your account</p>
                 </div>
@@ -123,11 +124,11 @@ const Login = () => {
                             </div>
                         </div>
 
-                        {/* <div className="d-flex justify-content-end mb-4">
+                        <div className="d-flex justify-content-end mb-4">
                             <Link to="/forgot-password" className="text-danger text-decoration-none">
                                 Forgot Password?
                             </Link>
-                        </div> */}
+                        </div>
 
                         <button
                             type="submit"

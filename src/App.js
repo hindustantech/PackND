@@ -18,6 +18,10 @@ import PaymentPage from "./Component/PaymentPage";
 import UserProfile from "./Component/UserProfile";
 import Referal from "./Component/Referal";
 import ContactUs from "./Component/ContactUs";
+import ForgotPassword from "./auth/ForgotPassword";
+import OTP from "./auth/OTP";
+import ChangePassword from "./auth/ChangePassword";
+
 function App() {
   return (
     <div className="App">
@@ -38,7 +42,12 @@ function App() {
           <Route path="/payment" element={<PaymentPage />} />
           <Route path="/user" element={<UserProfile/>} />
           <Route path="/ContactUs" element={<ContactUs/>} />
-          
+          <Route path="/forgot-password" element={ <ForgotPassword/>} />
+          <Route path="/OTP" element={<OTP/>} />
+          <Route path="/ChangePassword" element={<ChangePassword/>} />
+         
+         
+         
         </Routes>
       </Router>
     </div>

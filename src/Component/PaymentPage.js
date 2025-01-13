@@ -1,8 +1,8 @@
+
 import React, { useState, useEffect } from 'react';
 import { QrCode, Receipt, ChevronDown, ChevronLeft } from 'lucide-react';
 import { toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom';
-
 
 const CustomSelect = ({ options, value, onChange, placeholder }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -54,13 +54,15 @@ const PaymentPage = () => {
   const [qrDetails, setQrDetails] = useState([]);
   const [userData, setUserData] = useState([]);
   const [selectedMeal, setSelectedMeal] = useState(null);
-  const [Loding,setLoding]=useState(false);
+  const [Loding, setLoding] = useState(false);
   const [error, setError] = useState(null);
+  const [totalPrice, setTotalPrice] = useState(0); // New state to track total price
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     Thash: '',
     receipt: null,
-    tpin: ''
+    tpin: '',
+    tiffin_quantity: '30', // Default to 30
   });
 
   const user_id = localStorage.getItem("id");
@@ -119,6 +121,19 @@ const PaymentPage = () => {
     const value = parseInt(e.target.value, 10);
     const selected = meals.find(meal => meal.id === value);
     setSelectedMeal(selected);
+    // Recalculate the total price when meal changes
+    if (selected && formData.tiffin_quantity) {
+      setTotalPrice(selected.price * parseInt(formData.tiffin_quantity));
+    }
+  };
+
+  const handleTiffinQuantityChange = (e) => {
+    const quantity = e.target.value;
+    setFormData({ ...formData, tiffin_quantity: quantity });
+    // Recalculate the total price when quantity changes
+    if (selectedMeal) {
+      setTotalPrice(selectedMeal.price * parseInt(quantity));
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -152,8 +167,8 @@ const PaymentPage = () => {
 
       const result = await response.json();
       toast.success(result.message);
-      setLoding(false)
-      navigate('/')
+      setLoding(false);
+      navigate('/');
     } catch (error) {
       toast.error(error.message);
     }
@@ -166,26 +181,20 @@ const PaymentPage = () => {
           <div className="card shadow">
             <div className="card-header bg-danger text-white p-4">
               <div className="d-flex align-items-center justify-content-between">
-                {/* Back Button */}
                 <ChevronLeft
                   className="w-6 h-6 text-white cursor-pointer"
                   onClick={() => navigate('/Wallet')}
                   style={{ cursor: 'pointer' }}
                 />
-
-                {/* Centered Title */}
                 <h1 className="h4 mb-0 text-center flex-grow-1">Order Details</h1>
-
-                {/* Placeholder for alignment */}
                 <div style={{ width: '24px' }}></div>
               </div>
             </div>
 
-
             <div className="card-body p-4">
               <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Select  Meal Package
+                  Select Meal Package
                 </label>
                 <CustomSelect
                   options={meals}
@@ -208,7 +217,7 @@ const PaymentPage = () => {
                       color:
                         selectedMeal.package_name === 'Gold' ? '#000000' :
                           selectedMeal.package_name === 'Silver' ? '#000000' :
-                            '#FFFFFF'
+                            '#FFFFFF',
                     }}
                   >
                     <h5 className="card-title mb-3">{userData.email1}</h5>
@@ -233,8 +242,7 @@ const PaymentPage = () => {
                 {qrDetails.map((detail, index) => (
                   <div className="col-12" key={index}>
                     <div className="card">
-                      <div className="card-body text-center"> {/* Centered content */}
-
+                      <div className="card-body text-center">
                         <h5 className="mb-2">Scan to Pay</h5>
                         <p className="text-muted mb-3" style={{ fontSize: '12px' }}>
                           UPI ID: {detail.address}
@@ -244,16 +252,18 @@ const PaymentPage = () => {
                           <img
                             src={`https://projectdemo.ukvalley.com/public/qrcode/${detail.qr}`}
                             alt="QR Code"
-                            style={{ maxWidth: '150px', height: 'auto' }} // Slightly bigger for visibility
+                            style={{ maxWidth: '150px', height: 'auto' }}
                           />
                         </div>
-
                       </div>
                     </div>
                   </div>
                 ))}
               </div>
 
+              <div className="mb-4">
+                <h5>Total: ₹{totalPrice}</h5> {/* Display the total price */}
+              </div>
 
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="mb-4">
@@ -269,7 +279,7 @@ const PaymentPage = () => {
                 </div>
 
                 <div className="mb-4">
-                  <label className="form-label">Quantity of Tiffines</label>
+                  <label className="form-label">Quantity of Tiffins</label>
                   <ul className="list-unstyled">
                     <li>
                       <input
@@ -278,7 +288,7 @@ const PaymentPage = () => {
                         name="tiffin_quantity"
                         value="30"
                         checked={formData.tiffin_quantity === "30"}
-                        onChange={(e) => setFormData({ ...formData, tiffin_quantity: e.target.value })}
+                        onChange={handleTiffinQuantityChange}
                         required
                       />
                       <label htmlFor="tiffin_quantity30" className="ms-2">30</label>
@@ -290,14 +300,13 @@ const PaymentPage = () => {
                         name="tiffin_quantity"
                         value="60"
                         checked={formData.tiffin_quantity === "60"}
-                        onChange={(e) => setFormData({ ...formData, tiffin_quantity: e.target.value })}
+                        onChange={handleTiffinQuantityChange}
                         required
                       />
                       <label htmlFor="tiffin_quantity60" className="ms-2">60</label>
                     </li>
                   </ul>
                 </div>
-
 
                 <div className="mb-4">
                   <label className="form-label">Enter Password</label>
@@ -334,7 +343,7 @@ const PaymentPage = () => {
                   className="btn btn-danger w-100 py-2"
                   disabled={!selectedMeal}
                 >
-                    {Loding ? 'Loading...' : 'Confirm Payment'}
+                  {Loding ? 'Loading...' : 'Confirm Payment'}
                 </button>
               </form>
             </div>

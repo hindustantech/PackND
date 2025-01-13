@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { ChevronLeft, ChevronRight, Edit2 } from 'lucide-react';
 import Nav from './Nav';
+import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 const Profile = () => {
   const [UserData, setUserData] = useState([]);
+  const [isPaused, setIsPaused] = useState(false);
   const [error, setError] = useState(null);
   const user_id = localStorage.getItem("id");
   const navigate = useNavigate();
@@ -42,6 +44,38 @@ const Profile = () => {
 
     fetchData();
   }, []);
+
+
+
+  // Function to handle pausing/resuming the meal
+  const handlePauseTodayMeal = async (pause) => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/pauseTodayMeal`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ pause: pause }), // Send the Boolean value in the request body
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to pause the meal.');
+      }
+
+      const result = await response.json();
+      toast.success(result.message); // Display success message if API returns a message
+    } catch (error) {
+      toast.error(error.message); // Display error message if the request fails
+    }
+  };
+
+  // Toggle pause status
+  const togglePauseMeal = () => {
+    const newStatus = !isPaused;
+    setIsPaused(newStatus); // Update state with the new pause status
+    handlePauseTodayMeal(newStatus); // Call API with the new status
+  };
+
   return (
     <>
       <div className="min-vh-100  mb-5 bg-light">
@@ -108,6 +142,35 @@ const Profile = () => {
             <img className='h-6' src='/nav/Pencil.png' />
           </div>
 
+
+          <div className="p-3 mb-3 d-flex justify-content-between align-items-center rounded" style={{ backgroundColor: "#FFFFFF" }}>
+            <span style={{ fontSize: '14px' }}>Pause Today Meal</span>
+
+            {/* Radio buttons for Pausing or Resuming */}
+            <div className="d-flex">
+              <label className="me-3">
+                <input
+                  type="radio"
+                  name="mealStatus"
+                  value="pause"
+                  checked={isPaused === true}
+                  onChange={() => togglePauseMeal(true)} // Pause meal
+                />
+                <span className="ms-2">Pause</span>
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="mealStatus"
+                  value="resume"
+                  checked={isPaused === false}
+                  onChange={() => togglePauseMeal(false)} // Resume meal
+                />
+                <span className="ms-2">Resume</span>
+              </label>
+            </div>
+          </div>
+
           {/* 
         <div className=" p-3 mb-3 d-flex justify-content-between align-items-center rounded " style={{ backgroundColor: "#FFFFFF" }}>
           <span style={{ fontSize: '14px' }}>Appearance</span>
@@ -137,7 +200,7 @@ const Profile = () => {
           </div>
 
           {/* Help & Support Section */}
-          <div >
+          <div  className='mb-4'>
             <div className=" p-3 rounded " style={{ backgroundColor: "#FFFFFF" }}>
               <h2 className="h6 mb-3" style={{ fontSize: '14px', fontWeight: 'bold' }}>
                 Help & support
@@ -172,6 +235,7 @@ const Profile = () => {
                 border: 'none',
                 borderRadius: '4px',
                 cursor: 'pointer',
+                marginBottom:'80px'
               }}
               className='mt-2  '
               onClick={() => {
@@ -187,7 +251,7 @@ const Profile = () => {
 
       </div>
 
-      <Nav /></>
+      <Nav style={{ marginBottom: '20px' }}/></>
   );
 };
 

@@ -95,12 +95,9 @@ const Register = () => {
     <div className="container-fluid min-vh-100 bg-light d-flex align-items-center justify-content-center py-5">
       <div className="card shadow-lg">
         <div className="card-header bg-danger text-white text-center py-4">
-          <div
-            className="rounded-circle bg-white d-flex align-items-center justify-content-center mx-auto mb-3"
-            style={{ width: '80px', height: '80px' }}
-          >
-            <User size={40} className="text-danger" />
-          </div>
+        
+           <img src='/logo1.png' className='w-40 h-10 d-flex m-auto'/>
+         
           <h2 className="h3 mb-2">Create Account</h2>
           <p className="text-white-50 mb-0">Join us and order your first meal</p>
         </div>

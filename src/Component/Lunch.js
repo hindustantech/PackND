@@ -504,7 +504,7 @@ const Lunch = () => {
                                         img='/meal/Sabji1.png'
                                         isLoading={mealOptions.sabji1.isLoading}
                                         error={mealOptions.sabji1.error}
-                                        allowMultiple={true}
+                                      
                                     />
 
                                     <MealSection

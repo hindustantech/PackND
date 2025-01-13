@@ -55,7 +55,7 @@
 /* Samsung Galaxy S8+ - 360px width */
 @media (max-width: 360px) {
   .bg-img {
-    max-width: 350px;
+    min-width: 350px;
     height: 270px;
   }
 }
