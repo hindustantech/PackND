@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from "jwt-decode";
+import axios from 'axios';
+
 // import { toast } from 'react-toastify';
 
 const Login = () => {
@@ -15,7 +19,7 @@ const Login = () => {
     const navigate = useNavigate();
     const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
-    
+
 
 
     const handleChange = (e) => {
@@ -26,6 +30,7 @@ const Login = () => {
         }));
     };
 
+    // login with Api
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError(null); // Clear previous errors
@@ -46,15 +51,15 @@ const Login = () => {
 
             const result = await response.json();
             const id = result.user.id;
-            
+
 
             setLoading(false);
-            
+
             if (response.ok) {
                 toast(response.message)
                 localStorage.setItem("id", id);
                 navigate('/');
-                
+
             } else {
                 setError(result.message || 'Login failed. Please try again.');
             }
@@ -64,17 +69,46 @@ const Login = () => {
 
         }
     };
-
-    const handleGoogleLogin = () => {
-        
-        // Implement Google OAuth logic here
-    };
-
+    // Login With Google
+    const onSuccess = async (credentialResponse) => {
+        try {
+          const decodedData = jwtDecode(credentialResponse?.credential);
+    
+         
+          const name = decodedData.name;
+          const email = decodedData.email;
+          // Make API call to Laravel backend
+          const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/login_google`, {
+            name,
+            email
+          });
+    
+         
+          // Assuming response contains a token or some confirmation from backend
+          if (response.status==200) {
+            // Redirect to home page
+            const token = response.data.token;
+            const id = response.data.user_id;
+    
+            // Store the token in localStorage
+            localStorage.setItem("token", token);
+    
+            localStorage.setItem("id", id);
+            navigate('/');
+          } else {
+            
+          }
+        } catch (error) {
+         
+    
+        }
+      };
+    
     return (
         <div className="container-fluid min-vh-100 bg-light d-flex align-items-center justify-content-center py-5">
             <div className="card shadow-lg" style={{ maxWidth: '400px', width: '100%' }}>
                 <div className="card-header bg-danger text-white text-center py-4">
-                    <img src='/logo1.png' className='w-40 h-10 d-flex m-auto'/>
+                    <img src='/logo1.png' className='w-40 h-10 d-flex m-auto' />
                     <h2 className="h3 mb-2">Welcome Back</h2>
                     <p className="text-white-50 mb-0">Please login to your account</p>
                 </div>
@@ -119,7 +153,7 @@ const Login = () => {
                                     className="btn btn-outline-secondary"
                                     onClick={() => setShowPassword(!showPassword)}
                                 >
-                                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                                    {showPassword ? <Eye size={18} /> :  <EyeOff size={18} />}
                                 </button>
                             </div>
                         </div>
@@ -144,37 +178,19 @@ const Login = () => {
                                 <span className="text-muted">OR</span>
                             </div>
                         </div>
-{/* 
+
                         <button
-                            type="button"
-                            onClick={handleGoogleLogin}
-                            className="btn btn-outline-dark w-100 py-2 mb-3 d-flex align-items-center justify-content-center gap-2"
+                            type="submit"
+                            className="btn  mb-3 d-flex align-items-center justify-content-center  "
+                            disabled={loading}
                         >
-                            <svg
-                                width="18"
-                                height="18"
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 48 48"
-                            >
-                                <path
-                                    fill="#EA4335"
-                                    d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"
-                                />
-                                <path
-                                    fill="#4285F4"
-                                    d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"
-                                />
-                                <path
-                                    fill="#FBBC05"
-                                    d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"
-                                />
-                                <path
-                                    fill="#34A853"
-                                    d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"
-                                />
-                            </svg>
-                            <span>Continue with Google</span>
-                        </button> */}
+
+                            <GoogleLogin onSuccess={onSuccess}
+                                
+                                useOneTap
+                            />
+
+                        </button>
 
                         <p className="text-center text-muted mb-0">
                             Don't have an account?{' '}

@@ -26,7 +26,7 @@ const ForgotPassword = () => {
       toast.success('OTP sent successfully to your email!');
       navigate(`/OTP?email=${encodeURIComponent(email)}`);
     } catch (error) {
-      console.error('Error sending OTP:', error);
+     
       setError('Failed to send OTP. Please check your email.');
       toast.error('Failed to send OTP. Please check your email.');
     } finally {

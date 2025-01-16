@@ -114,7 +114,7 @@ const MealOption = ({ option, isSelected, onSelect, category, image }) => (
                 className="w-12 h-12 rounded-lg object-cover"
             />
             <div>
-                <div className="text-sm " style={{ fontSize: '9px' }}>{option.name}</div>
+                <div  style={{ fontSize: '9px' }}>{option.name}</div>
                 <div className="text-xs text-gray-500" style={{ fontSize: '9px' }}>Qty: {option.quantity || 1}</div>
             </div>
         </div>
@@ -287,7 +287,7 @@ const Lunch = () => {
                 sabji2: { data: [], isLoading: false, error: errorMessage },
                 daily_menu_id: null
             }));
-            console.error(errorMessage);
+           
         }
     };
 
@@ -336,7 +336,7 @@ const Lunch = () => {
 
                 if (currentSelections.includes(optionId)) {
                     newSelections = currentSelections.filter(id => id !== optionId);
-                } else if (currentSelections.length < 2) {
+                } else if (currentSelections.length < 1) {
                     newSelections = [...currentSelections, optionId];
                 } else {
                     newSelections = [...currentSelections.slice(1), optionId];

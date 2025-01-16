@@ -4,6 +4,9 @@ import { User, Mail, Phone, Calendar, MapPin, Lock, ArrowRight, Eye, EyeOff, Loc
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom';
+import { GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from "jwt-decode";
+
 const Register = () => {
   const [formData, setFormData] = useState({
     email: '',
@@ -49,6 +52,44 @@ const Register = () => {
     }));
   };
 
+  const onSuccess = async (credentialResponse) => {
+    try {
+      const decodedData = jwtDecode(credentialResponse?.credential);
+
+      
+      const name = decodedData.name;
+      const email = decodedData.email;
+      // Make API call to Laravel backend
+      const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/login_google`, {
+        name,
+        email
+      });
+
+    
+      // Assuming response contains a token or some confirmation from backend
+      if (response.status==200) {
+        // Redirect to home page
+        const token = response.data.token;
+        const id = response.data.user_id;
+
+        // Store the token in localStorage
+        localStorage.setItem("token", token);
+
+        localStorage.setItem("id", id);
+        navigate('/');
+      } else {
+     
+      }
+    } catch (error) {
+     
+
+    }
+  };
+
+  const onError = () => {
+   
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
@@ -85,7 +126,7 @@ const Register = () => {
       navigate('/login');
     } catch (err) {
       setError(err.response?.data?.message || 'An error occurred while registering. Please try again.');
-      console.error('Registration Error:', err);
+      
     } finally {
       setLoading(false);
     }
@@ -95,9 +136,9 @@ const Register = () => {
     <div className="container-fluid min-vh-100 bg-light d-flex align-items-center justify-content-center py-5">
       <div className="card shadow-lg">
         <div className="card-header bg-danger text-white text-center py-4">
-        
-           <img src='/logo1.png' className='w-40 h-10 d-flex m-auto'/>
-         
+
+          <img src='/logo1.png' className='w-40 h-10 d-flex m-auto' />
+
           <h2 className="h3 mb-2">Create Account</h2>
           <p className="text-white-50 mb-0">Join us and order your first meal</p>
         </div>
@@ -160,7 +201,7 @@ const Register = () => {
                   type="text"
                   name="name"
                   className="form-control"
-                  placeholder="Username"
+                  placeholder="Name"
                   value={formData.name}
                   onChange={(e) => {
                     const value = e.target.value.replace(/[^A-Za-z\s]/g, ''); // Only letters and spaces
@@ -249,7 +290,7 @@ const Register = () => {
                   className="btn btn-outline-secondary"
                   onClick={() => setShowPassword(!showPassword)}
                 >
-                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  {showPassword ?<Eye size={18} />  : <EyeOff size={18} />}
                 </button>
               </div>
             </div>
@@ -262,6 +303,21 @@ const Register = () => {
               <span>{loading ? 'Creating Account...' : 'Create Account'}</span>
               <ArrowRight size={18} />
             </button>
+
+            <button
+              type="submit"
+              className="btn  mb-3 d-flex align-items-center justify-content-center gap-2"
+              disabled={loading}
+            >
+
+              <GoogleLogin onSuccess={onSuccess} 
+                onError={onError}
+                useOneTap 
+                />
+
+            </button>
+
+
 
             <p className="text-center text-muted small">
               By creating an account, you agree to our{' '}

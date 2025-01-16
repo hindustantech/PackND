@@ -336,7 +336,7 @@ const Dinner = () => {
 
                 if (currentSelections.includes(optionId)) {
                     newSelections = currentSelections.filter(id => id !== optionId);
-                } else if (currentSelections.length < 2) {
+                } else if (currentSelections.length < 1) {
                     newSelections = [...currentSelections, optionId];
                 } else {
                     newSelections = [...currentSelections.slice(1), optionId];
@@ -500,7 +500,7 @@ sm:min-w-[50px] md:min-w-[60px] lg:min-w-[70px]`}>
                                         onSelect={handleMealSelection}
                                         isLoading={mealOptions.sabji1.isLoading}
                                         error={mealOptions.sabji1.error}
-                                        allowMultiple={true}
+                                        
                                     />
 
                                     <MealSection

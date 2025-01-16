@@ -44,7 +44,7 @@ const Meal = () => {
             const data = await response.json();
             return data;
         } catch (error) {
-            console.error("Error fetching user data:", error.message);
+           
             throw error;
         }
     };
@@ -63,7 +63,7 @@ const Meal = () => {
             const data = await response.json();
             return data;
         } catch (error) {
-            console.error("Error fetching package data:", error.message);
+           
             throw error;
         }
     };

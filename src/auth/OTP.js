@@ -70,7 +70,7 @@ const OTP = () => {
       toast.success("OTP verified successfully");
       navigate(`/ChangePassword?email=${encodeURIComponent(email)}`);
     } catch (error) {
-      console.error('Error verifying OTP:', error);
+    
       toast.error('Error verifying OTP, please try again.');
     }
   };

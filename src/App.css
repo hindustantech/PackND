@@ -55,7 +55,7 @@
 /* Samsung Galaxy S8+ - 360px width */
 @media (max-width: 360px) {
   .bg-img {
-    min-width: 350px;
+    max-width: 350px;
     height: 270px;
   }
 }
@@ -131,4 +131,53 @@
   font-weight: bold;
 
   font-size: 10px;
+}
+
+
+
+
+/* Unique Toggle Switch for Meal Control */
+.meal-toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+}
+
+.meal-toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.meal-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 24px;
+}
+
+.meal-slider::before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+.meal-toggle-switch input:checked + .meal-slider {
+  background-color: #28a745; /* Green when active */
+}
+
+.meal-toggle-switch input:checked + .meal-slider::before {
+  transform: translateX(26px);
 }

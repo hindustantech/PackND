@@ -4,12 +4,16 @@ import './index.css';
 import App from './App';
 // import { DataContext } from './DataContext';
 import reportWebVitals from './reportWebVitals';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  // <DataProvider>
+
+  <GoogleOAuthProvider clientId='24902711487-fhnt33ernhuttljeeaptu44cbvas5e4k.apps.googleusercontent.com'>
     <App />
-  // </DataProvider>,
+  </GoogleOAuthProvider>
+
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -1,11 +1,11 @@
-import Home from "./Component/Home";
-import React from "react";
+
+import React,{useEffect} from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import './index.css';
 import './App.css'; // Import the CSS file in your App.js
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { requestPermission, listenForMessages } from "./firebase-notification";
 import Profile from "./Component/Profile";
 import WalletPage from "./Component/WalletPage";
 import History from "./Component/History";
@@ -22,16 +22,28 @@ import ForgotPassword from "./auth/ForgotPassword";
 import OTP from "./auth/OTP";
 import ChangePassword from "./auth/ChangePassword";
 
+
 function App() {
+  //Get Presmission
+  const handleEnableNotifications = async () => {
+    await requestPermission();
+    listenForMessages();
+  };
+  
+  useEffect(() => {
+    handleEnableNotifications();
+   
+  }, []);
   return (
     <div className="App">
+
       <ToastContainer />
       <Router>
         <Routes>
-          {/* <Route path="/" element={<Home />} /> */}
+
           <Route path="/profile" element={<Profile />} />
-          <Route path="/ref" element={<Referal/>} />
-          
+          <Route path="/ref" element={<Referal />} />
+
           <Route path="/history" element={<History />} />
           <Route path="/wallet" element={<WalletPage />} />
           <Route path="/" element={<Meal />} />
@@ -40,16 +52,17 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/payment" element={<PaymentPage />} />
-          <Route path="/user" element={<UserProfile/>} />
-          <Route path="/ContactUs" element={<ContactUs/>} />
-          <Route path="/forgot-password" element={ <ForgotPassword/>} />
-          <Route path="/OTP" element={<OTP/>} />
-          <Route path="/ChangePassword" element={<ChangePassword/>} />
-         
-         
-         
+          <Route path="/user" element={<UserProfile />} />
+          <Route path="/ContactUs" element={<ContactUs />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/OTP" element={<OTP />} />
+          <Route path="/ChangePassword" element={<ChangePassword />} />
+
+
+
         </Routes>
       </Router>
+
     </div>
   );
 }
