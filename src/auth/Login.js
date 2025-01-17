@@ -181,7 +181,7 @@ const Login = () => {
 
                         <button
                             type="submit"
-                            className="btn  mb-3 d-flex align-items-center justify-content-center  "
+                            className="btn w-100  mb-3 d-flex align-items-center justify-content-center  "
                             disabled={loading}
                         >
 

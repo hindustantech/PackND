@@ -120,11 +120,7 @@ const OTP = () => {
               />
             ))}
           </div>
-          <div className="d-flex justify-content-end mb-1">
-                            <button to="/forgot-password" className="text-danger text-decoration-none">
-                                Resend OTP
-                            </button>
-                        </div>
+          
           {/* Submit Button */}
           <button
             type="submit"

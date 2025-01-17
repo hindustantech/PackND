@@ -21,7 +21,7 @@ const ContactUs = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
    
-    toast.success('Thank you for contacting us!');
+    toast.success('Thank you for Contacting us!');
     setFormData({ name: '', email: '', subject: '', message: '' });
   };
 

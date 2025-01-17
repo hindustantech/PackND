@@ -19,7 +19,7 @@ const requestPermission = async () => {
 
 
         const token = await getToken(messaging, { vapidKey:process.env.REACT_APP_FIREBASE_VAPID_KEY  });
-
+        
         if (token) {
 
             await sendTokenToServer(userid, token);
@@ -39,6 +39,7 @@ const sendTokenToServer = async (userid, token) => {
             userid,
             token
         } );
+        
 
 
     } catch (error) {

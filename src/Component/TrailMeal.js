@@ -1,4 +1,4 @@
-import { ArrowBigLeft, ArrowBigRight, Plus, Minus } from 'lucide-react';
+import { Plus, Minus } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 
@@ -101,7 +101,7 @@ const ExistingOrderDisplay = ({ order }) => {
     );
 };
 
-const MealOption = ({ option, isSelected, onSelect, category }) => (
+const MealOption = ({ option, isSelected, onSelect, category, image }) => (
     <div
         className={`w-full h-full p-2 cursor-pointer rounded-lg transition-all duration-200 
       ${isSelected ? 'ring-2 ring-red-500 bg-red-50' : 'hover:bg-gray-50'}`}
@@ -109,19 +109,19 @@ const MealOption = ({ option, isSelected, onSelect, category }) => (
     >
         <div className="flex gap-2 items-center">
             <img
-                src={option.image || "/meal.png"}
+                src={image || "/meal.png"}
                 alt={option.name}
                 className="w-12 h-12 rounded-lg object-cover"
             />
             <div>
-                <div className="text-sm " style={{ fontSize: '9px' }}>{option.name}</div>
+                <div style={{ fontSize: '9px' }}>{option.name}</div>
                 <div className="text-xs text-gray-500" style={{ fontSize: '9px' }}>Qty: {option.quantity || 1}</div>
             </div>
         </div>
     </div>
 );
 
-const MealSection = ({ title, description, options = [], category, selectedOption, onSelect, isLoading, error, allowMultiple = false }, img) => (
+const MealSection = ({ title, description, options = [], category, selectedOption, onSelect, isLoading, error, allowMultiple = false, img }) => (
     <div className="mb-6">
         <div className="flex items-center gap-2 mb-2">
             <img
@@ -164,12 +164,12 @@ const MealSection = ({ title, description, options = [], category, selectedOptio
 );
 
 const NoMenuDisplay = ({ error }) => (
-    <div className="text-center p-8 bg-gray-50 rounded-lg">
+    <div className="text-center p-8 bg-gray-50 rounded-lg mb-4">
         <div className="text-lg font-medium text-gray-600 mb-2">
             Menu Not Updated
         </div>
         <p className="text-sm text-gray-500">
-            {error === 'Menu not found for selected date'
+            {error === 'Menu not Updated for selected date'
                 ? 'The menu for this date has not been updated yet. Please check back later.'
                 : error}
         </p>
@@ -200,7 +200,7 @@ const QuantitySelector = ({ quantity, onIncrease, onDecrease }) => (
     </div>
 );
 
-const Dinner = () => {
+const TrailMeal = ({mealTime}) => {
     const [selectedDate, setSelectedDate] = useState(null);
     const [weekOffset, setWeekOffset] = useState(0);
     const [quantity, setQuantity] = useState(1);
@@ -211,7 +211,7 @@ const Dinner = () => {
         sabji1: [],
         sabji2: null
     });
-
+    
     const [mealOptions, setMealOptions] = useState({
         bread: { data: [], isLoading: true, error: null },
         sabji1: { data: [], isLoading: true, error: null },
@@ -247,31 +247,33 @@ const Dinner = () => {
             const dateStr = `${selectedDate.year}-${selectedDate.month}-${selectedDate.day}`;
             const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/getTodayMenu/${userid}/${dateStr}`);
 
+            console.log(response);
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
+                
             }
 
             const jsonData = await response.json();
 
             if (jsonData.status === 'success') {
                 // Check for existing order first
-                if (jsonData.data?.existing_orders?.evening?.[0]) {
-                    setExistingOrder(jsonData.data.existing_orders.evening[0]);
+                if (jsonData.data?.existing_orders?.morning?.[0]) {
+                    setExistingOrder(jsonData.data.existing_orders.morning[0]);
                     setMealOptions(prev => ({
                         ...prev,
                         bread: { data: [], isLoading: false, error: null },
                         sabji1: { data: [], isLoading: false, error: null },
                         sabji2: { data: [], isLoading: false, error: null }
                     }));
-                } else if (jsonData.data?.menu?.evening?.[0]) {
+                } else if (jsonData.data?.menu?.morning?.[0]) {
                     // No existing order, show available options
                     setExistingOrder(null);
-                    const eveningMenu = jsonData.data.menu.evening[0];
+                    const morningMenu = jsonData.data.menu.morning[0];
                     setMealOptions({
-                        bread: { data: eveningMenu.bread_options || [], isLoading: false, error: null },
-                        sabji1: { data: eveningMenu.sabji1_options || [], isLoading: false, error: null },
-                        sabji2: { data: eveningMenu.sabji2_options || [], isLoading: false, error: null },
-                        daily_menu_id: eveningMenu.id
+                        bread: { data: morningMenu.bread_options || [], isLoading: false, error: null },
+                        sabji1: { data: morningMenu.sabji1_options || [], isLoading: false, error: null },
+                        sabji2: { data: morningMenu.sabji2_options || [], isLoading: false, error: null },
+                        daily_menu_id: morningMenu.id
                     });
                 } else {
                     throw new Error('Menu not found for selected date');
@@ -287,7 +289,7 @@ const Dinner = () => {
                 sabji2: { data: [], isLoading: false, error: errorMessage },
                 daily_menu_id: null
             }));
-            
+
         }
     };
 
@@ -397,12 +399,12 @@ const Dinner = () => {
                 user_id,
                 daily_menu_id: mealOptions.daily_menu_id,
                 quantity: quantity.toString(),
-                meal_time: 'evening'
+                meal_time: mealTime
             };
 
             setIsConfirming(true);
 
-            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/confirmMeal`, {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/trialMeal`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -411,6 +413,7 @@ const Dinner = () => {
                 body: JSON.stringify(payload),
             });
 
+            console.log("response",response);
             const responseText = await response.text();
             let data;
 
@@ -431,7 +434,7 @@ const Dinner = () => {
             }
         } catch (error) {
             toast.error(error.message || 'An error occurred while confirming the meal');
-           
+            console.error('Error confirming meal:', error);
         } finally {
             setIsConfirming(false);
         }
@@ -439,11 +442,14 @@ const Dinner = () => {
 
     const dates = getWeekDates(weekOffset);
 
+
+    //  console.log("existingOrder",existingOrder.sabji2_name);
+
     return (
         <>
             <div className="max-w-2xl mx-auto p-4">
                 <div className="mb-6">
-                    <h6 className="text-red-500 text-center font-bold text-sm mb-1">Evening Meals</h6>
+                    <h6 className="text-red-500 text-center font-bold text-sm mb-1">Morning Meals</h6>
                     <p className="text-gray-500 text-center text-xs mb-4">Prepare your week meal today</p>
 
                     <div className="flex justify-between items-center">
@@ -455,10 +461,10 @@ const Dinner = () => {
                                     key={date.day}
                                     onClick={() => handleDateClick(date)}
                                     className={`min-w-[40px] p-2 text-center cursor-pointer transition-all duration-200 rounded
-${selectedDate?.day === date.day
+            ${selectedDate?.day === date.day
                                             ? 'border border-black rounded'
                                             : 'bg-white hover:bg-gray-50 shadow-sm'}
-sm:min-w-[50px] md:min-w-[60px] lg:min-w-[70px]`}>
+            sm:min-w-[50px] md:min-w-[60px] lg:min-w-[70px]`}>
                                     <span className="block text-xs sm:text-sm md:text-base">{date.day}</span>
                                     <span className="text-xs sm:text-sm md:text-base">{date.weekday}</span>
                                 </div>
@@ -467,6 +473,7 @@ sm:min-w-[50px] md:min-w-[60px] lg:min-w-[70px]`}>
 
 
                     </div>
+
                 </div>
 
                 {existingOrder ? (
@@ -483,8 +490,8 @@ sm:min-w-[50px] md:min-w-[60px] lg:min-w-[70px]`}>
                                         description="Select your bread preference"
                                         options={mealOptions.bread.data}
                                         category="bread"
-                                        img='/meal/Bread.png'
                                         selectedOption={selectedMeals.bread}
+                                        img='/meal/Bread.png'
                                         onSelect={handleMealSelection}
                                         isLoading={mealOptions.bread.isLoading}
                                         error={mealOptions.bread.error}
@@ -495,12 +502,12 @@ sm:min-w-[50px] md:min-w-[60px] lg:min-w-[70px]`}>
                                         description="Select your first sabji"
                                         options={mealOptions.sabji1.data}
                                         category="sabji1"
-                                        img='/meal/Sabji1.png'
                                         selectedOption={selectedMeals.sabji1}
                                         onSelect={handleMealSelection}
+                                        img='/meal/Sabji1.png'
                                         isLoading={mealOptions.sabji1.isLoading}
                                         error={mealOptions.sabji1.error}
-                                        
+
                                     />
 
                                     <MealSection
@@ -509,6 +516,7 @@ sm:min-w-[50px] md:min-w-[60px] lg:min-w-[70px]`}>
                                         options={mealOptions.sabji2.data}
                                         category="sabji2"
                                         img='/meal/Sabji2.png'
+                                        image=''
                                         selectedOption={selectedMeals.sabji2}
                                         onSelect={handleMealSelection}
                                         isLoading={mealOptions.sabji2.isLoading}
@@ -516,14 +524,14 @@ sm:min-w-[50px] md:min-w-[60px] lg:min-w-[70px]`}>
                                     />
                                 </div>
                                 <h5 className='text-center mt-3 text-danger'>
-                                    Selected Date for Dinner  {selectedDate ? `${selectedDate.day} ${new Date(`${selectedDate.month} 1`).toLocaleString('en-US', { month: 'short' })}, ${selectedDate.year}` : ''}
+                                    Selected Date for Trail Meal  {selectedDate ? `${selectedDate.day} ${new Date(`${selectedDate.month} 1`).toLocaleString('en-US', { month: 'short' })}, ${selectedDate.year}` : ''}
                                 </h5>
                                 <div className="mt-4 flex items-center border px-2 py-2 rounded-lg mb-4 w-full">
-                                    <QuantitySelector
+                                    {/* <QuantitySelector
                                         quantity={quantity}
                                         onIncrease={increaseQuantity}
                                         onDecrease={decreaseQuantity}
-                                    />
+                                    /> */}
                                     <button
                                         className="flex-1 bg-red-500 text-white px-2 py-2 rounded-lg font-medium text-sm hover:bg-red-600 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                                         onClick={confirmTodayMeal}
@@ -535,7 +543,7 @@ sm:min-w-[50px] md:min-w-[60px] lg:min-w-[70px]`}>
                                                 <span>Confirming...</span>
                                             </div>
                                         ) : selectedDate ? (
-                                            `Confirm Dinner `
+                                            `Confirm Trail Meal `
                                         ) : (
                                             'Select a date '
                                         )}
@@ -550,4 +558,4 @@ sm:min-w-[50px] md:min-w-[60px] lg:min-w-[70px]`}>
     );
 };
 
-export default Dinner;
+export default TrailMeal

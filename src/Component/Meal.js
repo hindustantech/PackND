@@ -4,6 +4,7 @@ import Nav from './Nav';
 import { Package, Gift, Sun, Moon, Award } from 'lucide-react';
 import Lunch from './Lunch';
 import Dinner from './Dinner';
+import TrailMeal from './TrailMeal';
 
 const Meal = () => {
     const [mealTime, setMealTime] = useState('lunch');
@@ -44,7 +45,7 @@ const Meal = () => {
             const data = await response.json();
             return data;
         } catch (error) {
-           
+
             throw error;
         }
     };
@@ -63,7 +64,7 @@ const Meal = () => {
             const data = await response.json();
             return data;
         } catch (error) {
-           
+
             throw error;
         }
     };
@@ -320,7 +321,10 @@ const Meal = () => {
                         </div>
                     ) : (
                         <div className="text-center text-muted p-4">
-                            <p>No active membership found</p>
+                            <> 
+                                {mealTime === 'lunch' && <TrailMeal mealTime='morning'/>}
+                                {mealTime === 'dinner' && <TrailMeal mealTime='evening'/>}
+                            </>
                         </div>
                     )}
 

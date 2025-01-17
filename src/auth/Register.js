@@ -95,6 +95,11 @@ const Register = () => {
     setError(null);
 
 
+    
+    if (!formData.email || !formData.mobile || !formData.dob || !formData.address || !formData.password) {
+      toast('Please fill out all fields.');
+      return;
+    }
     const phoneRegex = /^[0-9]{10}$/;
     const nameRegex = /^[A-Za-z\s]{2,}$/;  // At least 2 letters, only alphabets and spaces
 
@@ -107,11 +112,6 @@ const Register = () => {
     // Name Validation
     if (!nameRegex.test(formData.name)) {
       toast('Name must contain only letters and be at least 2 characters long.');
-      return;
-    }
-
-    if (!formData.email || !formData.mobile || !formData.dob || !formData.address || !formData.password) {
-      toast('Please fill out all fields.');
       return;
     }
 
@@ -251,7 +251,7 @@ const Register = () => {
               </div>
             </div>
             <div className="mb-4">
-              <label className="form-label">Referal Code</label>
+              <label className="form-label">Referral Code</label>
               <div className="input-group">
                 <span className="input-group-text bg-light">
                   <Handshake size={18} />
@@ -260,7 +260,7 @@ const Register = () => {
                   type="sponcer_id"
                   name="sponcer_id"
                   className="form-control"
-                  placeholder="Referal Code"
+                  placeholder="Referral Code"
                   value={formData.sponcer_id}
                   onChange={handleChange}
                   required
@@ -306,7 +306,7 @@ const Register = () => {
 
             <button
               type="submit"
-              className="btn  mb-3 d-flex align-items-center justify-content-center gap-2"
+              className="btn w-100 mb-3 d-flex text-center align-items-center justify-content-center gap-2"
               disabled={loading}
             >
 
@@ -321,11 +321,11 @@ const Register = () => {
 
             <p className="text-center text-muted small">
               By creating an account, you agree to our{' '}
-              <Link to="https://sites.google.com/view/packndterms" target="_blank" rel="noopener noreferrer" className="text-danger text-decoration-none">
+              <Link to="https://sites.google.com/view/packndterms" target="_blank" rel="noopener noreferrer" className="text-danger text-decoration-none" >
                 Terms of Service
               </Link>{' '}
               and{' '}
-              <Link to="https://sites.google.com/view/packndprivacy" target="_blank" rel="noopener noreferrer" className="text-danger text-decoration-none">
+              <Link to="https://sites.google.com/view/packndprivacy" target="_blank" rel="noopener noreferrer" className="text-danger text-decoration-none"  >
                 Privacy Policy
               </Link>
             </p>
@@ -335,9 +335,7 @@ const Register = () => {
               <Link
                 to="/login"
                 className="text-red-600 fw-bold text-decoration-none ms-2"
-                style={{ transition: 'color 0.3s ease' }}
-                onMouseOver={(e) => (e.target.style.color = '#0d6efd')}
-                onMouseOut={(e) => (e.target.style.color = '')}
+                
               >
                 Login
               </Link>

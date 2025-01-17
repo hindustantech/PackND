@@ -42,7 +42,7 @@ const ForgotPassword = () => {
         className="bg-white p-8   w-full sm:w-3/4 md:w-1/2 lg:w-1/3 xl:w-1/4"
         onSubmit={handleSubmit}
       >
-        <div className="text-center d-flex  py-2  bg-red-400 rounded w-full  aling-items-center justify-center">
+        <div className="text-center d-flex  py-2  bg-red-600 rounded w-full  aling-items-center justify-center">
 
         <img
           src="/logo1.png"

@@ -40,7 +40,7 @@ const Calendar = ({
     try {
       return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
     } catch (error) {
-      console.error('Error getting days in month:', error);
+     
       return 31;
     }
   };
@@ -49,7 +49,7 @@ const Calendar = ({
     try {
       return new Date(date.getFullYear(), date.getMonth(), 1).getDay();
     } catch (error) {
-      console.error('Error getting first day of month:', error);
+     
       return 0;
     }
   };
@@ -190,7 +190,7 @@ const History = () => {
       setTotalMeals(data.data.summary.total_orders);
     } catch (err) {
       setError(err.message);
-      console.error('Error fetching meal history:', err);
+     
     } finally {
       setIsLoading(false);
     }

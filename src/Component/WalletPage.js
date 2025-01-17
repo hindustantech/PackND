@@ -75,7 +75,7 @@ const WalletPage = () => {
 
     const MembershipInfo = ({ membership }) => {
         if (!membership) {
-            return <p className="text-center text-danger"> Purches Membership  </p>;
+            return <p className="text-center text-danger"> Purchase Membership  </p>;
         }
 
         // Parse dates
