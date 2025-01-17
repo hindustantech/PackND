@@ -170,6 +170,7 @@ const PaymentPage = () => {
       setLoding(false);
       navigate('/');
     } catch (error) {
+      setLoding(false);
       toast.error(error.message);
     }
   };
