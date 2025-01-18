@@ -77,6 +77,7 @@ const Login = () => {
 
             const name = decodedData.name;
             const email = decodedData.email;
+            console.log("google res",name,email);
             // Make API call to Laravel backend
             const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/login_google`, {
                 name,
@@ -85,7 +86,7 @@ const Login = () => {
 
             console.log(response)
             // Assuming response contains a token or some confirmation from backend
-            if (response.status == 200) {
+            if (response.status === 200) {
                 // Redirect to home page
                 const token = response.data.token;
                 const id = response.data.user_id;
