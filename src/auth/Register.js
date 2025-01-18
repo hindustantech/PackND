@@ -55,39 +55,47 @@ const Register = () => {
   const onSuccess = async (credentialResponse) => {
     try {
       const decodedData = jwtDecode(credentialResponse?.credential);
-
-      
+  
       const name = decodedData.name;
       const email = decodedData.email;
+  
       // Make API call to Laravel backend
       const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/login_google`, {
         name,
         email
       });
-
-    
-      // Assuming response contains a token or some confirmation from backend
-      if (response.status==200) {
-        // Redirect to home page
+  
+      // Check for both 200 (OK) and 201 (Created) status codes
+      if (response.status === 200 || response.status === 201) {
         const token = response.data.token;
         const id = response.data.user_id;
-
-        // Store the token in localStorage
+  
+        // Store the token and user id in localStorage
         localStorage.setItem("token", token);
-
         localStorage.setItem("id", id);
+  
+        // Show success toast based on the status code
+        if (response.status === 201) {
+          toast.success("Registration Successful!");
+        } else {
+          toast.success("Login Successful!");
+        }
+  
+        // Redirect to the home page
         navigate('/');
       } else {
-     
+        // Handle other statuses or errors
+        toast.error("Something went wrong. Please try again.");
       }
     } catch (error) {
-     
-
+      console.error("Error during Google login:", error);
+      toast.error("An error occurred. Please try again later.");
     }
   };
+  
 
   const onError = () => {
-   
+
   };
 
   const handleSubmit = async (e) => {
@@ -95,7 +103,7 @@ const Register = () => {
     setError(null);
 
 
-    
+
     if (!formData.email || !formData.mobile || !formData.dob || !formData.address || !formData.password) {
       toast('Please fill out all fields.');
       return;
@@ -126,7 +134,7 @@ const Register = () => {
       navigate('/login');
     } catch (err) {
       setError(err.response?.data?.message || 'An error occurred while registering. Please try again.');
-      
+
     } finally {
       setLoading(false);
     }
@@ -290,7 +298,7 @@ const Register = () => {
                   className="btn btn-outline-secondary"
                   onClick={() => setShowPassword(!showPassword)}
                 >
-                  {showPassword ?<Eye size={18} />  : <EyeOff size={18} />}
+                  {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
                 </button>
               </div>
             </div>
@@ -304,44 +312,49 @@ const Register = () => {
               <ArrowRight size={18} />
             </button>
 
-            <button
-              type="submit"
-              className="btn w-100 mb-3 d-flex text-center align-items-center justify-content-center gap-2"
-              disabled={loading}
-            >
-
-              <GoogleLogin onSuccess={onSuccess} 
-                onError={onError}
-                useOneTap 
-                />
-
-            </button>
-
-
-
-            <p className="text-center text-muted small">
-              By creating an account, you agree to our{' '}
-              <Link to="https://sites.google.com/view/packndterms" target="_blank" rel="noopener noreferrer" className="text-danger text-decoration-none" >
-                Terms of Service
-              </Link>{' '}
-              and{' '}
-              <Link to="https://sites.google.com/view/packndprivacy" target="_blank" rel="noopener noreferrer" className="text-danger text-decoration-none"  >
-                Privacy Policy
-              </Link>
-            </p>
-
-            <div className="text-center mt-2">
-              <span className="text-muted">Already have an account ?</span>
-              <Link
-                to="/login"
-                className="text-red-600 fw-bold text-decoration-none ms-2"
-                
-              >
-                Login
-              </Link>
-            </div>
-
           </form>
+
+
+          <button
+            type="submit"
+            className="btn w-100  mb-3 d-flex align-items-center justify-content-center  "
+            disabled={loading}
+          >
+
+            <GoogleLogin onSuccess={onSuccess}
+              useOneTap
+              render={(renderProps) => (
+                <button onClick={renderProps.onClick} disabled={renderProps.disabled} className="btn w-100 mb-3 d-flex align-items-center justify-content-center">
+                  <img src="/g.png" className="h-10 w-10" alt="Google Login" />
+                  Login with Google
+                </button>
+              )}
+            />
+
+          </button>
+          <p className="text-center text-muted small">
+            By creating an account, you agree to our{' '}
+            <Link to="https://sites.google.com/view/packndterms" target="_blank" rel="noopener noreferrer" className="text-danger text-decoration-none" >
+              Terms of Service
+            </Link>{' '}
+            and{' '}
+            <Link to="https://sites.google.com/view/packndprivacy" target="_blank" rel="noopener noreferrer" className="text-danger text-decoration-none"  >
+              Privacy Policy
+            </Link>
+          </p>
+
+          <div className="text-center mt-2">
+            <span className="text-muted">Already have an account ?</span>
+            <Link
+              to="/login"
+              className="text-red-600 fw-bold text-decoration-none ms-2"
+
+            >
+              Login
+            </Link>
+          </div>
+
+
         </div>
       </div>
     </div>

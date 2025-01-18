@@ -74,36 +74,43 @@ const Login = () => {
         try {
             const decodedData = jwtDecode(credentialResponse?.credential);
 
-
             const name = decodedData.name;
             const email = decodedData.email;
-            
+
             // Make API call to Laravel backend
             const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/login_google`, {
                 name,
                 email
             });
 
-            
-            // Assuming response contains a token or some confirmation from backend
-            if (response.status === 200) {
-                // Redirect to home page
+            // Check for both 200 (OK) and 201 (Created) status codes
+            if (response.status === 200 || response.status === 201) {
                 const token = response.data.token;
                 const id = response.data.user_id;
 
-                // Store the token in localStorage
+                // Store the token and user id in localStorage
                 localStorage.setItem("token", token);
-
                 localStorage.setItem("id", id);
+
+                // Show success toast based on the status code
+                if (response.status === 201) {
+                    toast.success("Registration Successful!");
+                } else {
+                    toast.success("Login Successful!");
+                }
+
+                // Redirect to the home page
                 navigate('/');
             } else {
-
+                // Handle other statuses or errors
+                toast.error("Something went wrong. Please try again.");
             }
         } catch (error) {
-
-
+            console.error("Error during Google login:", error);
+            toast.error("An error occurred. Please try again later.");
         }
     };
+
 
     return (
         <div className="container-fluid min-vh-100 bg-light d-flex align-items-center justify-content-center py-5">
@@ -188,8 +195,13 @@ const Login = () => {
                     >
 
                         <GoogleLogin onSuccess={onSuccess}
-
                             useOneTap
+                            render={(renderProps) => (
+                                <button onClick={renderProps.onClick} disabled={renderProps.disabled} className="btn w-100 mb-3 d-flex align-items-center justify-content-center">
+                                    <img src="/g.png" className="h-10 w-10" alt="Google Login" />
+                                    Login with Google
+                                </button>
+                            )}
                         />
 
                     </button>
