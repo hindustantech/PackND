@@ -1,6 +1,6 @@
 // src/firebase-config.js
 import { initializeApp } from "firebase/app";
-import { getMessaging, getToken, onMessage,getAnalytics } from "firebase/messaging";
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
 
 const firebaseConfig = {
  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -12,6 +12,7 @@ const firebaseConfig = {
   measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
 
 };
+  
 
 const app = initializeApp(firebaseConfig);
 const messaging = getMessaging(app);

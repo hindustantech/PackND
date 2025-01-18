@@ -5,7 +5,7 @@ import { Package, Gift, Sun, Moon, Award } from 'lucide-react';
 import Lunch from './Lunch';
 import Dinner from './Dinner';
 import TrailMeal from './TrailMeal';
-
+import { requestPermission, listenForMessages } from '../firebase-notification';
 const Meal = () => {
     const [mealTime, setMealTime] = useState('lunch');
     const [UserData, setUserData] = useState([]);
@@ -16,6 +16,8 @@ const Meal = () => {
     const BASE_URL = process.env.REACT_APP_API_BASE_URL;
     const navigate = useNavigate();
     const today = new Date();
+
+   
     // Modal body class effect
     useEffect(() => {
         if (showMembershipModal) {
@@ -321,9 +323,9 @@ const Meal = () => {
                         </div>
                     ) : (
                         <div className="text-center text-muted p-4">
-                            <> 
-                                {mealTime === 'lunch' && <TrailMeal mealTime='morning'/>}
-                                {mealTime === 'dinner' && <TrailMeal mealTime='evening'/>}
+                            <>
+                                {mealTime === 'lunch' && <TrailMeal mealTime='morning' />}
+                                {mealTime === 'dinner' && <TrailMeal mealTime='evening' />}
                             </>
                         </div>
                     )}

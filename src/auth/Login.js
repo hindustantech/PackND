@@ -72,38 +72,38 @@ const Login = () => {
     // Login With Google
     const onSuccess = async (credentialResponse) => {
         try {
-          const decodedData = jwtDecode(credentialResponse?.credential);
-    
-         
-          const name = decodedData.name;
-          const email = decodedData.email;
-          // Make API call to Laravel backend
-          const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/login_google`, {
-            name,
-            email
-          });
-    
-         
-          // Assuming response contains a token or some confirmation from backend
-          if (response.status==200) {
-            // Redirect to home page
-            const token = response.data.token;
-            const id = response.data.user_id;
-    
-            // Store the token in localStorage
-            localStorage.setItem("token", token);
-    
-            localStorage.setItem("id", id);
-            navigate('/');
-          } else {
-            
-          }
+            const decodedData = jwtDecode(credentialResponse?.credential);
+
+
+            const name = decodedData.name;
+            const email = decodedData.email;
+            // Make API call to Laravel backend
+            const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/login_google`, {
+                name,
+                email
+            });
+
+            console.log(response)
+            // Assuming response contains a token or some confirmation from backend
+            if (response.status == 200) {
+                // Redirect to home page
+                const token = response.data.token;
+                const id = response.data.user_id;
+
+                // Store the token in localStorage
+                localStorage.setItem("token", token);
+
+                localStorage.setItem("id", id);
+                navigate('/');
+            } else {
+
+            }
         } catch (error) {
-         
-    
+
+
         }
-      };
-    
+    };
+
     return (
         <div className="container-fluid min-vh-100 bg-light d-flex align-items-center justify-content-center py-5">
             <div className="card shadow-lg" style={{ maxWidth: '400px', width: '100%' }}>
@@ -153,7 +153,7 @@ const Login = () => {
                                     className="btn btn-outline-secondary"
                                     onClick={() => setShowPassword(!showPassword)}
                                 >
-                                    {showPassword ? <Eye size={18} /> :  <EyeOff size={18} />}
+                                    {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
                                 </button>
                             </div>
                         </div>
@@ -179,26 +179,27 @@ const Login = () => {
                             </div>
                         </div>
 
-                        <button
-                            type="submit"
-                            className="btn w-100  mb-3 d-flex align-items-center justify-content-center  "
-                            disabled={loading}
-                        >
-
-                            <GoogleLogin onSuccess={onSuccess}
-                                
-                                useOneTap
-                            />
-
-                        </button>
-
-                        <p className="text-center text-muted mb-0">
-                            Don't have an account?{' '}
-                            <Link to="/register" className="text-danger text-decoration-none">
-                                Sign up
-                            </Link>
-                        </p>
                     </form>
+                    <button
+                        type="submit"
+                        className="btn w-100  mb-3 d-flex align-items-center justify-content-center  "
+                        disabled={loading}
+                    >
+
+                        <GoogleLogin onSuccess={onSuccess}
+
+                            useOneTap
+                        />
+
+                    </button>
+
+                    <p className="text-center text-muted mb-0">
+                        Don't have an account?{' '}
+                        <Link to="/register" className="text-danger text-decoration-none">
+                            Sign up
+                        </Link>
+                    </p>
+
                 </div>
             </div>
         </div>

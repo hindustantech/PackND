@@ -5,7 +5,7 @@ import './index.css';
 import './App.css'; // Import the CSS file in your App.js
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { requestPermission, listenForMessages } from "./firebase-notification";
+
 import Profile from "./Component/Profile";
 import WalletPage from "./Component/WalletPage";
 import History from "./Component/History";
@@ -21,19 +21,19 @@ import ContactUs from "./Component/ContactUs";
 import ForgotPassword from "./auth/ForgotPassword";
 import OTP from "./auth/OTP";
 import ChangePassword from "./auth/ChangePassword";
-
+import { requestPermission, listenForMessages } from "./firebase-notification";
 
 function App() {
-  //Get Presmission
   const handleEnableNotifications = async () => {
     await requestPermission();
     listenForMessages();
   };
-  
+
   useEffect(() => {
     handleEnableNotifications();
-   
+
   }, []);
+
   return (
     <div className="App">
 
