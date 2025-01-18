@@ -41,7 +41,7 @@ const UserProfile = () => {
         setPreviewImage(userData.image || '');
         setLoading(false);
       } catch (err) {
-        console.error('Failed to fetch user data:', err);
+        console.error('Failed to fetch user ', err);
         setError('Failed to load user data.');
         setLoading(false);
       }
