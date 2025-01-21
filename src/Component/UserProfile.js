@@ -262,12 +262,7 @@ const UserProfile = () => {
         <div className="space-y-5">
           {['name', 'mobile', 'email', 'dob', 'address'].map((field) => (
             <div key={field}>
-              <label className="text-sm text-gray-400 block mb-1 capitalize">
-                {field}
-                {(field === 'name' || field === 'address' || field === 'dob') && (
-                  <span className="text-red-500 ml-1">*</span>
-                )}
-              </label>
+            
               {renderFormField(field)}
             </div>
           ))}

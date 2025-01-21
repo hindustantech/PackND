@@ -524,7 +524,7 @@ const TrailMeal = ({mealTime}) => {
                                     />
                                 </div>
                                 <h5 className='text-center mt-3 text-danger'>
-                                    Selected Date for Trail Meal  {selectedDate ? `${selectedDate.day} ${new Date(`${selectedDate.month} 1`).toLocaleString('en-US', { month: 'short' })}, ${selectedDate.year}` : ''}
+                                    Selected Date for Trial Meal  {selectedDate ? `${selectedDate.day} ${new Date(`${selectedDate.month} 1`).toLocaleString('en-US', { month: 'short' })}, ${selectedDate.year}` : ''}
                                 </h5>
                                 <div className="mt-4 flex items-center border px-2 py-2 rounded-lg mb-4 w-full">
                                     {/* <QuantitySelector
@@ -543,7 +543,7 @@ const TrailMeal = ({mealTime}) => {
                                                 <span>Confirming...</span>
                                             </div>
                                         ) : selectedDate ? (
-                                            `Confirm Trail Meal `
+                                            `Confirm Trial Meal `
                                         ) : (
                                             'Select a date '
                                         )}

@@ -176,11 +176,11 @@ const WalletPage = () => {
                                 </div>
                                 <div
                                     className="fw-bold text-black mx-2"
-                                    style={{ fontSize: "1.4rem" }}
+                                    style={{ fontSize: "1.2rem" }}
                                 >
                                     {membership?.package_name || "N/A"}
                                 </div>
-                                <small className="mx-1" style={{ fontSize: "0.2rem", textWrap: 'nowrap' }}>
+                                <small className="mx-1" style={{ fontSize: "0.2rem" }}>
                                     Change Membership on Next Renewal
                                 </small>
                             </div>
@@ -211,7 +211,7 @@ const WalletPage = () => {
 
                                     </span>
                                 </div>
-                                <p className=" mb-0 text-center" style={{ fontSize: "0.6rem", color: '#3FB500' }}>
+                                <p className=" mb-0 text-center" style={{ fontSize: "0.2rem", color: '#3FB500' }}>
                                     Available Balance
                                 </p>
                             </div>

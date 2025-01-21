@@ -151,7 +151,7 @@ const Meal = () => {
                                     You need an active membership to access meal services.
                                     Subscribe now to enjoy our delicious meals!
                                 </p>
-                                <div className="text-center mt-3">
+                                <div className="text-start mt-3">
                                     <p className="text-muted mb-2">Get access to:</p>
                                     <ul className="list-unstyled">
                                         <li className="mb-2">✓ Daily fresh meals</li>
