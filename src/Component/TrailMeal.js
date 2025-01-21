@@ -455,7 +455,7 @@ const TrailMeal = ({mealTime}) => {
                     <div className="flex justify-between items-center">
 
 
-                        <div className="grid grid-cols-7 gap-4 sm:grid-cols-5 md:grid-cols-7">
+                        <div className="grid grid-cols-7 gap-6 sm:grid-cols-5 md:grid-cols-7">
                             {dates.map((date) => (
                                 <div
                                     key={date.day}
