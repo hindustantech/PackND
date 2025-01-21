@@ -106,7 +106,7 @@ const OTP = () => {
           <p className="text-center text-lg font-semibold text-gray-800 mb-4">Enter Your OTP</p>
 
           {/* OTP Input Fields */}
-          <div className="flex justify-between gap-2 sm:gap-4 mb-6">
+          <div className="flex justify-content-center gap-1.5 sm:gap-4 mb-6">
             {confirmPinRefs.map((ref, index) => (
               <input
                 key={index}
@@ -115,7 +115,7 @@ const OTP = () => {
                 maxLength="1"
                 ref={ref}
                 onKeyUp={(e) => handleInputChange(e, index, confirmPinRefs)}
-                onPaste={handlePaste} // Handle paste event
+                
                 required
               />
             ))}

@@ -5,19 +5,20 @@ import { Package, Gift, Sun, Moon, Award } from 'lucide-react';
 import Lunch from './Lunch';
 import Dinner from './Dinner';
 import TrailMeal from './TrailMeal';
-import { requestPermission, listenForMessages } from '../firebase-notification';
+
 const Meal = () => {
     const [mealTime, setMealTime] = useState('lunch');
     const [UserData, setUserData] = useState([]);
     const [Membership, setMembership] = useState(null);
     const [error, setError] = useState(null);
     const [showMembershipModal, setShowMembershipModal] = useState(false);
+    const [showBalance, setShowBalance] = useState(false);
     const user_id = localStorage.getItem("id");
     const BASE_URL = process.env.REACT_APP_API_BASE_URL;
     const navigate = useNavigate();
     const today = new Date();
 
-   
+
     // Modal body class effect
     useEffect(() => {
         if (showMembershipModal) {
@@ -77,6 +78,7 @@ const Meal = () => {
             try {
                 const data = await getUser();
                 setUserData(data.user);
+                console.log(data.user);
             } catch (err) {
                 setError(err.message);
             }
@@ -112,6 +114,8 @@ const Meal = () => {
     };
 
     // Membership Modal Component
+
+
     const MembershipModal = ({ isOpen, onClose, onSubscribe }) => {
         const handleClose = () => {
             document.body.classList.remove('modal-open');
@@ -218,13 +222,14 @@ const Meal = () => {
                                 </div>
                             </div>
                         </div>
-                        <button className="btn btn-outline-danger rounded-3"
+                        <button
+                            className="btn btn-outline-danger rounded-3 text-black "
                             style={{ fontSize: '10px', backgroundColor: '#FFD3D3' }}
-                            onClick={() => { navigate('/wallet') }}
-
+                            onClick={() => setShowBalance(!showBalance)}
                         >
-                            Show Balance
+                            {showBalance ? `Balance: ${UserData?.wallet_balance || 0} INR` : 'Show Balance'}
                         </button>
+
                     </div>
 
                     {/* Meal Time Toggle */}
@@ -292,7 +297,7 @@ const Meal = () => {
                                                 {Membership.package_name}
                                             </h6>
                                             <span className="text-dark ms-auto"
-                                                style={{ fontSize: '0.9rem' }}>
+                                                style={{ fontSize: '0.5rem' }}>
                                                 Pure veg
                                             </span>
                                         </div>
@@ -304,15 +309,15 @@ const Meal = () => {
                                         </div>
                                         <hr className="my-2" />
                                         <div className="d-flex flex-column gap-1">
-                                            <div className="d-flex align-items-center gap-1">
+                                            <div className="d-flex align-items-center ">
                                                 <img src='/nav/gift.png' className='h-2' />
                                                 <span className="badge text-dark"
-                                                    style={{ fontSize: '0.3rem', fontWeight: 'normal' }}>
+                                                    style={{ fontSize: '0.2rem', fontWeight: 'normal' }}>
                                                     Surprise Item Today!
                                                 </span>
                                                 <img src='/nav/discount.png' className='h-2' />
                                                 <span className="badge text-dark"
-                                                    style={{ fontSize: '0.3rem', fontWeight: 'normal' }}>
+                                                    style={{ fontSize: '0.2rem', fontWeight: 'normal' }}>
                                                     Complete 5 non-stop orders and one free
                                                 </span>
                                             </div>
@@ -322,12 +327,12 @@ const Meal = () => {
                             </div>
                         </div>
                     ) : (
-                        <div className="text-center text-muted p-4">
-                            <>
-                                {mealTime === 'lunch' && <TrailMeal mealTime='morning' />}
-                                {mealTime === 'dinner' && <TrailMeal mealTime='evening' />}
-                            </>
-                        </div>
+
+                        <>
+                            {mealTime === 'lunch' && <TrailMeal mealTime='morning' />}
+                            {mealTime === 'dinner' && <TrailMeal mealTime='evening' />}
+                        </>
+
                     )}
 
                     {/* Meal Components */}

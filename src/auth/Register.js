@@ -315,7 +315,7 @@ const Register = () => {
           </form>
 
 
-          <button
+          {/* <button
             type="submit"
             className="btn w-100  mb-3 d-flex align-items-center justify-content-center  "
             disabled={loading}
@@ -331,7 +331,7 @@ const Register = () => {
               )}
             />
 
-          </button>
+          </button> */}
           <p className="text-center text-muted small">
             By creating an account, you agree to our{' '}
             <Link to="https://sites.google.com/view/packndterms" target="_blank" rel="noopener noreferrer" className="text-danger text-decoration-none" >
@@ -347,10 +347,10 @@ const Register = () => {
             <span className="text-muted">Already have an account ?</span>
             <Link
               to="/login"
-              className="text-red-600 fw-bold text-decoration-none ms-2"
+              className="text-red-600  text-decoration-none ms-2"
 
             >
-              Login
+              Sign in
             </Link>
           </div>
 

@@ -61,7 +61,6 @@ const PaymentPage = () => {
   const [formData, setFormData] = useState({
     Thash: '',
     receipt: null,
-    tpin: '',
     tiffin_quantity: '30', // Default to 30
   });
 
@@ -148,7 +147,7 @@ const PaymentPage = () => {
       formDataToSend.append('user_id', user_id);
       formDataToSend.append('receipt', formData.receipt);
       formDataToSend.append('package_id', selectedMeal.id);
-      formDataToSend.append('tpin', formData.tpin);
+      
       formDataToSend.append('tiffin_quantity', formData.tiffin_quantity);
       setLoding(true);
       const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/make_deposite`, {
@@ -309,17 +308,7 @@ const PaymentPage = () => {
                   </ul>
                 </div>
 
-                <div className="mb-4">
-                  <label className="form-label">Enter Password</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Enter your password"
-                    value={formData.tpin}
-                    onChange={(e) => setFormData({ ...formData, tpin: e.target.value })}
-                    required
-                  />
-                </div>
+               
 
                 <div className="mb-4">
                   <label className="form-label">Upload Payment Screenshot</label>
