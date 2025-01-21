@@ -180,15 +180,15 @@ const Login = () => {
                             {loading ? 'Logging in...' : 'Login'}
                         </button>
 
-                        {/* <div className="position-relative my-4">
+                        <div className="position-relative my-4">
                             <hr className="my-0" />
                             <div className="position-absolute top-50 start-50 translate-middle bg-white px-3">
                                 <span className="text-muted">OR</span>
                             </div>
-                        </div> */}
+                        </div>
 
                     </form>
-                    {/* <button
+                    <button
                         type="submit"
                         className="btn w-100  mb-3 d-flex align-items-center justify-content-center  "
                         disabled={loading}
@@ -204,7 +204,7 @@ const Login = () => {
                             )}
                         />
 
-                    </button> */}
+                    </button>
 
                     <p className="text-center text-muted mb-0">
                         Don't have an account?{' '}
