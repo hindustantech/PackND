@@ -45,7 +45,7 @@ const ForgotPassword = () => {
           onSubmit={handleSubmit}
         >
           <div className="text-center d-flex  py-2  bg-red-600 rounded w-full  aling-items-center justify-center">
-            
+
             <img
               src="/logo1.png"
               alt="Forgot Password"
@@ -107,8 +107,7 @@ const ForgotPassword = () => {
               'Change Password'
             )}
           </button>
-
-                <div className='text-red-600 text-center mt-2' onClick={() => { navigate('/login') }}> Back to Login</div>
+          <div className='text-red-600 text-center mt-2' onClick={() => { navigate('/login') }}> Back to Login</div>
         </form>
       </div>
     </>
