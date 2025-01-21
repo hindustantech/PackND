@@ -19,13 +19,27 @@ const UserProfile = () => {
 
   const [errors, setErrors] = useState({
     name: '',
-    address: ''
+    address: '',
+    dob: ''
   });
 
   const [previewImage, setPreviewImage] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+
+  // Calculate age from date of birth
+  const calculateAge = (birthDate) => {
+    const today = new Date();
+    const birth = new Date(birthDate);
+    let age = today.getFullYear() - birth.getFullYear();
+    const monthDiff = today.getMonth() - birth.getMonth();
+    
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+      age--;
+    }
+    return age;
+  };
 
   // Validation rules
   const validateField = (name, value) => {
@@ -43,6 +57,16 @@ const UserProfile = () => {
           errorMessage = 'Address cannot exceed 100 characters';
         }
         break;
+      case 'dob':
+        if (!value) {
+          errorMessage = 'Date of birth is required';
+        } else {
+          const age = calculateAge(value);
+          if (age < 13) {
+            errorMessage = 'You must be at least 13 years old to use this service';
+          }
+        }
+        break;
       default:
         break;
     }
@@ -54,7 +78,7 @@ const UserProfile = () => {
     setUser({ ...user, [field]: value });
     
     // Validate fields that have constraints
-    if (['name', 'address'].includes(field)) {
+    if (['name', 'address', 'dob'].includes(field)) {
       const errorMessage = validateField(field, value);
       setErrors(prev => ({ ...prev, [field]: errorMessage }));
     }
@@ -77,6 +101,13 @@ const UserProfile = () => {
           address: userData.address,
           id: user_id
         });
+        
+        // Validate age when loading user data
+        if (userData.dob) {
+          const dobError = validateField('dob', userData.dob);
+          setErrors(prev => ({ ...prev, dob: dobError }));
+        }
+        
         setPreviewImage(userData.image || '');
         setLoading(false);
       } catch (err) {
@@ -101,14 +132,16 @@ const UserProfile = () => {
     // Validate all fields before submission
     const nameError = validateField('name', user.name);
     const addressError = validateField('address', user.address);
+    const dobError = validateField('dob', user.dob);
 
     setErrors({
       name: nameError,
-      address: addressError
+      address: addressError,
+      dob: dobError
     });
 
     // Check if there are any validation errors
-    if (nameError || addressError) {
+    if (nameError || addressError || dobError) {
       toast.error('Please fix the validation errors before submitting');
       return;
     }
@@ -147,8 +180,12 @@ const UserProfile = () => {
             type="date"
             value={user.dob}
             onChange={(e) => handleInputChange(field, e.target.value)}
-            className="w-full p-3 border rounded-lg"
+            className={`w-full p-3 border rounded-lg ${errors.dob ? 'border-red-500' : ''}`}
+            max={new Date().toISOString().split('T')[0]} // Prevent future dates
           />
+          {errors.dob && (
+            <p className="text-red-500 text-sm mt-1">{errors.dob}</p>
+          )}
         </div>
       );
     }
@@ -227,7 +264,7 @@ const UserProfile = () => {
             <div key={field}>
               <label className="text-sm text-gray-400 block mb-1 capitalize">
                 {field}
-                {(field === 'name' || field === 'address') && (
+                {(field === 'name' || field === 'address' || field === 'dob') && (
                   <span className="text-red-500 ml-1">*</span>
                 )}
               </label>
