@@ -313,7 +313,7 @@ const Register = () => {
             </button>
 
           </form>
-
+{/* 
 
           <button
             type="submit"
@@ -331,7 +331,7 @@ const Register = () => {
               )}
             />
 
-          </button>
+          </button> */}
           <p className="text-center text-muted small">
             By creating an account, you agree to our{' '}
             <Link to="https://sites.google.com/view/packndterms" target="_blank" rel="noopener noreferrer" className="text-danger text-decoration-none" >
