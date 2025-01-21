@@ -45,7 +45,7 @@ const WalletPage = () => {
             if (!user_id) {
                 throw new Error("User ID not found in localStorage.");
             }
-           
+
 
             const response = await axios.get(`${BASE_URL}/getUserPackageHistory/${user_id}`);
             return response.data;
@@ -60,7 +60,7 @@ const WalletPage = () => {
             try {
                 const data = await getUserPackageHistory();
                 setAmount(data?.data[0]);
-                
+
             } catch (err) {
                 setError(err.message);
             }
@@ -164,11 +164,11 @@ const WalletPage = () => {
                             <div className="bg-light p-3 rounded">
                                 <div className="d-flex align-items-center gap-2">
                                     <img
-                                         src={
+                                        src={
                                             membership?.package_name
-                                              ? `/m/${membership.package_name.toLowerCase()[0]}.png`
-                                              : `/m/default.png`  // Fallback image when package name is not found
-                                          }
+                                                ? `/m/${membership.package_name.toLowerCase()[0]}.png`
+                                                : `/m/default.png`  // Fallback image when package name is not found
+                                        }
                                         className="h-4 "
                                         alt={`${membership?.package_name || "Default"} Membership`}
                                     />
@@ -180,8 +180,8 @@ const WalletPage = () => {
                                 >
                                     {membership?.package_name || "N/A"}
                                 </div>
-                                <small className="mx-1" style={{ fontSize: "0.3rem", textWrap: 'nowrap' }}>
-                                    Change Membership From Next Renewal
+                                <small className="mx-1" style={{ fontSize: "0.2rem", textWrap: 'nowrap' }}>
+                                    Change Membership on Next Renewal
                                 </small>
                             </div>
                         </div>

@@ -318,17 +318,17 @@ const Meal = () => {
                                             </small>
                                         </div>
                                         <hr className="my-2" />
-                                        <div className="d-flex flex-column gap-1">
+                                        <div className="d-flex flex-column gap-2">
                                             <div className="d-flex align-items-center ">
                                                 <img src='/nav/gift.png' className='h-2' />
-                                                <span className="badge text-dark"
-                                                    style={{ fontSize: '0.2rem', fontWeight: 'normal' }}>
+                                                <span className=" text-dark"
+                                                    style={{ fontSize: '0.2rem' }}>
                                                     Surprise Item Today!
                                                 </span>
                                                 <img src='/nav/discount.png' className='h-2' />
-                                                <span className="badge text-dark"
-                                                    style={{ fontSize: '0.2rem', fontWeight: 'normal' }}>
-                                                    Complete 5 non-stop orders and one free
+                                                <span className=" text-dark"
+                                                    style={{ fontSize: '0.2rem' }}>
+                                                    Complete 5 non-stop orders and get 1 free
                                                 </span>
                                             </div>
                                         </div>
