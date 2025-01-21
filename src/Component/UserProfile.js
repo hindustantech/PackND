@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ChevronLeft, Edit2 } from 'lucide-react';
+import { ChevronLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 const UserProfile = () => {
   const navigate = useNavigate();
 
-  // State for user data
+  // State for user data and errors
   const [user, setUser] = useState({
     name: '',
     mobile: '',
@@ -16,10 +16,49 @@ const UserProfile = () => {
     image: '',
     address: ''
   });
+
+  const [errors, setErrors] = useState({
+    name: '',
+    address: ''
+  });
+
   const [previewImage, setPreviewImage] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+
+  // Validation rules
+  const validateField = (name, value) => {
+    let errorMessage = '';
+    switch (name) {
+      case 'name':
+        if (value.length < 2) {
+          errorMessage = 'Name must be at least 2 characters long';
+        } else if (value.length > 25) {
+          errorMessage = 'Name cannot exceed 25 characters';
+        }
+        break;
+      case 'address':
+        if (value.length > 100) {
+          errorMessage = 'Address cannot exceed 100 characters';
+        }
+        break;
+      default:
+        break;
+    }
+    return errorMessage;
+  };
+
+  // Handle input change with validation
+  const handleInputChange = (field, value) => {
+    setUser({ ...user, [field]: value });
+    
+    // Validate fields that have constraints
+    if (['name', 'address'].includes(field)) {
+      const errorMessage = validateField(field, value);
+      setErrors(prev => ({ ...prev, [field]: errorMessage }));
+    }
+  };
 
   // Fetch user data from API
   useEffect(() => {
@@ -57,9 +96,22 @@ const UserProfile = () => {
     setPreviewImage(URL.createObjectURL(file));
   };
 
-  // Handle form submission
+  // Handle form submission with validation
   const handleSubmit = async () => {
+    // Validate all fields before submission
+    const nameError = validateField('name', user.name);
+    const addressError = validateField('address', user.address);
 
+    setErrors({
+      name: nameError,
+      address: addressError
+    });
+
+    // Check if there are any validation errors
+    if (nameError || addressError) {
+      toast.error('Please fix the validation errors before submitting');
+      return;
+    }
 
     const formData = new FormData();
     Object.keys(user).forEach((key) => {
@@ -71,20 +123,81 @@ const UserProfile = () => {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       toast.success('Profile updated successfully!');
+      setSuccessMessage('Profile updated successfully!');
+      
+      // Clear success message after 3 seconds
+      setTimeout(() => {
+        setSuccessMessage('');
+      }, 3000);
     } catch (err) {
       console.error('Failed to update user data:', err);
       setError('Failed to update profile.');
+      toast.error('Failed to update profile');
     }
   };
 
-  // if (loading) return <div>Loading...</div>;
-  // if (error) return <div>{error}</div>;
+  // Render form fields with specific conditions
+  const renderFormField = (field) => {
+    const isReadOnly = field === 'email' || (field === 'mobile' && user.mobile);
+    
+    if (field === 'dob') {
+      return (
+        <div>
+          <input
+            type="date"
+            value={user.dob}
+            onChange={(e) => handleInputChange(field, e.target.value)}
+            className="w-full p-3 border rounded-lg"
+          />
+        </div>
+      );
+    }
+
+    return (
+      <div>
+        <input
+          type="text"
+          value={user[field] || ''}
+          onChange={(e) => handleInputChange(field, e.target.value)}
+          className={`w-full p-3 border rounded-lg ${isReadOnly ? 'bg-gray-100' : ''} 
+            ${errors[field] ? 'border-red-500' : ''}`}
+          readOnly={isReadOnly}
+          maxLength={field === 'name' ? 25 : field === 'address' ? 100 : undefined}
+          placeholder={`Enter your ${field}`}
+        />
+        {errors[field] && (
+          <p className="text-red-500 text-sm mt-1">{errors[field]}</p>
+        )}
+      </div>
+    );
+  };
+
+  // Loading state
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-xl text-gray-600">Loading...</div>
+      </div>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-xl text-red-600">{error}</div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <div className="flex items-center p-4 bg-red-600">
-        <ChevronLeft className="w-6 h-6 mr-2 text-white" onClick={() => navigate('/profile')} />
+        <ChevronLeft 
+          className="w-6 h-6 mr-2 text-white cursor-pointer" 
+          onClick={() => navigate('/profile')} 
+        />
         <h1 className="text-xl text-white">Your Profile</h1>
       </div>
 
@@ -93,16 +206,18 @@ const UserProfile = () => {
         <div className="flex justify-center mb-8">
           <div className="relative">
             {previewImage ? (
-              <img src={previewImage} alt="Profile" className="w-20 h-20 rounded-full object-cover" />
+              <img 
+                src={previewImage} 
+                alt="Profile" 
+                className="w-20 h-20 rounded-full object-cover border-2 border-gray-200"
+              />
             ) : (
-              <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center">
-                <span className="text-4xl text-blue-600">{user.name.charAt(0)}</span>
+              <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center border-2 border-gray-200">
+                <span className="text-4xl text-blue-600">
+                  {user.name ? user.name.charAt(0).toUpperCase() : '?'}
+                </span>
               </div>
             )}
-            {/* <label className="absolute bottom-0 right-0 p-1 bg-white rounded-full border cursor-pointer">
-              {/* <Edit2 className="w-4 h-4 text-gray-600" /> */}
-            {/* <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" /> */}
-            {/* </label> */}
           </div>
         </div>
 
@@ -110,37 +225,33 @@ const UserProfile = () => {
         <div className="space-y-5">
           {['name', 'mobile', 'email', 'dob', 'address'].map((field) => (
             <div key={field}>
-              <label className="text-sm text-gray-400 block mb-1 capitalize">{field}</label>
-              {field === 'dob' ? (
-                <input
-                  type="date"
-                  value={user.dob}
-                  onChange={(e) => setUser({ ...user, dob: e.target.value })}
-                  className="w-full p-3 border rounded-lg"
-                />
-              ) : (
-                <input
-                  type="text"
-                  value={user[field] || ''}
-                  onChange={(e) => setUser({ ...user, [field]: e.target.value })}
-                  className="w-full p-3 border rounded-lg"
-                />
-              )}
+              <label className="text-sm text-gray-400 block mb-1 capitalize">
+                {field}
+                {(field === 'name' || field === 'address') && (
+                  <span className="text-red-500 ml-1">*</span>
+                )}
+              </label>
+              {renderFormField(field)}
             </div>
           ))}
         </div>
 
-
         {/* Submit Button */}
         <button
           onClick={handleSubmit}
-          className="w-full mt-5 p-3 bg-red-600 text-white rounded-lg"
+          className="w-full mt-8 p-3 bg-red-600 text-white rounded-lg hover:bg-red-700 
+            transition-colors duration-200 focus:outline-none focus:ring-2 
+            focus:ring-red-500 focus:ring-offset-2"
         >
           Save Changes
         </button>
 
         {/* Success Message */}
-        {successMessage && <div className="text-green-600 mt-3">{successMessage}</div>}
+        {successMessage && (
+          <div className="mt-4 p-3 bg-green-100 text-green-700 rounded-lg text-center">
+            {successMessage}
+          </div>
+        )}
       </div>
     </div>
   );

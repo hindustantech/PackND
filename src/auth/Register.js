@@ -119,23 +119,24 @@ const Register = () => {
     }
 
     const phoneRegex = /^[0-9]{10}$/;
-    const nameRegex = /^[A-Za-z\s]{2,}$/;
-    // const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    const nameRegex = /^[A-Za-z\s]{2,25}$/;
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
 
+    
     if (!phoneRegex.test(formData.mobile)) {
       toast.error('Phone number must be exactly 10 digits.');
       return;
     }
 
-    if (!nameRegex.test(formData.name)) {
-      toast.error('Name must contain only letters and be at least 2 characters long.');
+  if (!nameRegex.test(formData.name)) {
+    toast.error('Name must contain only letters and spaces, with 2 to 25 characters.');
+    return;
+  }
+
+    if (!passwordRegex.test(formData.password)) {
+      toast.error('Password must be at least 8 characters long and contain both letters and numbers.');
       return;
     }
-
-    // if (!passwordRegex.test(formData.password)) {
-    //   toast.error('Password must be at least 8 characters long and contain both letters and numbers.');
-    //   return;
-    // }
 
     try {
       setLoading(true);

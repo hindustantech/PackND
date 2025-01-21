@@ -92,7 +92,9 @@ const Meal = () => {
             try {
                 const data = await getUserPackageAndMenu();
                 const userPackage = data.data.user_package;
+
                 setMembership(userPackage);
+
 
                 if (!userPackage) {
                     setShowMembershipModal(true);
@@ -234,9 +236,9 @@ const Meal = () => {
                                 }
                             }}
                         >
-                            {showBalance ? `${UserData?.my_package} INR` : 'Show Balance'}
+                            {showBalance ? ` ₹ ${Math.trunc(Membership?.balance_amount || 0)}` : 'Show Balance'}
                         </button>
-
+                        
 
                     </div>
 
