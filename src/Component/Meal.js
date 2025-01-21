@@ -223,12 +223,20 @@ const Meal = () => {
                             </div>
                         </div>
                         <button
-                            className="btn btn-outline-danger rounded-3 text-black "
+                            className="btn btn-outline-danger rounded-3 text-black"
                             style={{ fontSize: '10px', backgroundColor: '#FFD3D3' }}
-                            onClick={() => setShowBalance(!showBalance)}
+                            onClick={() => {
+                                if (UserData?.my_package === 0) {
+                                    // Redirect to the wallet page
+                                    window.location.href = '/wallet';
+                                } else {
+                                    setShowBalance(!showBalance);
+                                }
+                            }}
                         >
-                            {showBalance ? `Balance: ${UserData?.wallet_balance || 0} INR` : 'Show Balance'}
+                            {showBalance ? `${UserData?.my_package} INR` : 'Show Balance'}
                         </button>
+
 
                     </div>
 
