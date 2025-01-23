@@ -36,6 +36,7 @@ const ChangePassword = () => {
 
     if (!passwordRegex.test(formData.password)) {
       toast.error('Password must be at least 8 characters long and contain both letters and numbers.');
+      setLoading(false);
       return;
     }
 
