@@ -235,7 +235,7 @@ const UserProfile = () => {
           className="w-6 h-6 mr-2 text-white cursor-pointer" 
           onClick={() => navigate('/profile')} 
         />
-        <h1 className="text-xl text-white">Your Profile</h1>
+        <h1 className="text-xl text-white text-centent">Your Profile</h1>
       </div>
 
       <div className="max-w-xl mx-auto p-4">

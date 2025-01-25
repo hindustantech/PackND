@@ -107,7 +107,7 @@ const ForgotPassword = () => {
               'Change Password'
             )}
           </button>
-          <div className='text-red-600 text-center mt-2' onClick={() => { navigate('/login') }}> Back to Login</div>
+          <div className='text-red-600 text-center mt-2' onClick={() => { navigate('/login') }}> Back to Sign in</div>
         </form>
       </div>
     </>
