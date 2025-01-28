@@ -1,11 +1,10 @@
-
-import React,{useEffect} from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import './index.css';
-import './App.css'; // Import the CSS file in your App.js
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
+import "./index.css";
+import "./App.css"; // Import the CSS file in your App.js
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { GoogleAuth } from "@codetrix-studio/capacitor-google-auth";
 import Profile from "./Component/Profile";
 import WalletPage from "./Component/WalletPage";
 import History from "./Component/History";
@@ -31,16 +30,16 @@ function App() {
 
   useEffect(() => {
     handleEnableNotifications();
-
   }, []);
 
+  useEffect(() => {
+    GoogleAuth.initialize(); // Initialize Google Sign-In when the app loads
+  }, []);
   return (
     <div className="App">
-
       <ToastContainer />
       <Router>
         <Routes>
-
           <Route path="/profile" element={<Profile />} />
           <Route path="/ref" element={<Referal />} />
 
@@ -57,12 +56,8 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/OTP" element={<OTP />} />
           <Route path="/ChangePassword" element={<ChangePassword />} />
-
-
-
         </Routes>
       </Router>
-
     </div>
   );
 }

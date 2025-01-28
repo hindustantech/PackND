@@ -4,4 +4,7 @@
     <string name="title_activity_main">packND</string>
     <string name="package_name">com.packndtiffin.app</string>
     <string name="custom_url_scheme">com.packndtiffin.app</string>
+
+
+    <string name="server_client_id">1049011506017-9lirq54k372991r8pvo8vumjvovm4r4a.apps.googleusercontent.com</string>
 </resources>
