@@ -119,19 +119,27 @@ const Register = () => {
     }
 
     const phoneRegex = /^[0-9]{10}$/;
+
     const nameRegex = /^[A-Za-z\s]{2,25}$/;
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
 
-    
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    if (!emailRegex.test(formData.email)) {
+      toast.error('Email is not valid');
+      return;
+    }
+
+
     if (!phoneRegex.test(formData.mobile)) {
       toast.error('Phone number must be exactly 10 digits.');
       return;
     }
 
-  if (!nameRegex.test(formData.name)) {
-    toast.error('Name must contain only letters and spaces, with 2 to 25 characters.');
-    return;
-  }
+    if (!nameRegex.test(formData.name)) {
+      toast.error('Name must contain only letters and spaces, with 2 to 25 characters.');
+      return;
+    }
 
     if (!passwordRegex.test(formData.password)) {
       toast.error('Password must be at least 8 characters long and contain both letters and numbers.');

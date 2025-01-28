@@ -34,7 +34,7 @@ const UserProfile = () => {
     const birth = new Date(birthDate);
     let age = today.getFullYear() - birth.getFullYear();
     const monthDiff = today.getMonth() - birth.getMonth();
-    
+
     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
       age--;
     }
@@ -76,7 +76,7 @@ const UserProfile = () => {
   // Handle input change with validation
   const handleInputChange = (field, value) => {
     setUser({ ...user, [field]: value });
-    
+
     // Validate fields that have constraints
     if (['name', 'address', 'dob'].includes(field)) {
       const errorMessage = validateField(field, value);
@@ -101,13 +101,13 @@ const UserProfile = () => {
           address: userData.address,
           id: user_id
         });
-        
+
         // Validate age when loading user data
         if (userData.dob) {
           const dobError = validateField('dob', userData.dob);
           setErrors(prev => ({ ...prev, dob: dobError }));
         }
-        
+
         setPreviewImage(userData.image || '');
         setLoading(false);
       } catch (err) {
@@ -157,7 +157,7 @@ const UserProfile = () => {
       });
       toast.success('Profile updated successfully!');
       setSuccessMessage('Profile updated successfully!');
-      
+
       // Clear success message after 3 seconds
       setTimeout(() => {
         setSuccessMessage('');
@@ -172,7 +172,7 @@ const UserProfile = () => {
   // Render form fields with specific conditions
   const renderFormField = (field) => {
     const isReadOnly = field === 'email' || (field === 'mobile' && user.mobile);
-    
+
     if (field === 'dob') {
       return (
         <div>
@@ -230,22 +230,23 @@ const UserProfile = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="flex items-center p-4 bg-red-600">
-        <ChevronLeft 
-          className="w-6 h-6 mr-2 text-white cursor-pointer" 
-          onClick={() => navigate('/profile')} 
+      <div className="flex items-center justify-center p-4 bg-red-600 relative">
+        <ChevronLeft
+          className="w-6 h-6 text-white cursor-pointer absolute left-4"
+          onClick={() => navigate('/profile')}
         />
-        <h1 className="text-xl text-white text-centent">Your Profile</h1>
+        <h1 className="text-xl text-white">Your Profile</h1>
       </div>
+
 
       <div className="max-w-xl mx-auto p-4">
         {/* Profile Avatar */}
         <div className="flex justify-center mb-8">
           <div className="relative">
             {previewImage ? (
-              <img 
-                src={previewImage} 
-                alt="Profile" 
+              <img
+                src={previewImage}
+                alt="Profile"
                 className="w-20 h-20 rounded-full object-cover border-2 border-gray-200"
               />
             ) : (
@@ -262,7 +263,7 @@ const UserProfile = () => {
         <div className="space-y-5">
           {['name', 'mobile', 'email', 'dob', 'address'].map((field) => (
             <div key={field}>
-            
+
               {renderFormField(field)}
             </div>
           ))}
@@ -279,11 +280,11 @@ const UserProfile = () => {
         </button>
 
         {/* Success Message */}
-        {successMessage && (
+        {/* {successMessage && (
           <div className="mt-4 p-3 bg-green-100 text-green-700 rounded-lg text-center">
             {successMessage}
           </div>
-        )}
+        )} */}
       </div>
     </div>
   );
