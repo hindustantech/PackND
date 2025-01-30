@@ -238,7 +238,7 @@ const Meal = () => {
                         >
                             {showBalance ? ` ₹ ${Math.trunc(Membership?.balance_amount || 0)}` : 'Show Balance'}
                         </button>
-                        
+
 
                     </div>
 
@@ -319,17 +319,19 @@ const Meal = () => {
                                         </div>
                                         <hr className="my-2" />
                                         <div className="d-flex flex-column gap-2">
-                                            <div className="d-flex align-items-center ">
-                                                <img src='/nav/gift.png' className='h-2' />
-                                                <span className=" text-dark"
-                                                    style={{ fontSize: '0.2rem' }}>
-                                                    Surprise Item Today!
-                                                </span>
-                                                <img src='/nav/discount.png' className='h-2' />
-                                                <span className=" text-dark"
-                                                    style={{ fontSize: '0.2rem' }}>
-                                                    Complete 5 non-stop orders and get 1 free
-                                                </span>
+                                            <div className="d-flex align-items-center flex-wrap">
+                                                <div className="d-flex align-items-center me-2">
+                                                    <img src='/nav/gift.png' className='h-2' />
+                                                    <span className="text-dark ms-1" style={{ fontSize: '0.2rem' }}>
+                                                        Surprise Item Today!
+                                                    </span>
+                                                </div>
+                                                <div className="d-flex align-items-center">
+                                                    <img src='/nav/discount.png' className='h-2' />
+                                                    <span className="text-dark ms-1" style={{ fontSize: '0.2rem' }}>
+                                                        Complete 5 non-stop orders and get 1 free
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

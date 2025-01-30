@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "783045027871-24ql3d901b6nfpt8p1tso92ouq700a69.apps.googleusercontent.com",
+          "client_id": "783045027871-sbf0rm0p58u24vmdv1p4ojt3lm0bsdo1.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.packndtiffin.app",
-            "certificate_hash": "7a0660254b55d9e135fff5c44ee78a9c880a0c81"
+            "certificate_hash": "13f4f05d2c9997b87f9d45304f304bc1063a1014"
           }
         },
         {
