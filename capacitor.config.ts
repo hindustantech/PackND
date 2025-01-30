@@ -1,7 +1,8 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.packndt.app',
+  // appId: 'com.packndt.app',
+   appId:'1:783045027871:android:348fab21d038487c760d2a',
   appName: 'packnd',
   webDir: 'build',
   plugins: {
