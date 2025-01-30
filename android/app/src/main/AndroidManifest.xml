@@ -35,7 +35,8 @@
 
             <meta-data
                 android:name="com.google.android.gms.auth.api.signin.CLIENT_ID"
-                android:value="@string/server_client_id" />
+                android:value="@string/default_web_client_id" />
+
             <meta-data
                 android:name="com.google.android.gms.auth.api.credentials.ClientId"
                 android:value="783045027871-24ql3d901b6nfpt8p1tso92ouq700a69.apps.googleusercontent.com" />

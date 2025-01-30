@@ -21,6 +21,7 @@ import ForgotPassword from "./auth/ForgotPassword";
 import OTP from "./auth/OTP";
 import ChangePassword from "./auth/ChangePassword";
 import { requestPermission, listenForMessages } from "./firebase-notification";
+const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
 function App() {
   const handleEnableNotifications = async () => {
@@ -33,7 +34,11 @@ function App() {
   }, []);
 
   useEffect(() => {
-    GoogleAuth.initialize(); // Initialize Google Sign-In when the app loads
+    GoogleAuth.initialize({
+      clientId: GOOGLE_CLIENT_ID, // Ensure you pass the client ID
+      scopes: ["profile", "email"],
+      grantOfflineAccess: true, // Ensures refresh token is available
+    });
   }, []);
   return (
     <div className="App">

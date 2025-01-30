@@ -6,5 +6,6 @@
     <string name="custom_url_scheme">com.packndtiffin.app</string>
 
 
-    <string name="server_client_id">783045027871-24ql3d901b6nfpt8p1tso92ouq700a69.apps.googleusercontent.com</string>
+   <string name="server_client_id">783045027871-24ql3d901b6nfpt8p1tso92ouq700a69.apps.googleusercontent.com</string>
+
 </resources>

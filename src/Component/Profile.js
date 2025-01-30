@@ -27,7 +27,7 @@ const Profile = () => {
       const data = await response.json();
       return data;
     } catch (error) {
-     
+
       throw error;
     }
   };
@@ -55,59 +55,60 @@ const Profile = () => {
       toast.error("User ID not found");
       return null;
     }
-
+  
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/updateMealStatus`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          user_id: user_id,
-          meal_status: mealStatus
-        }),
-      });
-
-
-     
-
+      const response = await fetch(
+        `${process.env.REACT_APP_API_BASE_URL}/updateMealStatus`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            user_id: user_id,
+            meal_status: mealStatus, // Send inverted meal status
+          }),
+        }
+      );
+  
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to update meal status');
+        throw new Error(errorData.message || "Failed to update meal status");
       }
-
+  
       const result = await response.json();
-
-      if (result.status === 'success') {
+  
+      if (result.status === "success") {
         toast.success(result.message);
         return result.data;
       } else {
-        throw new Error(result.message || 'Failed to update meal status');
+        throw new Error(result.message || "Failed to update meal status");
       }
     } catch (error) {
       toast.error(error.message);
-      throw error;
+      return null; // Return null instead of throwing error
     }
   };
-
+  
   const togglePauseMeal = async () => {
     if (isLoading) return;
-    
+  
     setIsLoading(true);
     try {
-      const newStatus = !isPaused;
-      const result = await handlePauseTodayMeal(!newStatus); // Invert status since isPaused is opposite of meal_status
-
+      const newStatus = !isPaused; // Toggle status
+      const result = await handlePauseTodayMeal(!newStatus); // Send inverted status
+  
       if (result) {
-        setIsPaused(!result.meal_status); // Set isPaused to opposite of meal_status
+        setIsPaused(!result.meal_status); // Invert the stored state
       }
     } catch (error) {
-      // Error already handled in handlePauseTodayMeal
-      setIsPaused(isPaused); // Revert to previous state
+      toast.error("Something went wrong. Please try again.");
     } finally {
       setIsLoading(false);
     }
   };
+  
+
 
   return (
     <>
@@ -166,8 +167,8 @@ const Profile = () => {
         {/* Main Content */}
         <div className="container">
           <div className="p-3 mb-3 d-flex justify-content-between align-items-center rounded"
-               style={{ backgroundColor: "#FFFFFF" }}
-               onClick={() => { navigate('/user') }}>
+            style={{ backgroundColor: "#FFFFFF" }}
+            onClick={() => { navigate('/user') }}>
             <span style={{ fontSize: '14px' }}>Your Profile</span>
             <img className='h-6' src='/nav/Pencil.png' alt="Edit" />
           </div>
@@ -180,16 +181,21 @@ const Profile = () => {
             <span style={{ fontSize: "14px" }}>
               {isPaused ? "Meal Paused" : "Meal Active"}
             </span>
+
+            {/* Accessible Toggle Switch */}
             <label className="meal-toggle-switch">
               <input
                 type="checkbox"
+                id="mealToggle"
                 checked={!isPaused}
                 onChange={togglePauseMeal}
                 disabled={isLoading}
+                aria-label="Toggle Meal Status"
               />
               <span className="meal-slider meal-round"></span>
             </label>
           </div>
+
 
           {/* Rewards Section */}
           <div className="mb-4" style={{ backgroundColor: "#FFFFFF" }}>
@@ -199,7 +205,7 @@ const Profile = () => {
               </h2>
               <div>
                 <div className="d-flex justify-content-between align-items-center mx-2"
-                     onClick={() => { navigate('/ref') }}>
+                  onClick={() => { navigate('/ref') }}>
                   <span style={{ fontSize: '10px' }}>Refer a friend</span>
                   <ChevronRight className="text-muted" size={20} />
                 </div>
@@ -217,7 +223,7 @@ const Profile = () => {
               </h2>
               <div>
                 <div className="d-flex justify-content-between align-items-center mx-2 mb-3"
-                     onClick={() => { navigate('/ContactUs') }}>
+                  onClick={() => { navigate('/ContactUs') }}>
                   <span style={{ fontSize: '10px' }}>Contact Us</span>
                   <ChevronRight className="text-muted" size={20} />
                 </div>
