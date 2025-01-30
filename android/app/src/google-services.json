@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "783045027871",
+    "project_id": "packnd-694ba",
+    "storage_bucket": "packnd-694ba.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:783045027871:android:348fab21d038487c760d2a",
+        "android_client_info": {
+          "package_name": "com.packndtiffin.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "783045027871-24ql3d901b6nfpt8p1tso92ouq700a69.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.packndtiffin.app",
+            "certificate_hash": "7a0660254b55d9e135fff5c44ee78a9c880a0c81"
+          }
+        },
+        {
+          "client_id": "783045027871-5bv1kiereils6qhvenum0luqcl6lj4ve.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEiktyhHM8QAXGT4dDCLbTp61-TulHKfM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "783045027871-5bv1kiereils6qhvenum0luqcl6lj4ve.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
