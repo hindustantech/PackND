@@ -1,7 +1,7 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.packndtiffin.app',
+  appId: 'com.packndt.app',
   appName: 'packnd',
   webDir: 'build',
   plugins: {
