@@ -322,7 +322,7 @@ const PaymentPage = () => {
                         required
                       />
                       <small className="text-muted d-block mt-2">
-                        PNG, JPG, JPEG,GIF
+                        PNG, JPG, JPEG
                       </small>
                     </div>
                   </div>
