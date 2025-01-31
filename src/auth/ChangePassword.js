@@ -33,12 +33,14 @@ const ChangePassword = () => {
     }
 
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
+    
 
-    if (!passwordRegex.test(formData.password)) {
+    if (!passwordRegex.test(formData.newPassword)) {
       toast.error('Password must be at least 8 characters long and contain both letters and numbers.');
       setLoading(false);
       return;
     }
+
 
     try {
       const resetPasswordData = new FormData();
