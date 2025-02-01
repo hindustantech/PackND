@@ -79,7 +79,7 @@ const Login = () => {
       const user = await signInWithGoogle();
 
       // Step 2: Extract user details from the Firebase user object
-      const { displayName, email, photoURL, uid } = user;
+      const { displayName, email } = user;
 
       if (!displayName || !email) {
         throw new Error("Failed to retrieve user details from Google.");
@@ -105,7 +105,7 @@ const Login = () => {
           : toast.success("Login Successful!");
 
         // Redirect to home page or dashboard
-        navigate("/");
+        navigate("/"); // Redirect to home page
       } else {
         throw new Error("Login failed. Please try again.");
       }

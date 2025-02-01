@@ -13,4 +13,4 @@ export const signInWithGoogle = async () => {
     console.error("Error during Google Sign-In:", error);
     throw error;
   }
-};
+};   //it    working fine but in the   app  redrirect it in the web  fix  it
