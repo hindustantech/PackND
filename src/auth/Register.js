@@ -3,7 +3,7 @@ import { User, Mail, Phone, Calendar, Lock, ArrowRight, Eye, EyeOff, LocateIcon,
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { GoogleLogin } from '@react-oauth/google';
+// import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from "jwt-decode";
 
 const Register = () => {

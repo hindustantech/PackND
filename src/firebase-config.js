@@ -1,21 +1,24 @@
-// src/firebase-config.js
-import { initializeApp } from "firebase/app";
+import { initializeApp, getApp, getApps } from "firebase/app";
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 
 const firebaseConfig = {
- apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  apiKey: "AIzaSyDEiktyhHM8QAXGT4dDCLbTp61-TulHKfM",
+  authDomain: "packnd-694ba.firebaseapp.com",
+  projectId: "packnd-694ba",
+  storageBucket: "packnd-694ba.appspot.com",
+  messagingSenderId: "783045027871",
+  appId: "1:783045027871:android:348fab21d038487c760d2a",
   measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
-
 };
-  
 
-const app = initializeApp(firebaseConfig);
-const messaging = getMessaging(app);
+// Initialize Firebase only if it hasn't been initialized already
+const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 
+// Initialize Firebase services
+const auth = getAuth(app);
+const messaging = getMessaging(app); // Initialize messaging
+// const googleProvider = new GoogleAuthProvider();
 
-export { messaging, getToken, onMessage, };
+// Export Firebase services
+export { auth, messaging, getToken, onMessage };

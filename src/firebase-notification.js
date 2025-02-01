@@ -13,24 +13,24 @@ const requestPermission = async () => {
 
         const userid = localStorage.getItem('id');
         const permission = await Notification.requestPermission();
-        
+
         if (permission !== "granted") {
 
             return;
         }
-            
 
-        const token = await getToken(messaging, { vapidKey:"BFLbI9od549I2z-vq8QaSqgpZHRhGxIEtgYqwlTVNSccoHvhLLUuMSMj1bpc4W-CwsDA9gN5iWnQI4YvWWAb6cA" });
-        
+
+        const token = await getToken(messaging, { vapidKey: "BFLbI9od549I2z-vq8QaSqgpZHRhGxIEtgYqwlTVNSccoHvhLLUuMSMj1bpc4W-CwsDA9gN5iWnQI4YvWWAb6cA" });
+
 
         if (token) {
-            
+
             await sendTokenToServer(userid, token);
         } else {
-                console.log("token Not Get")
+            console.log("token Not Get")
         }
     } catch (error) {
-        console.log("Error",error)
+        console.log("Error", error)
     }
 };
 
@@ -43,7 +43,7 @@ const sendTokenToServer = async (userid, token) => {
             token
         });
 
-        
+
 
 
     } catch (error) {

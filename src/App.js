@@ -4,7 +4,6 @@ import "./index.css";
 import "./App.css"; // Import the CSS file in your App.js
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { GoogleAuth } from "@codetrix-studio/capacitor-google-auth";
 import Profile from "./Component/Profile";
 import WalletPage from "./Component/WalletPage";
 import History from "./Component/History";
@@ -33,13 +32,7 @@ function App() {
     handleEnableNotifications();
   }, []);
 
-  useEffect(() => {
-    GoogleAuth.initialize({
-      clientId: GOOGLE_CLIENT_ID, // Ensure you pass the client ID
-      scopes: ["profile", "email"],
-      grantOfflineAccess: true, // Ensures refresh token is available
-    });
-  }, []);
+ 
   return (
     <div className="App">
       <ToastContainer />

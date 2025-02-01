@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { GoogleLogin } from '@react-oauth/google';
+// import { GoogleLogin } from '@react-oauth/google';
+import { signInWithGoogle } from '../services/authService';
 import { jwtDecode } from "jwt-decode";
 import axios from 'axios';
-import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
+
 // import { toast } from 'react-toastify';
 
 const Login = () => {
@@ -71,71 +72,66 @@ const Login = () => {
   };
   // Login With Google
 
-  // const handleGoogleLogin = async () => {
-  //   try {
-  //     // Step 1: Perform Google Sign-In via Capacitor plugin
-  //     const user = await GoogleAuth.signIn();
+  const handleGoogleLogin = async () => {
 
-  //     if (!user || !user.idToken) {
-  //       throw new Error("Google login failed. No ID token received.");
-  //     }
+    try {
+      // Step 1: Perform Google Sign-In using Firebase auth service
+      const user = await signInWithGoogle();
 
-  //     // Step 2: Extract user details from the JWT token
-  //     const decodedData = jwtDecode(user.idToken);
+      // Step 2: Extract user details from the Firebase user object
+      const { displayName, email, photoURL, uid } = user;
 
-  //     if (!decodedData || !decodedData.name || !decodedData.email) {
-  //       throw new Error("Failed to retrieve user details from Google.");
-  //     }
+      if (!displayName || !email) {
+        throw new Error("Failed to retrieve user details from Google.");
+      }
 
-  //     const { name, email } = decodedData;
+      // Step 3: Send the user's data to the Laravel backend for authentication
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_BASE_URL}/login_google`,
+        { name: displayName, email }
+      );
 
-  //     // Step 3: Send data to Laravel backend for authentication
-  //     const response = await axios.post(
-  //       `${process.env.REACT_APP_API_BASE_URL}/login_google`,
-  //       { name, email }
-  //     );
+      // Step 4: Handle successful login or registration
+      if (response.status === 200 || response.status === 201) {
+        const { token, user_id } = response.data;
 
-  //     // Step 4: Handle successful login or registration
-  //     if (response.status === 200 || response.status === 201) {
-  //       const { token, user_id } = response.data;
+        // Store authentication details in localStorage
+        localStorage.setItem("token", token);
+        localStorage.setItem("id", user_id);
 
-  //       // Store authentication details
-  //       localStorage.setItem("token", token);
-  //       localStorage.setItem("id", user_id);
+        // Show success toast based on registration or login
+        response.status === 201
+          ? toast.success("Registration Successful!")
+          : toast.success("Login Successful!");
 
-  //       // Show success toast based on status
-  //       response.status === 201
-  //         ? toast.success("Registration Successful!")
-  //         : toast.success("Login Successful!");
+        // Redirect to home page or dashboard
+        navigate("/");
+      } else {
+        throw new Error("Login failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error during Google login:", error);
 
-  //       // Redirect to home page
-  //       navigate("/");
-  //     } else {
-  //       throw new Error("Login failed. Please try again.");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error during Google login:", error);
-
-  //     // Step 5: Handle different types of errors
-  //     if (axios.isAxiosError(error)) {
-  //       if (error.response) {
-  //         console.error("Response Error:", error.response.data);
-  //         toast.error(
-  //           `Server Error: ${error.response.data.message || "Please try again."}`
-  //         );
-  //       } else if (error.request) {
-  //         console.error("Request Error:", error.request);
-  //         toast.error("No response from server. Check your internet connection.");
-  //       } else {
-  //         console.error("Axios Error:", error.message);
-  //         toast.error("Unexpected error. Please try again later.");
-  //       }
-  //     } else {
-  //       console.error("General Error:", error.message);
-  //       toast.error(error.message || "Unexpected error. Please try again.");
-  //     }
-  //   }
-  // };
+      // Step 5: Handle different types of errors
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          console.error("Response Error:", error.response.data);
+          toast.error(
+            `Server Error: ${error.response.data.message || "Please try again."}`
+          );
+        } else if (error.request) {
+          console.error("Request Error:", error.request);
+          toast.error("No response from server. Check your internet connection.");
+        } else {
+          console.error("Axios Error:", error.message);
+          toast.error("Unexpected error. Please try again later.");
+        }
+      } else {
+        console.error("General Error:", error.message);
+        toast.error(error.message || "Unexpected error. Please try again.");
+      }
+    }
+  };
 
 
 
@@ -285,7 +281,7 @@ const Login = () => {
 
                     </button> */}
 
-          {/* <button
+          <button
             className="btn w-100 mb-3 d-flex align-items-center justify-content-center"
             onClick={handleGoogleLogin}
           >
@@ -296,7 +292,7 @@ const Login = () => {
               style={{ height: "24px", width: "24px" }}
               alt="Google Login"
             />
-          </button> */}
+          </button>
 
           <p className="text-center text-muted mb-0">
             Don't have an account?{" "}
