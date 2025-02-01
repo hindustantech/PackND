@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 // import { GoogleLogin } from '@react-oauth/google';
+import { signInWithGoogle } from '../services/authService';
 import { jwtDecode } from "jwt-decode";
 
 const Register = () => {
@@ -37,6 +38,8 @@ const Register = () => {
 
     fetchUser();
   }, []);
+
+
 
   const calculateAge = (birthDate) => {
     const today = new Date();
@@ -99,6 +102,68 @@ const Register = () => {
     } catch (error) {
       console.error("Error during Google login:", error);
       toast.error("An error occurred. Please try again later.");
+    }
+  };
+
+
+  const handleGoogleLogin = async () => {
+
+    try {
+      // Step 1: Perform Google Sign-In using Firebase auth service
+      const user = await signInWithGoogle();
+
+      // Step 2: Extract user details from the Firebase user object
+      const { displayName, email } = user;
+
+      if (!displayName || !email) {
+        throw new Error("Failed to retrieve user details from Google.");
+      }
+
+      // Step 3: Send the user's data to the Laravel backend for authentication
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_BASE_URL}/login_google`,
+        { name: displayName, email }
+      );
+
+      // Step 4: Handle successful login or registration
+      if (response.status === 200 || response.status === 201) {
+        const { token, user_id } = response.data;
+
+        // Store authentication details in localStorage
+        localStorage.setItem("token", token);
+        localStorage.setItem("id", user_id);
+
+        // Show success toast based on registration or login
+        response.status === 201
+          ? toast.success("Registration Successful!")
+          : toast.success("Login Successful!");
+
+        // Redirect to home page or dashboard
+        navigate("/"); // Redirect to home page
+      } else {
+        throw new Error("Login failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error during Google login:", error);
+
+      // Step 5: Handle different types of errors
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          console.error("Response Error:", error.response.data);
+          toast.error(
+            `Server Error: ${error.response.data.message || "Please try again."}`
+          );
+        } else if (error.request) {
+          console.error("Request Error:", error.request);
+          toast.error("No response from server. Check your internet connection.");
+        } else {
+          console.error("Axios Error:", error.message);
+          toast.error("Unexpected error. Please try again later.");
+        }
+      } else {
+        console.error("General Error:", error.message);
+        toast.error(error.message || "Unexpected error. Please try again.");
+      }
     }
   };
 
@@ -334,23 +399,18 @@ const Register = () => {
           </form>
 
 
-          {/* <button
-            type="submit"
-            className="btn w-100  mb-3 d-flex align-items-center justify-content-center  "
-            disabled={loading}
+          <button
+            className="btn w-100 mb-3 d-flex align-items-center justify-content-center"
+            onClick={handleGoogleLogin}
           >
-
-            <GoogleLogin onSuccess={onSuccess}
-              useOneTap
-              render={(renderProps) => (
-                <button onClick={renderProps.onClick} disabled={renderProps.disabled} className="btn w-100 mb-3 d-flex align-items-center justify-content-center">
-                  <img src="/g.png" className="h-10 w-10" alt="Google Login" />
-                  Login with Google
-                </button>
-              )}
+            Sign in with Google
+            <img
+              src="/g.png"
+              className="ms-2" // Add left margin for spacing
+              style={{ height: "24px", width: "24px" }}
+              alt="Google Login"
             />
-
-          </button> */}
+          </button>
           <p className="text-center text-muted small">
             By creating an account, you agree to our{' '}
             <Link to="https://sites.google.com/view/packndterms" target="_blank" rel="noopener noreferrer" className="text-danger text-decoration-none">
