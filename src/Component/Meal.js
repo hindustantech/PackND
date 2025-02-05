@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Nav from './Nav';
-import { Package, Gift, Sun, Moon, Award } from 'lucide-react';
+import { Package, Gift, Sun, Moon, Award, User } from 'lucide-react';
 import Lunch from './Lunch';
 import Dinner from './Dinner';
 import TrailMeal from './TrailMeal';
+import { NavLink } from 'react-router-dom';
+import Coupon from './Coupon';
 
 const Meal = () => {
     const [mealTime, setMealTime] = useState('lunch');
@@ -187,7 +189,7 @@ const Meal = () => {
             <div className="flex-grow-1 overflow-auto mb-4">
                 {/* Hero Section */}
                 <div className="position-relative">
-                    <div className="p-3 text-white rounded-bottom-4 bg-img">
+                    <div className="p-3 text-white rounded-bottom-4 bg-img " style={{ backgroundImage: "url('/icon/hero.png')" }}>
 
                         <div className="d-flex justify-content-between align-items-center mb-4">
                             <img
@@ -196,12 +198,20 @@ const Meal = () => {
                                 className="h-8"
                                 loading="lazy"
                             />
-                            <div className="bg-light h-7 w-7 d-flex justify-content-center aling-item-center rounded ">
-                                <img src="/nav/Translate.png" alt="PacknD" className="h-6" loading="lazy" />
-                            </div>
-                        </div>
 
+                            <NavLink to="/profile" className="nav-link">
+                                <div className="bg-light d-flex justify-content-center align-items-center rounded-full p-2">
+                                    <User className="user-style" />
+
+                                </div>
+                            </NavLink>
+
+                        </div>
+                        <div className="flex justify-center items-center coupon-calss ">
+                            <Coupon />
+                        </div>
                     </div>
+
                 </div>
 
                 {/* Main Content */}
@@ -271,15 +281,15 @@ const Meal = () => {
                                 className={`btn w-100 ${mealTime === 'dinner' ? '' : 'btn-light text-muted'}`}
                                 onClick={() => setMealTime('dinner')}
                                 style={{
-                                    backgroundColor: mealTime === 'dinner' ? '#FFD3D3' : '',
-                                    color: mealTime === 'dinner' ? 'red' : '',
+                                    backgroundColor: mealTime === 'dinner' ? '#453868 ' : '',
+                                    color: mealTime === 'dinner' ? 'white' : '',
                                     borderRadius: '0px',
                                 }}>
                                 <div className="d-flex align-items-center justify-content-center">
                                     <Moon />
                                     <span className="ms-2 nowrape" style={{ fontSize: '10px', fontWeight: 'bold', textWrap: 'nowrap' }}>Dinner Meal</span>
                                 </div>
-                                <small className="text-muted" style={{ fontSize: '8px' }}>
+                                <small className="" style={{ fontSize: '8px', }}>
                                     7:00 PM to 10:00 PM
                                 </small>
                             </button>
@@ -350,8 +360,8 @@ const Meal = () => {
                     {/* Meal Components */}
                     {Membership && (
                         <>
-                            {mealTime === 'lunch' && <Lunch />}
-                            {mealTime === 'dinner' && <Dinner />}
+                            {mealTime === 'lunch' && <Lunch membeship={Membership} />}
+                            {mealTime === 'dinner' && <Dinner membeship={Membership} />}
                         </>
                     )}
                 </div>
@@ -368,7 +378,7 @@ const Meal = () => {
             <div className="bg-white shadow-lg">
                 <Nav />
             </div>
-        </div>
+        </div >
     );
 };
 

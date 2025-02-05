@@ -73,26 +73,7 @@ const Nav = () => {
               )}
             </NavLink>
           </li>
-          <li className="nav-item">
-            <NavLink
-              className={({ isActive }) => `nav-link text-center text-color`}
-              to="/profile"
-            >
-              {({ isActive }) => (
-                <>
-                  <img
-                    src={isActive ? '/n/ProfileSelected.svg' : '/n/Profile.svg'}
-                    alt="Profile"
-                    style={{
-                      height: '40px',
-                      marginBottom: '0', // Ensure no extra space below the image
-                    }}
-                  />
-                  <span style={{ fontSize: '12px',fontWeight: isActive ? 'bold' : 'normal' }}>Profile</span>
-                </>
-              )}
-            </NavLink>
-          </li>
+          
         </ul>
       </div>
     </nav>

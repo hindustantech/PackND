@@ -5,9 +5,10 @@
 
 
 
-.App{
+.App {
   font-family: Rethink Sans;
 }
+
 .bg-img-hero {
   background-color: gray;
 }
@@ -25,9 +26,10 @@
 }
 
 .bg-img {
-  background-image: url('/public/icon/hero.png');
-  width: 100%;
   
+  background-color: rgb(25, 25, 43);
+  width: 100%;
+
   /* Restrict max width */
   height: 350px;
   /* Default height */
@@ -104,14 +106,15 @@
 }
 
 
-.calanderHeight{
+.calanderHeight {
   width: calc(100%/7);
 }
-.calanderHeight .setHeight{
+
+.calanderHeight .setHeight {
   height: 65px;
 }
 
-.font-8{
+.font-8 {
   font-size: 8px;
 }
 
@@ -121,10 +124,10 @@
   -webkit-text-fill-color: transparent;
   font-weight: bold;
 
-  font-size: 30px;
+  font-size: 20px;
 }
 
-.custom-text-gradient-profile{
+.custom-text-gradient-profile {
   background: linear-gradient(270.06deg, #A37400 0.26%, #F0BC39 15.84%, #F2C553 23.12%, #F7D581 38.7%, #FAE2A3 53.24%, #FCE9B7 64.66%, #FDECBF 71.94%, #FCE9B6 74.01%, #FAE1A1 78.17%, #F6D47D 83.36%, #F2C34B 88.56%, #ECAD0B 94.79%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -174,10 +177,33 @@
   border-radius: 50%;
 }
 
-.meal-toggle-switch input:checked + .meal-slider {
-  background-color: #28a745; /* Green when active */
+.meal-toggle-switch input:checked+.meal-slider {
+  background-color: #28a745;
+  /* Green when active */
 }
 
-.meal-toggle-switch input:checked + .meal-slider::before {
+.meal-toggle-switch input:checked+.meal-slider::before {
   transform: translateX(26px);
+}
+
+
+.height-ad {
+  width: 40px;
+
+}
+
+.user-style {
+  color: red;
+  /* Text color */
+  font-size: 24px;
+  /* Increase size */
+  font-weight: bold;
+  /* Make it bold */
+  text-shadow: 1px 1px black;
+  /* Black shadow effect */
+}
+
+.coupn-card{
+
+  margin-top: 174px;
 }

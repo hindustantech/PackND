@@ -6,11 +6,10 @@ import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
   const [UserData, setUserData] = useState([]);
-  const [isPaused, setIsPaused] = useState(false);
   const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const user_id = localStorage.getItem("id");
+
   const navigate = useNavigate();
+  const user_id = localStorage.getItem("id");
 
   const getUser = async () => {
     try {
@@ -38,9 +37,7 @@ const Profile = () => {
         const data = await getUser();
         setUserData(data.user);
         // Set initial meal status from user data if available
-        if (data.user && typeof data.user.meal_status !== 'undefined') {
-          setIsPaused(!data.user.meal_status);
-        }
+
       } catch (err) {
         setError(err.message);
         toast.error("Failed to load user data");
@@ -50,64 +47,7 @@ const Profile = () => {
     fetchData();
   }, []);
 
-  const handlePauseTodayMeal = async (mealStatus) => {
-    if (!user_id) {
-      toast.error("User ID not found");
-      return null;
-    }
-  
-    try {
-      const response = await fetch(
-        `${process.env.REACT_APP_API_BASE_URL}/updateMealStatus`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            user_id: user_id,
-            meal_status: mealStatus, // Send inverted meal status
-          }),
-        }
-      );
-  
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to update meal status");
-      }
-  
-      const result = await response.json();
-  
-      if (result.status === "success") {
-        toast.success(result.message);
-        return result.data;
-      } else {
-        throw new Error(result.message || "Failed to update meal status");
-      }
-    } catch (error) {
-      toast.error(error.message);
-      return null; // Return null instead of throwing error
-    }
-  };
-  
-  const togglePauseMeal = async () => {
-    if (isLoading) return;
-  
-    setIsLoading(true);
-    try {
-      const newStatus = !isPaused; // Toggle status
-      const result = await handlePauseTodayMeal(!newStatus); // Send inverted status
-  
-      if (result) {
-        setIsPaused(!result.meal_status); // Invert the stored state
-      }
-    } catch (error) {
-      toast.error("Something went wrong. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-  
+
 
 
   return (
@@ -120,8 +60,8 @@ const Profile = () => {
         >
           <div className="d-flex justify-content-between align-items-center mx-3">
             <ChevronLeft size={24} onClick={() => { navigate('/') }} />
-            <div className="bg-light h-7 w-7 d-flex justify-content-center aling-item-center rounded">
-              <img src="/nav/Translate.png" alt="PacknD" className="h-6" loading="lazy" />
+            <div className=" h-7 w-7 d-flex justify-content-center aling-item-center rounded">
+              {/* <img src="/nav/Translate.png" alt="PacknD" className="h-6" loading="lazy" /> */}
             </div>
           </div>
           <div
@@ -174,27 +114,6 @@ const Profile = () => {
           </div>
 
           {/* Meal Status Toggle */}
-          <div
-            className="p-3 mb-3 d-flex justify-content-between align-items-center rounded"
-            style={{ backgroundColor: "#FFFFFF" }}
-          >
-            <span style={{ fontSize: "14px" }}>
-              {isPaused ? "Meal Paused" : "Meal Active"}
-            </span>
-
-            {/* Accessible Toggle Switch */}
-            <label className="meal-toggle-switch">
-              <input
-                type="checkbox"
-                id="mealToggle"
-                checked={!isPaused}
-                onChange={togglePauseMeal}
-                disabled={isLoading}
-                aria-label="Toggle Meal Status"
-              />
-              <span className="meal-slider meal-round"></span>
-            </label>
-          </div>
 
 
           {/* Rewards Section */}
@@ -244,7 +163,7 @@ const Profile = () => {
                 cursor: 'pointer',
                 marginBottom: '80px'
               }}
-              className='mt-2'
+              className='mt-2 w-100'
               onClick={() => {
                 localStorage.removeItem('id');
                 window.location.href = '/login';

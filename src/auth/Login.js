@@ -73,6 +73,7 @@ const Login = () => {
   // Login With Google
 
   const handleGoogleLogin = async () => {
+   
 
     try {
       // Step 1: Perform Google Sign-In using Firebase auth service
@@ -99,13 +100,13 @@ const Login = () => {
         localStorage.setItem("token", token);
         localStorage.setItem("id", user_id);
 
-        // Show success toast based on registration or login
-        response.status === 201
-          ? toast.success("Registration Successful!")
-          : toast.success("Login Successful!");
-
-        // Redirect to home page or dashboard
-        navigate("/"); // Redirect to home page
+        if (response.status === 201) {
+          toast.success("Registration Successful!");
+          navigate("/user"); // Navigate to /user for registration success
+        } else if (response.status === 200) {
+          toast.success("Login Successful!");
+          navigate("/"); // Navigate to home for login success
+        }
       } else {
         throw new Error("Login failed. Please try again.");
       }
@@ -131,51 +132,10 @@ const Login = () => {
         toast.error(error.message || "Unexpected error. Please try again.");
       }
     }
-  };
 
 
+  }
 
-
-  // const onSuccess = async (credentialResponse) => {
-  //     try {
-  //         const decodedData = jwtDecode(credentialResponse?.credential);
-
-  //         const name = decodedData.name;
-  //         const email = decodedData.email;
-
-  //         // Make API call to Laravel backend
-  //         const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/login_google`, {
-  //             name,
-  //             email
-  //         });
-
-  //         // Check for both 200 (OK) and 201 (Created) status codes
-  //         if (response.status === 200 || response.status === 201) {
-  //             const token = response.data.token;
-  //             const id = response.data.user_id;
-
-  //             // Store the token and user id in localStorage
-  //             localStorage.setItem("token", token);
-  //             localStorage.setItem("id", id);
-
-  //             // Show success toast based on the status code
-  //             if (response.status === 201) {
-  //                 toast.success("Registration Successful!");
-  //             } else {
-  //                 toast.success("Login Successful!");
-  //             }
-
-  //             // Redirect to the home page
-  //             navigate('/');
-  //         } else {
-  //             // Handle other statuses or errors
-  //             toast.error("Something went wrong. Please try again.");
-  //         }
-  //     } catch (error) {
-  //         console.error("Error during Google login:", error);
-  //         toast.error("An error occurred. Please try again later.");
-  //     }
-  // };
 
 
   return (

@@ -106,7 +106,10 @@ const Register = () => {
   };
 
 
+  // Login With Google
+
   const handleGoogleLogin = async () => {
+
 
     try {
       // Step 1: Perform Google Sign-In using Firebase auth service
@@ -133,13 +136,13 @@ const Register = () => {
         localStorage.setItem("token", token);
         localStorage.setItem("id", user_id);
 
-        // Show success toast based on registration or login
-        response.status === 201
-          ? toast.success("Registration Successful!")
-          : toast.success("Login Successful!");
-
-        // Redirect to home page or dashboard
-        navigate("/"); // Redirect to home page
+        if (response.status === 201) {
+          toast.success("Registration Successful!");
+          navigate("/user"); // Navigate to /user for registration success
+        } else if (response.status === 200) {
+          toast.success("Login Successful!");
+          navigate("/"); // Navigate to home for login success
+        }
       } else {
         throw new Error("Login failed. Please try again.");
       }
@@ -165,15 +168,26 @@ const Register = () => {
         toast.error(error.message || "Unexpected error. Please try again.");
       }
     }
-  };
+
+
+  }
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
 
     // Validation checks
-    if (!formData.email || !formData.mobile || !formData.dob || !formData.address || !formData.password) {
-      toast.error('Please fill out all required fields.');
+    const missingFields = [];
+
+    if (!formData.email) missingFields.push('Email');
+    if (!formData.mobile) missingFields.push('Mobile Number');
+    if (!formData.dob) missingFields.push('Date of Birth');
+    if (!formData.address) missingFields.push('Address');
+    if (!formData.password) missingFields.push('Password');
+
+    if (missingFields.length > 0) {
+      toast.error(`Please fill out: ${missingFields.join(', ')}`);
       return;
     }
 

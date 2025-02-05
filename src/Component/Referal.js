@@ -25,7 +25,7 @@ const ShareReferralButton = ({ referralCode }) => {
   return (
     <button
       onClick={handleShare}
-      className="fixed bottom-20 left-0 right-0 mx-auto w-11/12 max-w-md bg-pink-600 text-white py-3 rounded-lg font-semibold shadow-lg hover:bg-pink-700 transition-colors"
+      className="fixed bottom-20 left-0 right-0 mx-auto w-11/12 max-w-md bg-red-500 text-white py-3 rounded-lg font-semibold shadow-lg hover:bg-red-700 transition-colors"
     >
       Invite Friends
     </button>
@@ -112,7 +112,7 @@ const Referral = () => {
               className="w-24 h-24 mb-6 bg-gray-800 rounded-full flex items-center justify-center " style={{marginTop:'-12px'}}
             >
               <svg
-                className="w-12 h-12 text-pink-600"
+                className="w-12 h-12 text-red-500"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -128,7 +128,7 @@ const Referral = () => {
             </div>
             <div className="text-center">
               <h1 className="text-3xl font-bold text-yellow-500">Earn ₹200</h1>
-              <p className="text-lg font-medium text-pink-500">
+              <p className="text-lg font-medium text-red-500">
                 for every friend you refer
               </p>
               <p className="text-sm text-gray-400">
@@ -148,7 +148,7 @@ const Referral = () => {
                 <span className="font-mono font-bold text-gray-700">{referralCode}</span>
                 <button
                   onClick={copyToClipboard}
-                  className="px-4 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-colors"
+                  className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-700 transition-colors"
                 >
                   {copied ? "Copied!" : "Copy"}
                 </button>
@@ -165,10 +165,10 @@ const Referral = () => {
                   "Redeem your coupons at checkout to claim your rewards."
                 ].map((text, index) => (
                   <div key={index} className="flex items-start">
-                    <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-pink-600 text-white font-bold rounded-full">
+                    <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-red-500 text-white font-bold rounded-full">
                       {index + 1}
                     </div>
-                    <p className="ml-4 text-gray-600">{text}</p>
+                    <p className="ml-4 text-gray-500">{text}</p>
                   </div>
                 ))}
               </div>

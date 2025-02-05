@@ -1,6 +1,7 @@
 import { ArrowBigLeft, ArrowBigRight, Plus, Minus } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
+import PuseMeal from './PuseMeal';
 
 const LoadingPlaceholder = () => (
     <div className="animate-pulse grid grid-cols-2 gap-3">
@@ -183,7 +184,7 @@ const QuantitySelector = ({ quantity, onIncrease, onDecrease }) => (
             className="flex flex-col border border-red-500 items-center bg-red-500 bg-opacity-30 py-2 px-1 rounded-lg"
             aria-label="Decrease quantity"
         >
-            <Minus className="w-6 h-6" />
+            <Minus className="w-4 h-4" />
         </button>
         <div className="flex flex-col items-center rounded-lg p-2">
             <span className=" font-extrabold text-gray-800 select-none">
@@ -195,12 +196,13 @@ const QuantitySelector = ({ quantity, onIncrease, onDecrease }) => (
             className="flex flex-col items-center bg-red-500 bg-opacity-30 rounded-lg px-1 py-2 border border-red-500"
             aria-label="Increase quantity"
         >
-            <Plus className="w-6 h-6" />
+            <Plus className="w-4 h-4" />
         </button>
     </div>
 );
 
-const Dinner = () => {
+const Dinner = ({ membeship }) => {
+    const [checkmembership, SetcheckMembership] = useState(membeship.package_name)
     const [selectedDate, setSelectedDate] = useState(null);
     const [weekOffset, setWeekOffset] = useState(0);
     const [quantity, setQuantity] = useState(1);
@@ -287,7 +289,7 @@ const Dinner = () => {
                 sabji2: { data: [], isLoading: false, error: errorMessage },
                 daily_menu_id: null
             }));
-            
+
         }
     };
 
@@ -431,7 +433,7 @@ const Dinner = () => {
             }
         } catch (error) {
             toast.error(error.message || 'An error occurred while confirming the meal');
-           
+
         } finally {
             setIsConfirming(false);
         }
@@ -445,6 +447,7 @@ const Dinner = () => {
                 <div className="mb-6">
                     <h6 className="text-red-500 text-center font-bold text-sm mb-1">Evening Meals</h6>
                     <p className="text-gray-500 text-center text-xs mb-4">Prepare your week meal today</p>
+                    <PuseMeal meal_time="Evening" />
 
                     <div className="flex justify-between items-center">
 
@@ -500,20 +503,23 @@ sm:min-w-[50px] md:min-w-[60px] lg:min-w-[70px]`}>
                                         onSelect={handleMealSelection}
                                         isLoading={mealOptions.sabji1.isLoading}
                                         error={mealOptions.sabji1.error}
-                                        
+
                                     />
 
-                                    <MealSection
-                                        title="Sabji 2"
-                                        description="Select your second sabji"
-                                        options={mealOptions.sabji2.data}
-                                        category="sabji2"
-                                        img='/meal/Sabji2.png'
-                                        selectedOption={selectedMeals.sabji2}
-                                        onSelect={handleMealSelection}
-                                        isLoading={mealOptions.sabji2.isLoading}
-                                        error={mealOptions.sabji2.error}
-                                    />
+                                    {checkmembership !== "Bronze" && (
+                                        <MealSection
+                                            title="Sabji 2"
+                                            description="Select your second sabji"
+                                            options={mealOptions.sabji2.data}
+                                            category="sabji2"
+                                            img="/meal/Sabji2.png"
+                                            image=""
+                                            selectedOption={selectedMeals.sabji2}
+                                            onSelect={handleMealSelection}
+                                            isLoading={mealOptions.sabji2.isLoading}
+                                            error={mealOptions.sabji2.error}
+                                        />
+                                    )}
                                 </div>
                                 <h5 className='text-center mt-3 text-danger'>
                                     Selected Date for Dinner  {selectedDate ? `${selectedDate.day} ${new Date(`${selectedDate.month} 1`).toLocaleString('en-US', { month: 'short' })}, ${selectedDate.year}` : ''}

@@ -261,7 +261,7 @@ const PaymentPage = () => {
                 ))}
               </div>
 
-              <div className="mb-4">
+              <div className="mb-4">  
                 <h5>Total: ₹{totalPrice}</h5> {/* Display the total price */}
               </div>
 
@@ -281,6 +281,18 @@ const PaymentPage = () => {
                 <div className="mb-4">
                   <label className="form-label">Quantity of Tiffins</label>
                   <ul className="list-unstyled">
+                    <li>
+                      <input
+                        type="radio"
+                        id="tiffin_quantity10"
+                        name="tiffin_quantity"
+                        value="10"
+                        checked={formData.tiffin_quantity === "10"}
+                        onChange={handleTiffinQuantityChange}
+                        required
+                      />
+                      <label htmlFor="tiffin_quantity10" className="ms-2">10</label>
+                    </li>
                     <li>
                       <input
                         type="radio"

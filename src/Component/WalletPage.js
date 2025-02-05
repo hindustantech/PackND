@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Nav from "./Nav";
 import axios from "axios";
-import { Star, Gift, RefreshCcw, ChevronRight, Medal, Wallet, Plus } from "lucide-react";
+import {  ChevronRight, Wallet  ,User} from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { NavLink } from 'react-router-dom';
 
 const WalletPage = () => {
     const navigate = useNavigate();
@@ -95,15 +96,14 @@ const WalletPage = () => {
 
                 <div className="position-relative d-inline-block mb-5">
                     <div
-                        className="position-absolute top-100 start-50 translate-middle mt-3"
+                        className="position-absolute top-100 start-50 translate-middle mt-4" // Increased margin-top
                         style={{
                             backgroundImage: `url('/m/${membership?.package_name || "default"}.png')`,
-                            backgroundSize: "cover", // Ensures the image covers the div
-                            backgroundPosition: "center", // Centers the image
-                            backgroundRepeat: "no-repeat", // Prevents repetition
-                            width: "130px", // Div width
-                            height: "130px", // Div height
-
+                            backgroundSize: "cover",
+                            backgroundPosition: "center",
+                            backgroundRepeat: "no-repeat",
+                            width: "80px",  // Further reduced width
+                            height: "80px", // Further reduced height
                         }}
                     >
                         <img
@@ -111,23 +111,20 @@ const WalletPage = () => {
                             alt="Profile"
                             className="rounded-circle"
                             style={{
-                                width: "80px", // Adjusts the size of the image
-                                height: "80px", // Keeps the image square
-                                position: "absolute", // Positions the image relative to the parent div
-                                top: "50%", // Centers the image vertically
-                                left: "50%", // Centers the image horizontally
-                                transform: "translate(-50%, -50%)", // Ensures proper alignment
+                                width: "50px",  // Further reduced image size
+                                height: "50px",
+                                position: "absolute",
+                                top: "50%",
+                                left: "50%",
+                                transform: "translate(-50%, -50%)",
                             }}
                         />
                     </div>
                 </div>
 
-
-                <p className="custom-text-gradient mt-4">
+                <p className="custom-text-gradient mt-3">
                     {membership.package_name} Member
                 </p>
-
-
 
                 <p className="text-white mx-2" style={{ fontSize: "1.5rem", fontWeight: 'bolder' }}>
 
@@ -144,9 +141,12 @@ const WalletPage = () => {
             <div className="container-fluid bg-dark text-white py-4 mb-2" style={{ borderRadius: "0 2px 35px 35px" }}>
                 <div className="d-flex justify-content-between align-items-center ">
                     <img src="/logo1.png" alt="PacknD" className="h-6" loading="lazy" />
-                    <div className="bg-light h-7 w-7 d-flex justify-content-center aling-item-center rounded ">
-                        <img src="/nav/Translate.png" alt="PacknD" className="h-6" loading="lazy" />
-                    </div>
+                    <NavLink to="/profile" className="nav-link">
+                        <div className="bg-light d-flex justify-content-center align-items-center rounded-full p-2">
+                            <User className="user-style" />
+
+                        </div>
+                    </NavLink>
                 </div>
 
 

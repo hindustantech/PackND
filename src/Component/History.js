@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronRight, ChevronLeft } from 'lucide-react';
+import { ChevronRight, ChevronLeft ,User} from 'lucide-react';
 import Nav from './Nav';
+import { NavLink } from 'react-router-dom';
+
 
 // Meal Card Component
 const MealCard = ({ meal, isLast }) => (
@@ -40,7 +42,7 @@ const Calendar = ({
     try {
       return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
     } catch (error) {
-     
+
       return 31;
     }
   };
@@ -49,7 +51,7 @@ const Calendar = ({
     try {
       return new Date(date.getFullYear(), date.getMonth(), 1).getDay();
     } catch (error) {
-     
+
       return 0;
     }
   };
@@ -186,11 +188,11 @@ const History = () => {
       }
       setUsername(data.data.summary.date_range.username)
       setMealHistory(transformedHistory);
-     
+
       setTotalMeals(data.data.summary.total_orders);
     } catch (err) {
       setError(err.message);
-     
+
     } finally {
       setIsLoading(false);
     }
@@ -255,19 +257,22 @@ const History = () => {
               className="h-8"
               loading="lazy"
             />
-            <div className="bg-light h-7 w-7 d-flex justify-content-center aling-item-center rounded ">
-              <img src="/nav/Translate.png" alt="PacknD" className="h-6" loading="lazy" />
-            </div>
+            <NavLink to="/profile" className="nav-link">
+              <div className="bg-light d-flex justify-content-center align-items-center rounded-full p-2">
+                <User className="user-style" />
+
+              </div>
+            </NavLink>
           </div>
-          <div className="text-white text-center">
+          <div className="text-white text-center mt-5">
             <p className="fw-bold text-white mb-2">Hey {name} you have ordered</p>
             <h1
               className="display-4 fw-bold mb-0 custom-text-gradient"
-              // style={{
-              //   background: '',
-              //   WebkitBackgroundClip: 'text',
-              //   WebkitTextFillColor: 'transparent'
-              // }}
+            // style={{
+            //   background: '',
+            //   WebkitBackgroundClip: 'text',
+            //   WebkitTextFillColor: 'transparent'
+            // }}
             >
               {isLoading ? 'Loading...' : `${totalMeals} Meals`}
             </h1>

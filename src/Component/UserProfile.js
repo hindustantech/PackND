@@ -14,13 +14,16 @@ const UserProfile = () => {
     email: '',
     dob: '',
     image: '',
-    address: ''
+    address: '',
+    workaddress: ''
   });
 
   const [errors, setErrors] = useState({
     name: '',
     address: '',
-    dob: ''
+    dob: '',
+    mobile: '',
+    workaddress: ''
   });
 
   const [previewImage, setPreviewImage] = useState('');
@@ -78,7 +81,7 @@ const UserProfile = () => {
     setUser({ ...user, [field]: value });
 
     // Validate fields that have constraints
-    if (['name', 'address', 'dob'].includes(field)) {
+    if (['name', 'address', 'dob', 'mobile', 'workaddress'].includes(field)) {
       const errorMessage = validateField(field, value);
       setErrors(prev => ({ ...prev, [field]: errorMessage }));
     }
@@ -99,6 +102,7 @@ const UserProfile = () => {
           mobile: userData.mobile,
           image: userData.image || '',
           address: userData.address,
+          workaddress: userData.workaddress,
           id: user_id
         });
 
@@ -132,16 +136,20 @@ const UserProfile = () => {
     // Validate all fields before submission
     const nameError = validateField('name', user.name);
     const addressError = validateField('address', user.address);
+    const workaddressError = validateField('workaddress', user.workaddress);
     const dobError = validateField('dob', user.dob);
+    const mobileError = validateField('mobile', user.mobile);
 
     setErrors({
       name: nameError,
       address: addressError,
-      dob: dobError
+      workaddress: workaddressError,
+      dob: dobError,
+      mobile: mobileError
     });
 
     // Check if there are any validation errors
-    if (nameError || addressError || dobError) {
+    if (nameError || addressError || dobError || mobileError || workaddressError) {
       toast.error('Please fix the validation errors before submitting');
       return;
     }
@@ -171,7 +179,7 @@ const UserProfile = () => {
 
   // Render form fields with specific conditions
   const renderFormField = (field) => {
-    const isReadOnly = field === 'email' || (field === 'mobile' && user.mobile);
+    const isReadOnly = field === 'email';
 
     if (field === 'dob') {
       return (
@@ -261,7 +269,7 @@ const UserProfile = () => {
 
         {/* Form Fields */}
         <div className="space-y-5">
-          {['name', 'mobile', 'email', 'dob', 'address'].map((field) => (
+          {['name', 'mobile', 'email', 'dob', 'address','workaddress'].map((field) => (
             <div key={field}>
 
               {renderFormField(field)}
@@ -278,13 +286,6 @@ const UserProfile = () => {
         >
           Save Changes
         </button>
-
-        {/* Success Message */}
-        {/* {successMessage && (
-          <div className="mt-4 p-3 bg-green-100 text-green-700 rounded-lg text-center">
-            {successMessage}
-          </div>
-        )} */}
       </div>
     </div>
   );

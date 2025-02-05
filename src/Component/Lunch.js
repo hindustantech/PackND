@@ -1,6 +1,7 @@
 import { Plus, Minus } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
+import PuseMeal from './PuseMeal';
 
 const LoadingPlaceholder = () => (
     <div className="animate-pulse grid grid-cols-2 gap-3">
@@ -43,7 +44,7 @@ const ExistingOrderDisplay = ({ order }) => {
 
                                 <div className="flex  mt-1 gap-2 mb-2">
 
-                                    
+
                                     <p className="text-sm font-medium text-gray-700">{order.bread_name} </p>
                                     <p></p>
                                 </div>
@@ -56,7 +57,7 @@ const ExistingOrderDisplay = ({ order }) => {
 
                                 <div className="flex  mt-1 gap-2 mb-2">
 
-                                    
+
                                     <p className="text-sm font-medium text-gray-700">{order.sabji1_name} </p>
                                     <p></p>
                                 </div>
@@ -69,7 +70,7 @@ const ExistingOrderDisplay = ({ order }) => {
 
                                 <div className="flex  mt-1 gap-2 mb-2">
 
-                                    
+
                                     <p className="text-sm font-medium text-gray-700">{order.sabji2_name} </p>
                                     <p></p>
                                 </div>
@@ -77,7 +78,7 @@ const ExistingOrderDisplay = ({ order }) => {
                             </div>
                         </div>
 
-                       
+
 
                     </div>
                 </div>
@@ -114,7 +115,7 @@ const MealOption = ({ option, isSelected, onSelect, category, image }) => (
                 className="w-12 h-12 rounded-lg object-cover"
             />
             <div>
-                <div  style={{ fontSize: '9px' }}>{option.name}</div>
+                <div style={{ fontSize: '9px' }}>{option.name}</div>
                 <div className="text-xs text-gray-500" style={{ fontSize: '9px' }}>Qty: {option.quantity || 1}</div>
             </div>
         </div>
@@ -183,7 +184,7 @@ const QuantitySelector = ({ quantity, onIncrease, onDecrease }) => (
             className="flex flex-col border border-red-500 items-center bg-red-500 bg-opacity-30 py-2 px-1 rounded-lg"
             aria-label="Decrease quantity"
         >
-            <Minus className="w-6 h-6" />
+            <Minus className="w-4 h-4" />
         </button>
         <div className="flex flex-col items-center rounded-lg p-2">
             <span className=" font-extrabold text-gray-800 select-none">
@@ -195,13 +196,14 @@ const QuantitySelector = ({ quantity, onIncrease, onDecrease }) => (
             className="flex flex-col items-center bg-red-500 bg-opacity-30 rounded-lg px-1 py-2 border border-red-500"
             aria-label="Increase quantity"
         >
-            <Plus className="w-6 h-6" />
+            <Plus className="w-4 h-4" />
         </button>
     </div>
 );
 
-const Lunch = () => {
+const Lunch = ({ membeship }) => {
     const [selectedDate, setSelectedDate] = useState(null);
+    const [checkmembership, SetcheckMembership] = useState(membeship.package_name)
     const [weekOffset, setWeekOffset] = useState(0);
     const [quantity, setQuantity] = useState(1);
     const [isConfirming, setIsConfirming] = useState(false);
@@ -211,6 +213,7 @@ const Lunch = () => {
         sabji1: [],
         sabji2: null
     });
+
 
     const [mealOptions, setMealOptions] = useState({
         bread: { data: [], isLoading: true, error: null },
@@ -232,6 +235,7 @@ const Lunch = () => {
 
     const fetchMealOptions = async () => {
         const userid = localStorage.getItem('id');
+
         try {
             if (!userid) {
                 throw new Error('User ID not found. Please log in again.');
@@ -253,7 +257,11 @@ const Lunch = () => {
 
             const jsonData = await response.json();
 
+
             if (jsonData.status === 'success') {
+
+
+
                 // Check for existing order first
                 if (jsonData.data?.existing_orders?.morning?.[0]) {
                     setExistingOrder(jsonData.data.existing_orders.morning[0]);
@@ -267,6 +275,7 @@ const Lunch = () => {
                     // No existing order, show available options
                     setExistingOrder(null);
                     const morningMenu = jsonData.data.menu.morning[0];
+
                     setMealOptions({
                         bread: { data: morningMenu.bread_options || [], isLoading: false, error: null },
                         sabji1: { data: morningMenu.sabji1_options || [], isLoading: false, error: null },
@@ -283,13 +292,13 @@ const Lunch = () => {
             const errorMessage = error.message || 'Failed to fetch meal options';
             setMealOptions(prev => ({
                 bread: { data: [], isLoading: false, error: errorMessage },
-                sabji1: { data: [], isLoading: false, error: errorMessage },
+                sabji1: prev.sabji1 !== null ? { data: [], isLoading: false, error: errorMessage } : null,
                 sabji2: { data: [], isLoading: false, error: errorMessage },
                 daily_menu_id: null
             }));
-           
         }
     };
+
 
     useEffect(() => {
         if (selectedDate) {
@@ -448,7 +457,7 @@ const Lunch = () => {
                 <div className="mb-6">
                     <h6 className="text-red-500 text-center font-bold text-sm mb-1">Morning Meals</h6>
                     <p className="text-gray-500 text-center text-xs mb-4">Prepare your week meal today</p>
-
+                    <PuseMeal meal_time="Morning" />
                     <div className="flex justify-conten-center items-center">
 
 
@@ -504,21 +513,24 @@ const Lunch = () => {
                                         img='/meal/Sabji1.png'
                                         isLoading={mealOptions.sabji1.isLoading}
                                         error={mealOptions.sabji1.error}
-                                      
+
                                     />
 
-                                    <MealSection
-                                        title="Sabji 2"
-                                        description="Select your second sabji"
-                                        options={mealOptions.sabji2.data}
-                                        category="sabji2"
-                                        img='/meal/Sabji2.png'
-                                        image=''
-                                        selectedOption={selectedMeals.sabji2}
-                                        onSelect={handleMealSelection}
-                                        isLoading={mealOptions.sabji2.isLoading}
-                                        error={mealOptions.sabji2.error}
-                                    />
+                                    {checkmembership !== "Bronze" && (
+                                        <MealSection
+                                            title="Sabji 2"
+                                            description="Select your second sabji"
+                                            options={mealOptions.sabji2.data}
+                                            category="sabji2"
+                                            img="/meal/Sabji2.png"
+                                            image=""
+                                            selectedOption={selectedMeals.sabji2}
+                                            onSelect={handleMealSelection}
+                                            isLoading={mealOptions.sabji2.isLoading}
+                                            error={mealOptions.sabji2.error}
+                                        />
+                                    )}
+
                                 </div>
                                 <h5 className='text-center mt-3 text-danger'>
                                     Selected Date for Lunch  {selectedDate ? `${selectedDate.day} ${new Date(`${selectedDate.month} 1`).toLocaleString('en-US', { month: 'short' })}, ${selectedDate.year}` : ''}
