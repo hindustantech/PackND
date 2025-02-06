@@ -7,18 +7,37 @@ import Dinner from './Dinner';
 import TrailMeal from './TrailMeal';
 import { NavLink } from 'react-router-dom';
 import Coupon from './Coupon';
-
+import axios from 'axios';
 const Meal = () => {
     const [mealTime, setMealTime] = useState('lunch');
     const [UserData, setUserData] = useState([]);
+    const [isPaused, setIsPaused] = useState(false);
     const [Membership, setMembership] = useState(null);
     const [error, setError] = useState(null);
+    const [banners, setBanners] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
     const [showMembershipModal, setShowMembershipModal] = useState(false);
     const [showBalance, setShowBalance] = useState(false);
     const user_id = localStorage.getItem("id");
     const BASE_URL = process.env.REACT_APP_API_BASE_URL;
     const navigate = useNavigate();
     const today = new Date();
+
+
+
+    const fetchBanners = async () => {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/appBanners`);
+            console.log("response coupen", response.data);
+            setBanners(response.data); // Store the raw data directly
+        } catch (err) {
+            setError(err.message);
+            console.error('Error fetching banners:', err);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
 
 
     // Modal body class effect
@@ -80,7 +99,9 @@ const Meal = () => {
             try {
                 const data = await getUser();
                 setUserData(data.user);
-                console.log(data.user);
+                setIsPaused(data.user.meal_status)
+                fetchBanners();
+
             } catch (err) {
                 setError(err.message);
             }
@@ -188,30 +209,39 @@ const Meal = () => {
         <div className="d-flex flex-column min-vh-100 mb-4">
             <div className="flex-grow-1 overflow-auto mb-4">
                 {/* Hero Section */}
-                <div className="position-relative">
-                    <div className="p-3 text-white rounded-bottom-4 bg-img " style={{ backgroundImage: "url('/icon/hero.png')" }}>
-
-                        <div className="d-flex justify-content-between align-items-center mb-4">
+                <div className="relative w-full">
+                    <div
+                        className="w-full p-3 text-white rounded-b-lg bg-img object-contain"
+                        style={{
+                            backgroundImage: `url(https://projectdemo.ukvalley.com/public/site_logo/${banners.banner_img})`,
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center',
+                            backgroundRepeat: 'no-repeat'
+                        }}
+                    >
+                        {/* Header Section */}
+                        <div className="flex justify-between items-center mb-4 px-2 md:px-4 lg:px-6">
                             <img
                                 src="/logo1.png"
                                 alt="PacknD"
-                                className="h-8"
+                                className="h-6 md:h-8 lg:h-10"
                                 loading="lazy"
                             />
 
                             <NavLink to="/profile" className="nav-link">
-                                <div className="bg-light d-flex justify-content-center align-items-center rounded-full p-2">
-                                    <User className="user-style" />
-
+                                <div className="bg-white rounded-full p-2 flex justify-center items-center shadow-md hover:bg-gray-100 transition-colors">
+                                    <User className="w-5 h-5 md:w-6 md:h-6 text-gray-700" />
                                 </div>
                             </NavLink>
-
                         </div>
-                        <div className="flex justify-center items-center coupon-calss ">
-                            <Coupon />
+
+                        {/* Coupon Section */}
+                        <div className="w-full flex justify-center items-center mt-4 md:mt-6 lg:mt-8">
+                            <div className="w-full max-w-screen-xl mx-auto px-4 md:px-6 lg:px-8">
+                                <Coupon />
+                            </div>
                         </div>
                     </div>
-
                 </div>
 
                 {/* Main Content */}
@@ -360,8 +390,40 @@ const Meal = () => {
                     {/* Meal Components */}
                     {Membership && (
                         <>
-                            {mealTime === 'lunch' && <Lunch membeship={Membership} />}
-                            {mealTime === 'dinner' && <Dinner membeship={Membership} />}
+                            {isPaused ? (
+                                <div className="p-6 bg-white rounded-lg shadow-sm mb-4">
+                                    <div className="text-center">
+                                        <div className="mb-3">
+                                            <svg
+                                                className="w-12 h-12 mx-auto text-yellow-500"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                viewBox="0 0 24 24"
+                                            >
+                                                <path
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    strokeWidth={2}
+                                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                                                />
+                                            </svg>
+                                        </div>
+                                        <h3 className="text-lg font-medium text-gray-900 mb-2">
+                                            Meal Service Paused
+                                        </h3>
+                                        <p className="text-gray-600">
+                                            Your  meal service is temporarily paused<br />
+                                            From: <span className="font-medium">{new Date(UserData.pause_time_from).toLocaleDateString()}</span><br />
+                                            To: <span className="font-medium">{new Date(UserData.pause_time_to).toLocaleDateString()}</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            ) : (
+                                <>
+                                    {mealTime === 'lunch' && <Lunch membeship={Membership} />}
+                                    {mealTime === 'dinner' && <Dinner membeship={Membership} />}
+                                </>
+                            )}
                         </>
                     )}
                 </div>

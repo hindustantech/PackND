@@ -15,7 +15,7 @@ const UserProfile = () => {
     dob: '',
     image: '',
     address: '',
-    workaddress: ''
+    address1: ''
   });
 
   const [errors, setErrors] = useState({
@@ -23,7 +23,7 @@ const UserProfile = () => {
     address: '',
     dob: '',
     mobile: '',
-    workaddress: ''
+    address1: ''
   });
 
   const [previewImage, setPreviewImage] = useState('');
@@ -81,7 +81,7 @@ const UserProfile = () => {
     setUser({ ...user, [field]: value });
 
     // Validate fields that have constraints
-    if (['name', 'address', 'dob', 'mobile', 'workaddress'].includes(field)) {
+    if (['name', 'address', 'dob', 'mobile', 'address1'].includes(field)) {
       const errorMessage = validateField(field, value);
       setErrors(prev => ({ ...prev, [field]: errorMessage }));
     }
@@ -102,7 +102,7 @@ const UserProfile = () => {
           mobile: userData.mobile,
           image: userData.image || '',
           address: userData.address,
-          workaddress: userData.workaddress,
+          address1: userData.address1,
           id: user_id
         });
 
@@ -136,20 +136,20 @@ const UserProfile = () => {
     // Validate all fields before submission
     const nameError = validateField('name', user.name);
     const addressError = validateField('address', user.address);
-    const workaddressError = validateField('workaddress', user.workaddress);
+    const address1Error = validateField('address1', user.address1);
     const dobError = validateField('dob', user.dob);
     const mobileError = validateField('mobile', user.mobile);
 
     setErrors({
       name: nameError,
       address: addressError,
-      workaddress: workaddressError,
+      address1: address1Error,
       dob: dobError,
       mobile: mobileError
     });
 
     // Check if there are any validation errors
-    if (nameError || addressError || dobError || mobileError || workaddressError) {
+    if (nameError || addressError || dobError || mobileError || address1Error) {
       toast.error('Please fix the validation errors before submitting');
       return;
     }
@@ -269,7 +269,7 @@ const UserProfile = () => {
 
         {/* Form Fields */}
         <div className="space-y-5">
-          {['name', 'mobile', 'email', 'dob', 'address','workaddress'].map((field) => (
+          {['name', 'mobile', 'email', 'dob', 'address','address1'].map((field) => (
             <div key={field}>
 
               {renderFormField(field)}

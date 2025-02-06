@@ -36,49 +36,44 @@ const ExistingOrderDisplay = ({ order }) => {
                     <h2 className="text-lg font-semibold text-gray-800 text-center mb-4">Order Summary</h2>
 
                     <div className="grid grid-cols-1 gap-3">
-                        {/* Bread Section */}
-                        <div className='d-flex ' >
-                            <img src='/meal.png' className='w-20 h-20 rounded mx-2' />
-                            <div className="bg-gray-50 rounded-lg p-1  shadow-sm w-100">
-
-                                <div className="flex  mt-1 gap-2 mb-2">
-
-
-                                    <p className="text-sm font-medium text-gray-700">{order.bread_name} </p>
-                                    <p></p>
+                        {/* Bread Section - Only show if bread_name exists */}
+                        {order.bread_name && (
+                            <div className='d-flex'>
+                                <img src='/meal.png' className='w-20 h-20 rounded mx-2' alt="bread" />
+                                <div className="bg-gray-50 rounded-lg p-1 shadow-sm w-100">
+                                    <div className="flex mt-1 gap-2 mb-2">
+                                        <p className="text-sm font-medium text-gray-700">{order.bread_name}</p>
+                                    </div>
+                                    <span className='mt-2'></span>
                                 </div>
-                                <span className='mt-2'> </span>
                             </div>
-                        </div>
-                        <div className='d-flex ' >
-                            <img src='/meal.png' className='w-20 h-20 rounded mx-2' />
-                            <div className="bg-gray-50 rounded-lg p-1  shadow-sm w-100">
+                        )}
 
-                                <div className="flex  mt-1 gap-2 mb-2">
-
-
-                                    <p className="text-sm font-medium text-gray-700">{order.sabji1_name} </p>
-                                    <p></p>
+                        {/* Sabji1 Section - Only show if sabji1_name exists */}
+                        {order.sabji1_name && (
+                            <div className='d-flex'>
+                                <img src='/meal.png' className='w-20 h-20 rounded mx-2' alt="sabji1" />
+                                <div className="bg-gray-50 rounded-lg p-1 shadow-sm w-100">
+                                    <div className="flex mt-1 gap-2 mb-2">
+                                        <p className="text-sm font-medium text-gray-700">{order.sabji1_name}</p>
+                                    </div>
+                                    <span className='mt-2'></span>
                                 </div>
-                                <span className='mt-2'> </span>
                             </div>
-                        </div>
-                        <div className='d-flex ' >
-                            <img src='/meal.png' className='w-20 h-20 rounded mx-2' />
-                            <div className="bg-gray-50 rounded-lg p-1  shadow-sm w-100">
+                        )}
 
-                                <div className="flex  mt-1 gap-2 mb-2">
-
-
-                                    <p className="text-sm font-medium text-gray-700">{order.sabji2_name} </p>
-                                    <p></p>
+                        {/* Sabji2 Section - Only show if sabji2_name exists */}
+                        {order.sabji2_name && (
+                            <div className='d-flex'>
+                                <img src='/meal.png' className='w-20 h-20 rounded mx-2' alt="sabji2" />
+                                <div className="bg-gray-50 rounded-lg p-1 shadow-sm w-100">
+                                    <div className="flex mt-1 gap-2 mb-2">
+                                        <p className="text-sm font-medium text-gray-700">{order.sabji2_name}</p>
+                                    </div>
+                                    <span className='mt-2'></span>
                                 </div>
-                                <span className='mt-2'> </span>
                             </div>
-                        </div>
-
-
-
+                        )}
                     </div>
                 </div>
             </div>
@@ -200,7 +195,7 @@ const QuantitySelector = ({ quantity, onIncrease, onDecrease }) => (
     </div>
 );
 
-const TrailMeal = ({mealTime}) => {
+const TrailMeal = ({ mealTime }) => {
     const [selectedDate, setSelectedDate] = useState(null);
     const [weekOffset, setWeekOffset] = useState(0);
     const [quantity, setQuantity] = useState(1);
@@ -211,7 +206,7 @@ const TrailMeal = ({mealTime}) => {
         sabji1: [],
         sabji2: null
     });
-    
+
     const [mealOptions, setMealOptions] = useState({
         bread: { data: [], isLoading: true, error: null },
         sabji1: { data: [], isLoading: true, error: null },
@@ -250,7 +245,7 @@ const TrailMeal = ({mealTime}) => {
             console.log(response);
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
-                
+
             }
 
             const jsonData = await response.json();
@@ -370,7 +365,7 @@ const TrailMeal = ({mealTime}) => {
             throw new Error('Please select a date first');
         }
 
-        if (!selectedMeals.bread || !selectedMeals.sabji1[0] || !selectedMeals.sabji2) {
+        if (!selectedMeals.bread || !selectedMeals.sabji1[0]) {
             throw new Error('Please select required options for each category');
         }
 
@@ -413,7 +408,7 @@ const TrailMeal = ({mealTime}) => {
                 body: JSON.stringify(payload),
             });
 
-            console.log("response",response);
+            console.log("response", response);
             const responseText = await response.text();
             let data;
 

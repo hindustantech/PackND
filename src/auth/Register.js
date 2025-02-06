@@ -14,6 +14,7 @@ const Register = () => {
     mobile: '',
     dob: '',
     address: '',
+    address1: '',
     password: '',
     sponcer_id: ''
   });
@@ -184,6 +185,7 @@ const Register = () => {
     if (!formData.mobile) missingFields.push('Mobile Number');
     if (!formData.dob) missingFields.push('Date of Birth');
     if (!formData.address) missingFields.push('Address');
+    if (!formData.address1) missingFields.push('Address1');
     if (!formData.password) missingFields.push('Password');
 
     if (missingFields.length > 0) {
@@ -354,6 +356,24 @@ const Register = () => {
                   className="form-control"
                   placeholder="Address"
                   value={formData.address}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="mb-4">
+              <label className="form-label">Address1</label>
+              <div className="input-group">
+                <span className="input-group-text bg-light">
+                  <LocateIcon size={18} />
+                </span>
+                <input
+                  type="text"
+                  name="address1"
+                  className="form-control"
+                  placeholder="Address"
+                  value={formData.address1}
                   onChange={handleChange}
                   required
                 />

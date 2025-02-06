@@ -32,6 +32,7 @@ const WalletPage = () => {
             try {
                 const data = await getUserPackageAndMenu();
                 setMembership(data?.data?.user_package || null);
+                console.log(data?.data?.user_package );
             } catch (err) {
                 setError(err.message);
             }
@@ -128,7 +129,7 @@ const WalletPage = () => {
 
                 <p className="text-white mx-2" style={{ fontSize: "1.5rem", fontWeight: 'bolder' }}>
 
-                    {remainingDays} Days
+               { Math.floor((amount?.balance_amount || 0) / (membership?.per_tiffin_price || 1))}  Tiffen Left
                 </p>
 
 
