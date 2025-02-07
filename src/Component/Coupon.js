@@ -45,15 +45,15 @@ const Coupon = () => {
             <div className="flex justify-center items-center text-center gap-4 coupn-card">
               <div className="relative">
                 
-                <div className="flex gap-4 justify-center ">
+                <div className="flex gap-3 justify-center ">
                   <button
-                    className="flex items-center gap-2 px-4 py-2 text-lg font-semibold bg-black text-white border-2 border-yellow-400 rounded-3xl focus:ring-offset-2 focus:ring-gray-300"
+                    className="flex items-center gap-2 p-2 py-2 text-lg font-semibold bg-black text-white border-2 border-yellow-400 rounded-2xl focus:ring-offset-2 focus:ring-gray-300"
                   >
                     <span className="text-white">{banners.heading1}</span>
                     <PartyPopper className="ml-2" size={30} />
                   </button>
                   <button
-                    className="flex items-center gap-2 px-4 py-2 text-lg font-semibold bg-black text-white border-2 border-blue-400 rounded-3xl focus:ring-offset-2 focus:ring-gray-300"
+                    className="flex items-center gap-2 p-2 py-2 text-lg font-semibold bg-black text-white border-2 border-blue-400 rounded-2xl focus:ring-offset-2 focus:ring-gray-300"
                   >
                     <span className="text-white">{banners.heading2}</span>
                     <Percent className="ml-2" size={30} />

@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -7,7 +7,8 @@ import {
   signInWithGoogle,
   handleRedirectResult,
   hasPendingSignIn,
-  getReturnPath
+  getReturnPath,
+  authStateService
 } from '../services/authService';
 import { jwtDecode } from "jwt-decode";
 import axios from 'axios';
@@ -23,6 +24,9 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+
+  const [isProcessing, setIsProcessing] = useState(false);
+
   const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 
@@ -77,21 +81,31 @@ const Login = () => {
   };
   // Login With Google
 
+
   useEffect(() => {
-    // Check for redirect result on component mount
+    // Check if user is already authenticated
+    const token = authStateService.getAuthState()?.token;
+    if (token) {
+      navigate('/');
+      return;
+    }
+
     const handleRedirect = async () => {
       if (hasPendingSignIn()) {
+        setIsProcessing(true);
         try {
           const user = await handleRedirectResult();
           if (user) {
-            // Handle successful redirect sign-in
             await handleSuccessfulSignIn(user);
-            // Navigate to the return path
-            navigate(getReturnPath());
+            // Navigate to the stored return path
+            const returnPath = getReturnPath();
+            navigate(returnPath);
           }
         } catch (error) {
           console.error("Redirect handling error:", error);
-          toast.error("Sign in failed. Please try again.");
+          handleAuthError(error);
+        } finally {
+          setIsProcessing(false);
         }
       }
     };
@@ -100,13 +114,17 @@ const Login = () => {
   }, [navigate]);
 
   const handleSuccessfulSignIn = async (user) => {
-    const { displayName, email } = user;
+    if (!user) {
+      throw new Error("No user data received");
+    }
 
+    const { displayName, email } = user;
     if (!displayName || !email) {
       throw new Error("Failed to retrieve user details from Google.");
     }
 
     try {
+      const requestId = crypto.randomUUID();
       const response = await axios.post(
         `${process.env.REACT_APP_API_BASE_URL}/login_google`,
         {
@@ -116,18 +134,32 @@ const Login = () => {
         },
         {
           headers: {
-            'X-Request-ID': crypto.randomUUID()
-          }
+            'X-Request-ID': requestId,
+            'Content-Type': 'application/json'
+          },
+          timeout: 10000 // 10 second timeout
         }
       );
 
       if (response.status === 200 || response.status === 201) {
         const { token, user_id } = response.data;
+        console.log("response.data",response.data);
+          localStorage.setItem("id",user_id);
+        // Try to store auth details with fallback
+        // navigate('/')
+        try {
+          authStateService.setAuthState({
+            token,
+            userId: user_id,
+            timestamp: Date.now()
+          });
 
-        // Store authentication details
-        localStorage.setItem("token", token);
-        localStorage.setItem("id", user_id);
+        } catch (storageError) {
+          console.error("Storage error:", storageError);
+          toast.warning("Login successful but session storage is limited. Some features may not work properly.");
+        }
 
+        // Show success message and navigate
         if (response.status === 201) {
           toast.success("Registration Successful!");
           navigate("/user");
@@ -144,7 +176,36 @@ const Login = () => {
     }
   };
 
+  const handleAuthError = (error) => {
+    if (axios.isAxiosError(error)) {
+      if (error.response) {
+        const errorMessage = error.response.data.message || "Server error occurred";
+        toast.error(`Server Error: ${errorMessage}`);
+        console.error("Server error details:", error.response.data);
+      } else if (error.request) {
+        toast.error("Unable to reach the server. Please check your connection.");
+        console.error("Network error details:", error.request);
+      } else if (error.code === 'ECONNABORTED') {
+        toast.error("Request timed out. Please try again.");
+      } else {
+        toast.error("Network error occurred. Please try again.");
+        console.error("Axios error:", error.message);
+      }
+    } else if (error instanceof TypeError) {
+      toast.error("Browser storage is not accessible. Please check your privacy settings.");
+      console.error("Storage error:", error);
+    } else {
+      toast.error(error.message || "An unexpected error occurred. Please try again.");
+      console.error("General error:", error);
+    }
+  };
+
   const handleGoogleLogin = async () => {
+    if (isProcessing) {
+      return; // Prevent multiple simultaneous attempts
+    }
+
+    setIsProcessing(true);
     try {
       const user = await signInWithGoogle();
       if (user) {
@@ -152,20 +213,9 @@ const Login = () => {
       }
     } catch (error) {
       console.error("Error during Google login:", error);
-
-      if (axios.isAxiosError(error)) {
-        if (error.response) {
-          toast.error(
-            `Server Error: ${error.response.data.message || "Please try again."}`
-          );
-        } else if (error.request) {
-          toast.error("No response from server. Check your internet connection.");
-        } else {
-          toast.error("Unexpected error. Please try again later.");
-        }
-      } else {
-        toast.error(error.message || "Unexpected error. Please try again.");
-      }
+      handleAuthError(error);
+    } finally {
+      setIsProcessing(false);
     }
   };
 
