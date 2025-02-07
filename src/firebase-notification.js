@@ -2,9 +2,6 @@
 import { messaging, getToken, onMessage } from "./firebase-config";
 import axios from "axios";  // Axios for API requests
 
-
-
-
 // Request Notification Permission and Send FCM Token to Server
 
 const requestPermission = async () => {

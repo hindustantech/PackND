@@ -1,9 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 // import { GoogleLogin } from '@react-oauth/google';
-import { signInWithGoogle } from '../services/authService';
+import {
+  signInWithGoogle,
+  handleRedirectResult,
+  hasPendingSignIn,
+  getReturnPath
+} from '../services/authService';
 import { jwtDecode } from "jwt-decode";
 import axios from 'axios';
 
@@ -72,175 +77,97 @@ const Login = () => {
   };
   // Login With Google
 
-  const checkStorageAccess = () => {
-    try {
-      // Test sessionStorage access
-      sessionStorage.setItem('test', 'test');
-      sessionStorage.removeItem('test');
-      return true;
-    } catch (e) {
-      console.warn('SessionStorage is not accessible:', e);
-      return false;
-    }
-  };
-
-  const fallbackStorage = new Map();
-
-  const storageService = {
-    setItem: (key, value) => {
-      try {
-        if (checkStorageAccess()) {
-          sessionStorage.setItem(key, value);
-          localStorage.setItem(key, value); // Backup in localStorage
-        } else {
-          fallbackStorage.set(key, value);
+  useEffect(() => {
+    // Check for redirect result on component mount
+    const handleRedirect = async () => {
+      if (hasPendingSignIn()) {
+        try {
+          const user = await handleRedirectResult();
+          if (user) {
+            // Handle successful redirect sign-in
+            await handleSuccessfulSignIn(user);
+            // Navigate to the return path
+            navigate(getReturnPath());
+          }
+        } catch (error) {
+          console.error("Redirect handling error:", error);
+          toast.error("Sign in failed. Please try again.");
         }
-      } catch (e) {
-        console.warn('Storage write failed, using fallback:', e);
-        fallbackStorage.set(key, value);
       }
-    },
+    };
 
-    getItem: (key) => {
-      try {
-        if (checkStorageAccess()) {
-          return sessionStorage.getItem(key) || localStorage.getItem(key);
-        }
-        return fallbackStorage.get(key);
-      } catch (e) {
-        console.warn('Storage read failed, using fallback:', e);
-        return fallbackStorage.get(key);
-      }
-    },
+    handleRedirect();
+  }, [navigate]);
 
-    removeItem: (key) => {
-      try {
-        if (checkStorageAccess()) {
-          sessionStorage.removeItem(key);
-          localStorage.removeItem(key);
-        }
-        fallbackStorage.delete(key);
-      } catch (e) {
-        console.warn('Storage deletion failed:', e);
-        fallbackStorage.delete(key);
-      }
-    }
-  };
-
-  const handleGoogleLogin = async () => {
-    // Initialize state key for tracking login process
-    const loginStateKey = `google_login_${Date.now()}`;
-
-    try {
-      // Set initial login state
-      storageService.setItem(loginStateKey, JSON.stringify({
-        status: 'started',
-        timestamp: Date.now()
-      }));
-
-      // Step 1: Check for existing auth state
-      const existingState = await firebase.auth().getRedirectResult().catch(() => null);
-      if (existingState?.user) {
-        console.log('Recovered existing auth state');
-        const user = existingState.user;
-        return await handleUserAuthentication(user);
-      }
-
-      // Step 2: Perform Google Sign-In
-      const user = await signInWithGoogle();
-      if (!user) throw new Error('Google sign-in failed');
-
-      return await handleUserAuthentication(user);
-
-    } catch (error) {
-      console.error('Error during Google login:', error);
-      handleLoginError(error);
-      throw error;
-    } finally {
-      // Cleanup login state
-      storageService.removeItem(loginStateKey);
-    }
-  };
-
-  const handleUserAuthentication = async (user) => {
+  const handleSuccessfulSignIn = async (user) => {
     const { displayName, email } = user;
 
     if (!displayName || !email) {
-      throw new Error('Failed to retrieve user details from Google.');
+      throw new Error("Failed to retrieve user details from Google.");
     }
 
     try {
-      // Step 3: Backend Authentication
       const response = await axios.post(
         `${process.env.REACT_APP_API_BASE_URL}/login_google`,
         {
           name: displayName,
           email,
-          client_timestamp: Date.now() // For request validation
+          client_timestamp: Date.now()
         },
         {
           headers: {
-            'X-Request-ID': crypto.randomUUID() // Prevent duplicate requests
+            'X-Request-ID': crypto.randomUUID()
           }
         }
       );
 
-      // Step 4: Handle Response
-      const { token, user_id } = response.data;
+      if (response.status === 200 || response.status === 201) {
+        const { token, user_id } = response.data;
 
-      // Store auth details using storage service
-      storageService.setItem('token', token);
-      storageService.setItem('id', user_id);
+        // Store authentication details
+        localStorage.setItem("token", token);
+        localStorage.setItem("id", user_id);
 
-      // Show success message and redirect
-      if (response.status === 201) {
-        toast.success('Registration Successful!');
-        navigate('/user');
+        if (response.status === 201) {
+          toast.success("Registration Successful!");
+          navigate("/user");
+        } else {
+          toast.success("Login Successful!");
+          navigate("/");
+        }
       } else {
-        toast.success('Login Successful!');
-        navigate('/');
+        throw new Error("Login failed. Please try again.");
       }
-
-      return response.data;
-
     } catch (error) {
-      throw new Error('Backend authentication failed: ' + error.message);
+      console.error("Backend authentication error:", error);
+      throw error;
     }
   };
 
-  const handleLoginError = (error) => {
-    if (axios.isAxiosError(error)) {
-      if (error.response) {
-        const errorMessage = error.response.data.message || 'Server error occurred';
-        toast.error(`Server Error: ${errorMessage}`);
-        console.error('Response Error:', error.response.data);
-      } else if (error.request) {
-        toast.error('No response from server. Check your internet connection.');
-        console.error('Request Error:', error.request);
-      } else {
-        toast.error('Network error occurred. Please try again.');
-        console.error('Axios Error:', error.message);
+  const handleGoogleLogin = async () => {
+    try {
+      const user = await signInWithGoogle();
+      if (user) {
+        await handleSuccessfulSignIn(user);
       }
-    } else if (error instanceof TypeError) {
-      toast.error('Browser storage is not accessible. Please check your privacy settings.');
-      console.error('Storage Error:', error);
-    } else {
-      toast.error(error.message || 'Unexpected error occurred');
-      console.error('General Error:', error);
+    } catch (error) {
+      console.error("Error during Google login:", error);
+
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          toast.error(
+            `Server Error: ${error.response.data.message || "Please try again."}`
+          );
+        } else if (error.request) {
+          toast.error("No response from server. Check your internet connection.");
+        } else {
+          toast.error("Unexpected error. Please try again later.");
+        }
+      } else {
+        toast.error(error.message || "Unexpected error. Please try again.");
+      }
     }
   };
-
-  // Initialize Firebase Auth state observer
-  firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
-      // Update storage with latest auth state
-      storageService.setItem('auth_state', JSON.stringify({
-        uid: user.uid,
-        email: user.email,
-        lastUpdated: Date.now()
-      }));
-    }
-  });
 
 
 
@@ -322,12 +249,12 @@ const Login = () => {
               {loading ? "Logging in..." : "Login"}
             </button>
 
-            {/* <div className="position-relative my-4">
+            <div className="position-relative my-4">
               <hr className="my-0" />
               <div className="position-absolute top-50 start-50 translate-middle bg-white px-3">
                 <span className="text-muted">OR</span>
               </div>
-            </div> */}
+            </div>
           </form>
           {/* <button
                         type="submit"
