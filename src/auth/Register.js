@@ -345,7 +345,7 @@ const Register = () => {
             </div>
 
             <div className="mb-4">
-              <label className="form-label">Address</label>
+              <label className="form-label">Morning Address</label>
               <div className="input-group">
                 <span className="input-group-text bg-light">
                   <LocateIcon size={18} />
@@ -354,7 +354,7 @@ const Register = () => {
                   type="text"
                   name="address"
                   className="form-control"
-                  placeholder="Address"
+                  placeholder="Morning Address"
                   value={formData.address}
                   onChange={handleChange}
                   required
@@ -363,7 +363,7 @@ const Register = () => {
             </div>
 
             <div className="mb-4">
-              <label className="form-label">Address1</label>
+              <label className="form-label">Evening Address</label>
               <div className="input-group">
                 <span className="input-group-text bg-light">
                   <LocateIcon size={18} />
@@ -372,7 +372,7 @@ const Register = () => {
                   type="text"
                   name="address1"
                   className="form-control"
-                  placeholder="Address"
+                  placeholder="Evening Address"
                   value={formData.address1}
                   onChange={handleChange}
                   required

@@ -211,7 +211,7 @@ const Meal = () => {
                 {/* Hero Section */}
                 <div className="relative w-full">
                     <div
-                        className="w-full p-3 text-white rounded-b-lg bg-img object-contain"
+                        className="w-full p-3 text-white rounded-b-3xl bg-img object-contain"
                         style={{
                             backgroundImage: `url(https://projectdemo.ukvalley.com/public/site_logo/${banners.banner_img})`,
                             backgroundSize: 'cover',
@@ -230,7 +230,7 @@ const Meal = () => {
 
                             <NavLink to="/profile" className="nav-link">
                                 <div className="bg-white rounded-full p-2 flex justify-center items-center shadow-md hover:bg-gray-100 transition-colors">
-                                    <User className="w-5 h-5 md:w-6 md:h-6 text-gray-700" />
+                                    <User className="w-5 h-5 md:w-6 md:h-6 text-red-700 fw-bold" />
                                 </div>
                             </NavLink>
                         </div>
