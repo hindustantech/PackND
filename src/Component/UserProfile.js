@@ -56,7 +56,7 @@ const UserProfile = () => {
         }
         break;
       case 'address':
-        if (value.length > 100) {
+        if (value.length > 150) {
           errorMessage = 'Address cannot exceed 100 characters';
         }
         break;
@@ -164,7 +164,7 @@ const UserProfile = () => {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       toast.success('Profile updated successfully!');
-      setSuccessMessage('Profile updated successfully!');
+        navigate('/')
 
       // Clear success message after 3 seconds
       setTimeout(() => {

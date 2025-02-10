@@ -181,11 +181,11 @@ const Register = () => {
     // Validation checks
     const missingFields = [];
 
-    if (!formData.email) missingFields.push('Email');
+    if (!formData.email) missingFields.push('Email Address');
     if (!formData.mobile) missingFields.push('Mobile Number');
     if (!formData.dob) missingFields.push('Date of Birth');
-    if (!formData.address) missingFields.push('Address');
-    if (!formData.address1) missingFields.push('Address1');
+    if (!formData.address) missingFields.push('Morning Address');
+    if (!formData.address1) missingFields.push(' Evening Address');
     if (!formData.password) missingFields.push('Password');
 
     if (missingFields.length > 0) {

@@ -80,7 +80,7 @@ const Profile = () => {
               }}
             >
               <div
-                className="rounded-circle overflow-hidden position-absolute"
+                className="rounded-circle overflow-hidden position-absolute "
                 style={{
                   width: "60px",
                   height: "60px",

@@ -129,7 +129,7 @@ const WalletPage = () => {
 
                 <p className="text-white mx-2" style={{ fontSize: "1.5rem", fontWeight: 'bolder' }}>
 
-               { Math.floor((amount?.balance_amount || 0) / (membership?.per_tiffin_price || 1))}  Tiffen Left
+               { Math.floor((amount?.balance_amount || 0) / (membership?.per_tiffin_price || 1))}  Tiffin Left
                 </p>
 
 
