@@ -41,9 +41,25 @@ const Referral = () => {
   const user_id = localStorage.getItem("id");
   const referralCode = userData.email; // Assuming email is used as referral code
 
+
+  const data = `🥗 Get Fresh, Homemade Meals with Tiffit! 🍛    
+  🚀 Delicious, Healthy Tiffins Delivered to Your Doorstep!    
+  Craving homemade food? Tiffit brings you fresh, tasty, and nutritious tiffins at unbeatable prices!        
+  
+  ✨ Exclusive Offer Just for You! ✨    
+  Use Promo Code: 👉 ${userData.email} 👈 to get ₹100 OFF on your first order! 🎉        
+  
+  📲 Download Now & Claim Your Discount!    
+  👉 Install Now: https://play.google.com/store/apps/details?id=com.packndtiffin.app
+  
+  🍽 Healthy | Tasty | Affordable    
+  🚀 Fast Delivery | Customizable Meals        
+  
+  Hurry! Offer valid for a limited time! 🎊`;
+
   const copyToClipboard = async () => {
     try {
-      await navigator.clipboard.writeText(referralCode);
+      await navigator.clipboard.writeText(data);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000); // Reset copied state after 2 seconds
     } catch (err) {
@@ -109,7 +125,7 @@ const Referral = () => {
 
 
             <div
-              className="w-24 h-24 mb-6 bg-gray-800 rounded-full flex items-center justify-center " style={{marginTop:'-12px'}}
+              className="w-24 h-24 mb-6 bg-gray-800 rounded-full flex items-center justify-center " style={{ marginTop: '-12px' }}
             >
               <svg
                 className="w-12 h-12 text-red-500"
