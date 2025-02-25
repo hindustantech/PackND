@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Nav from "./Nav";
 import axios from "axios";
-import {  ChevronRight, Wallet  ,User} from "lucide-react";
+import { ChevronRight, Wallet, User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { NavLink } from 'react-router-dom';
 
@@ -13,6 +13,9 @@ const WalletPage = () => {
     const user_id = localStorage.getItem("id");
     const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
+    const image = localStorage.getItem("image")
+    console.log("image",image)
+    
     const getUserPackageAndMenu = async () => {
         try {
             if (!user_id) {
@@ -32,7 +35,7 @@ const WalletPage = () => {
             try {
                 const data = await getUserPackageAndMenu();
                 setMembership(data?.data?.user_package || null);
-                console.log(data?.data?.user_package );
+                console.log(data?.data?.user_package);
             } catch (err) {
                 setError(err.message);
             }
@@ -108,7 +111,7 @@ const WalletPage = () => {
                         }}
                     >
                         <img
-                            src="/meal.png"
+                            src={`${process.env.REACT_APP_PROFILE_IMAGE_GET}/${image}`}
                             alt="Profile"
                             className="rounded-circle"
                             style={{
@@ -129,7 +132,7 @@ const WalletPage = () => {
 
                 <p className="text-white mx-2" style={{ fontSize: "1.5rem", fontWeight: 'bolder' }}>
 
-               { Math.floor((amount?.balance_amount || 0) / (membership?.per_tiffin_price || 1))}  Tiffin Left
+                    {Math.floor((amount?.balance_amount || 0) / (membership?.per_tiffin_price || 1))}  Tiffin Left
                 </p>
 
 

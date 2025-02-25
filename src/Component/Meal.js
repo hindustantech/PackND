@@ -6,8 +6,9 @@ import Lunch from './Lunch';
 import Dinner from './Dinner';
 import TrailMeal from './TrailMeal';
 import { NavLink } from 'react-router-dom';
-import Coupon from './Coupon';
+// import Coupon from './Coupon';
 import axios from 'axios';
+
 const Meal = () => {
     const [mealTime, setMealTime] = useState('lunch');
     const [UserData, setUserData] = useState([]);
@@ -86,6 +87,7 @@ const Meal = () => {
             }
 
             const data = await response.json();
+            console.log("data",data.data);
             return data;
         } catch (error) {
 
@@ -236,11 +238,11 @@ const Meal = () => {
                         </div>
 
                         {/* Coupon Section */}
-                        <div className="w-full flex justify-center items-center mt-4 md:mt-6 lg:mt-8">
+                        {/* <div className="w-full flex justify-center items-center mt-4 md:mt-6 lg:mt-8">
                             <div className="w-full max-w-screen-xl mx-auto px-4 md:px-6 lg:px-8">
                                 <Coupon />
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
 
@@ -249,17 +251,24 @@ const Meal = () => {
                     {/* Header */}
                     <div className="d-flex justify-content-between align-items-center mb-4">
                         <div className="d-flex align-items-center">
-                            <div className="me-2">
-                                <div className="text-danger fw-bold">{today.getDate()}</div>
-                                <div className="text-muted"> {today.toLocaleString('default', { month: 'short' })}</div>
+                            {/* Date display section */}
+                            <div className="me-3">
+                                <div className="text-danger fw-bold text-center  " style={{ fontSize: '12px' }} >{today.getDate()}</div>
+                                <div className="text-muted text-center" style={{ fontSize: '9px' }}>{today.toLocaleString('default', { month: 'short' })}</div>
                             </div>
+
+                            {/* User welcome section */}
                             <div>
-                                <div className="fw-bold text-dark"
-                                    style={{ fontSize: '12px' }}>
-                                    Welcome {UserData?.first_name} !
+                                <div
+                                    className="fw-bold text-dark"
+                                    style={{ fontSize: '12px' }}
+                                >
+                                    Welcome {UserData?.first_name}!
                                 </div>
-                                <div className="text-muted"
-                                    style={{ fontSize: '9px', color: '#6F6F6F' }}>
+                                <div
+                                    className="text-muted"
+                                    style={{ fontSize: '9px', color: '#6F6F6F' }}
+                                >
                                     {UserData?.address}
                                 </div>
                             </div>

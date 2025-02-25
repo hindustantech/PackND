@@ -11,6 +11,7 @@ const Profile = () => {
   const navigate = useNavigate();
   const user_id = localStorage.getItem("id");
 
+  console.log(user_id);
   const getUser = async () => {
     try {
       if (!user_id) {
@@ -24,6 +25,7 @@ const Profile = () => {
       }
 
       const data = await response.json();
+
       return data;
     } catch (error) {
 
@@ -36,6 +38,9 @@ const Profile = () => {
       try {
         const data = await getUser();
         setUserData(data.user);
+        // set ("User Data", data.user.image);
+        
+        // console.log("set", set);
         // Set initial meal status from user data if available
 
       } catch (err) {
@@ -70,7 +75,7 @@ const Profile = () => {
           >
             <div
               style={{
-                backgroundImage: `url('/m/${UserData.package_name}.png')`,
+                backgroundImage: `url('/m/${UserData?.package_name}.png')`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",
@@ -90,7 +95,7 @@ const Profile = () => {
                 }}
               >
                 <img
-                  src="/meal.png"
+                  src={`${process.env.REACT_APP_PROFILE_IMAGE_GET}/${UserData?.image}`}
                   alt="Profile"
                   className="w-100 h-100 object-fit-cover"
                   style={{ objectFit: "cover" }}
@@ -99,9 +104,9 @@ const Profile = () => {
             </div>
           </div>
           <p className="custom-text-gradient-profile mt-2">
-            {UserData.package_name} Member
+            {UserData?.package_name} Member
           </p>
-          <h1 className="h3">Hello, {UserData.first_name}!</h1>
+          <h1 className="h3">Hello, {UserData?.first_name}!</h1>
         </div>
 
         {/* Main Content */}

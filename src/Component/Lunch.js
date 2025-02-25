@@ -105,7 +105,10 @@ const MealOption = ({ option, isSelected, onSelect, category, image }) => (
     >
         <div className="flex gap-2 items-center">
             <img
-                src={image || "/meal.png"}
+                src={option.image
+                    ? `https://projectdemo.ukvalley.com/public/menu_items/${option.image}`
+                    : "/meal.png"}
+
                 alt={option.name}
                 className="w-12 h-12 rounded-lg object-cover"
             />
@@ -217,6 +220,7 @@ const Lunch = ({ membeship }) => {
         daily_menu_id: null
     });
 
+
     useEffect(() => {
         const today = new Date();
         const defaultDate = {
@@ -246,6 +250,7 @@ const Lunch = ({ membeship }) => {
             const dateStr = `${selectedDate.year}-${selectedDate.month}-${selectedDate.day}`;
             const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/getTodayMenu/${userid}/${dateStr}`);
 
+            console.log("Respons", response.data)
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
@@ -254,8 +259,6 @@ const Lunch = ({ membeship }) => {
 
 
             if (jsonData.status === 'success') {
-
-
 
                 // Check for existing order first
                 if (jsonData.data?.existing_orders?.morning?.[0]) {
@@ -270,6 +273,7 @@ const Lunch = ({ membeship }) => {
                     // No existing order, show available options
                     setExistingOrder(null);
                     const morningMenu = jsonData.data.menu.morning[0];
+                    console.log("morningMenu", morningMenu)
 
                     setMealOptions({
                         bread: { data: morningMenu.bread_options || [], isLoading: false, error: null },
@@ -511,7 +515,7 @@ const Lunch = ({ membeship }) => {
 
                                     />
 
-                                    {checkmembership !== "Bronze" && (
+                                    {(checkmembership !== "Bronze" && checkmembership !== "Silver") && (
                                         <MealSection
                                             title="Sabji 2"
                                             description="Select your second sabji"
@@ -525,6 +529,7 @@ const Lunch = ({ membeship }) => {
                                             error={mealOptions.sabji2.error}
                                         />
                                     )}
+
 
                                 </div>
                                 <h5 className='text-center mt-3 text-danger'>

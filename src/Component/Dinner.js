@@ -105,7 +105,10 @@ const MealOption = ({ option, isSelected, onSelect, category }) => (
     >
         <div className="flex gap-2 items-center">
             <img
-                src={option.image || "/meal.png"}
+                src={option.image
+                    ? `https://projectdemo.ukvalley.com/public/menu_items/${option.image}`
+                    : "/meal.png"
+                }
                 alt={option.name}
                 className="w-12 h-12 rounded-lg object-cover"
             />
@@ -501,7 +504,7 @@ sm:min-w-[50px] md:min-w-[60px] lg:min-w-[70px]`}>
 
                                     />
 
-                                    {checkmembership !== "Bronze" && (
+                                    {(checkmembership !== "Bronze" && checkmembership !== "Silver") && (
                                         <MealSection
                                             title="Sabji 2"
                                             description="Select your second sabji"
@@ -515,6 +518,7 @@ sm:min-w-[50px] md:min-w-[60px] lg:min-w-[70px]`}>
                                             error={mealOptions.sabji2.error}
                                         />
                                     )}
+
                                 </div>
                                 <h5 className='text-center mt-3 text-danger'>
                                     Selected Date for Dinner  {selectedDate ? `${selectedDate.day} ${new Date(`${selectedDate.month} 1`).toLocaleString('en-US', { month: 'short' })}, ${selectedDate.year}` : ''}
