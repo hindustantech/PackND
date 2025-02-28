@@ -18,12 +18,14 @@ const UserProfile = () => {
     address1: ''
   });
 
+  // Store original user data to track changes
+  const [originalUser, setOriginalUser] = useState({});
+
   const [errors, setErrors] = useState({
     name: '',
-    address: '',
-    dob: '',
     mobile: '',
-    address1: ''
+    address1: '',
+    dob: ''
   });
 
   const [previewImage, setPreviewImage] = useState('');
@@ -56,11 +58,6 @@ const UserProfile = () => {
           errorMessage = 'Name cannot exceed 25 characters';
         }
         break;
-      case 'address':
-        if (value.length > 150) {
-          errorMessage = 'Address cannot exceed 100 characters';
-        }
-        break;
       case 'dob':
         if (!value) {
           errorMessage = 'Date of birth is required';
@@ -82,7 +79,7 @@ const UserProfile = () => {
     setUser({ ...user, [field]: value });
 
     // Validate fields that have constraints
-    if (['name', 'address', 'dob', 'mobile', 'address1'].includes(field)) {
+    if (['name', 'dob', 'mobile', 'address1'].includes(field)) {
       const errorMessage = validateField(field, value);
       setErrors(prev => ({ ...prev, [field]: errorMessage }));
     }
@@ -96,7 +93,7 @@ const UserProfile = () => {
         const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/getuser/${user_id}`);
         const userData = response.data.user;
 
-        setUser({
+        const userInfo = {
           name: userData.first_name,
           email: userData.email1,
           dob: userData.dob,
@@ -105,7 +102,11 @@ const UserProfile = () => {
           address: userData.address,
           address1: userData.address1,
           id: user_id
-        });
+        };
+
+        // Set both current user and original user data
+        setUser(userInfo);
+        setOriginalUser(userInfo);
 
         // Validate age when loading user data
         if (userData.dob) {
@@ -156,40 +157,71 @@ const UserProfile = () => {
     }
   };
 
+  // Function to check if any changes were made
+  const hasChanges = () => {
+    // Check for changes in text fields
+    const textFieldsChanged =
+      user.name !== originalUser.name ||
+      user.mobile !== originalUser.mobile ||
+      user.address1 !== originalUser.address1 ||
+      user.dob !== originalUser.dob;
+
+    // Check if new image was uploaded
+    const imageChanged = user.image !== originalUser.image &&
+      typeof user.image !== 'string';
+
+    return textFieldsChanged || imageChanged;
+  };
+
   // Handle form submission with validation
   const handleSubmit = async () => {
+    // Check if any changes were made
+    if (!hasChanges()) {
+      toast.info('No changes detected');
+      navigate('/profile');
+      return;
+    }
+
     // Validate all fields before submission
     const nameError = validateField('name', user.name);
-    const addressError = validateField('address', user.address);
-    const address1Error = validateField('address1', user.address1);
     const dobError = validateField('dob', user.dob);
-    const mobileError = validateField('mobile', user.mobile);
 
     setErrors({
       name: nameError,
-      address: addressError,
-      address1: address1Error,
       dob: dobError,
-      mobile: mobileError
+      mobile: '',
+      address1: ''
     });
 
     // Check if there are any validation errors
-    if (nameError || addressError || dobError || mobileError || address1Error) {
+    if (nameError || dobError) {
       toast.error('Please fix the validation errors before submitting');
       return;
     }
 
     const formData = new FormData();
+
+    // Only append fields that have changed
     Object.keys(user).forEach((key) => {
-      formData.append(key, user[key]);
+      if (key === 'image') {
+        // Only append image if it's a File object (new upload)
+        if (user[key] !== originalUser[key] && typeof user[key] !== 'string') {
+          formData.append(key, user[key]);
+        }
+      } else if (user[key] !== originalUser[key]) {
+        formData.append(key, user[key]);
+      }
     });
 
+    // Always include the user ID
+    formData.append('id', user.id);
+
     try {
-      await axios.post(`${process.env.REACT_APP_API_BASE_URL}/update/`, formData, {
+      await axios.post(`${process.env.REACT_APP_API_BASE_URL}/update`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       toast.success('Profile updated successfully!');
-      navigate('/home')
+      navigate('/profile');
 
       // Clear success message after 3 seconds
       setTimeout(() => {
@@ -204,7 +236,7 @@ const UserProfile = () => {
 
   // Render form fields with specific conditions
   const renderFormField = (field, label) => {
-    const isReadOnly = field === 'email';
+    const isReadOnly = field === 'email' || field === 'address';
 
     if (field === 'dob') {
       return (
@@ -238,7 +270,7 @@ const UserProfile = () => {
           className={`w-full p-3 border rounded-lg ${isReadOnly ? 'bg-gray-100' : ''} 
             ${errors[field] ? 'border-red-500' : ''}`}
           readOnly={isReadOnly}
-          maxLength={field === 'name' ? 25 : field === 'address' ? 100 : undefined}
+          maxLength={field === 'name' ? 25 : undefined}
           placeholder={`Enter your ${field}`}
         />
         {errors[field] && (
@@ -253,15 +285,6 @@ const UserProfile = () => {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-xl text-gray-600">Loading...</div>
-      </div>
-    );
-  }
-
-  // Error state
-  if (error) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-xl text-red-600">{error}</div>
       </div>
     );
   }
@@ -309,7 +332,7 @@ const UserProfile = () => {
           </div>
         </div>
 
-        {/* Form Fields */}
+        {/* Form Fields - Only showing the editable fields */}
         <div className="space-y-5">
           {renderFormField('name', 'Name')}
           {renderFormField('mobile', 'Mobile Number')}
@@ -328,6 +351,8 @@ const UserProfile = () => {
         >
           Save Changes
         </button>
+
+       
       </div>
     </div>
   );

@@ -4,7 +4,7 @@ import Nav from './Nav';
 import { Package, Gift, Sun, Moon, Award, User } from 'lucide-react';
 import Lunch from './Lunch';
 import Dinner from './Dinner';
-import TrailMeal from './TrailMeal';
+// import TrailMeal from './TrailMeal';
 import { NavLink } from 'react-router-dom';
 // import Coupon from './Coupon';
 import axios from 'axios';
@@ -457,8 +457,10 @@ const Meal = () => {
                     ) : (
 
                         <>
-                            {mealTime === 'lunch' && <TrailMeal mealTime='morning' />}
-                            {mealTime === 'dinner' && <TrailMeal mealTime='evening' />}
+                            {/* {mealTime === 'lunch' && <TrailMeal mealTime='morning' />}
+                            {mealTime === 'dinner' && <TrailMeal mealTime='evening' />} */}
+
+                            <div> Trail Meal </div>
                         </>
 
                     )}

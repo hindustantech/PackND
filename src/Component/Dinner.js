@@ -12,6 +12,7 @@ const LoadingPlaceholder = () => (
 
 const ExistingOrderDisplay = ({ order }) => {
     if (!order) return null;
+    console.log(order)
 
     return (
         <div className="max-w-2xl mx-auto rounded-lg shadow-sm overflow-hidden mb-4">
@@ -40,7 +41,7 @@ const ExistingOrderDisplay = ({ order }) => {
                         {/* Bread Section - Only show if bread_name exists */}
                         {order.bread_name && (
                             <div className='d-flex'>
-                                <img src='/meal.png' className='w-20 h-20 rounded mx-2' alt="bread" />
+                                <img src={`https://projectdemo.ukvalley.com/public/menu_items/${order?.bread_image}`} className='w-20 h-20 rounded mx-2' alt="bread" />
                                 <div className="bg-gray-50 rounded-lg p-1 shadow-sm w-100">
                                     <div className="flex mt-1 gap-2 mb-2">
                                         <p className="text-sm font-medium text-gray-700">{order.bread_name}</p>
@@ -53,7 +54,7 @@ const ExistingOrderDisplay = ({ order }) => {
                         {/* Sabji1 Section - Only show if sabji1_name exists */}
                         {order.sabji1_name && (
                             <div className='d-flex'>
-                                <img src='/meal.png' className='w-20 h-20 rounded mx-2' alt="sabji1" />
+                                <img src={`https://projectdemo.ukvalley.com/public/menu_items/${order.sabji1_image}`} className='w-20 h-20 rounded mx-2' alt="sabji1" />
                                 <div className="bg-gray-50 rounded-lg p-1 shadow-sm w-100">
                                     <div className="flex mt-1 gap-2 mb-2">
                                         <p className="text-sm font-medium text-gray-700">{order.sabji1_name}</p>
@@ -64,9 +65,10 @@ const ExistingOrderDisplay = ({ order }) => {
                         )}
 
                         {/* Sabji2 Section - Only show if sabji2_name exists */}
+
                         {order.sabji2_name && (
                             <div className='d-flex'>
-                                <img src='/meal.png' className='w-20 h-20 rounded mx-2' alt="sabji2" />
+                                <img src={`https://projectdemo.ukvalley.com/public/menu_items/${order.sabji2_image}`} className='w-20 h-20 rounded mx-2' alt="sabji2" />
                                 <div className="bg-gray-50 rounded-lg p-1 shadow-sm w-100">
                                     <div className="flex mt-1 gap-2 mb-2">
                                         <p className="text-sm font-medium text-gray-700">{order.sabji2_name}</p>

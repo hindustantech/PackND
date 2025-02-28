@@ -10,7 +10,7 @@ const WalletPage = () => {
     const [membership, setMembership] = useState(null);
     const [amount, setAmount] = useState(null);
     const [error, setError] = useState(null);
-    const[imageu,setUserimage]=useState(null)
+    const [imageu, setUserimage] = useState(null)
     const user_id = localStorage.getItem("id");
     const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
@@ -156,10 +156,10 @@ const WalletPage = () => {
                         }}
                     >
                         <img
-                            src={image ? `${process.env.REACT_APP_PROFILE_IMAGE_GET}/${imageu}` : "/meal.png"}
+                            src={imageu ? `${process.env.REACT_APP_PROFILE_IMAGE_GET}/${imageu}` : "/meal.png"}
                             // src={`${process.env.REACT_APP_PROFILE_IMAGE_GET}/${image}`}
                             alt="Profile"
-                            className="rounded-circle"
+                            className="rounded-circle w-100 h-100 object-fit-cover"
                             style={{
                                 width: "50px",  // Further reduced image size
                                 height: "50px",
@@ -167,7 +167,9 @@ const WalletPage = () => {
                                 top: "50%",
                                 left: "50%",
                                 transform: "translate(-50%, -50%)",
+                                objectFit: "cover"
                             }}
+
                         />
                     </div>
                 </div>
