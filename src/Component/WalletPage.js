@@ -159,7 +159,7 @@ const WalletPage = () => {
                             src={imageu ? `${process.env.REACT_APP_PROFILE_IMAGE_GET}/${imageu}` : "/meal.png"}
                             // src={`${process.env.REACT_APP_PROFILE_IMAGE_GET}/${image}`}
                             alt="Profile"
-                            className="rounded-circle w-100 h-100 object-fit-cover"
+                            className="rounded-circle  object-fit-cover"
                             style={{
                                 width: "50px",  // Further reduced image size
                                 height: "50px",
