@@ -105,10 +105,11 @@ const PauseMeal = ({ meal_time }) => {
                 user_id: user_id,
                 meal_status: mealStatus,
                 pause_time_from: startDate,
-                pause_time_to: endDate
+                pause_time_to: endDate,
+                meal_time:meal_time
             };
 
-            console.log('API Request Payload:', payload);
+            // console.log('API Request Payload:', payload);
 
             const response = await fetch(
                 `${process.env.REACT_APP_API_BASE_URL}/updateMealStatus`,
@@ -122,7 +123,7 @@ const PauseMeal = ({ meal_time }) => {
             );
 
             const responseText = await response.text();
-            console.log('API Response Text:', responseText);
+            // console.log('API Response Text:', responseText);
 
             let result;
             try {

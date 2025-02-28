@@ -10,12 +10,14 @@ const WalletPage = () => {
     const [membership, setMembership] = useState(null);
     const [amount, setAmount] = useState(null);
     const [error, setError] = useState(null);
+    const[imageu,setUserimage]=useState(null)
     const user_id = localStorage.getItem("id");
     const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
     const image = localStorage.getItem("image")
-    console.log("image",image)
-    
+    // console.log("image)
+    console.log("image 232:", image)
+
     const getUserPackageAndMenu = async () => {
         try {
             if (!user_id) {
@@ -30,12 +32,55 @@ const WalletPage = () => {
         }
     };
 
+
+    // const user_id = localStorage.getItem("id");
+
+    console.log(user_id);
+    const getUser = async () => {
+        try {
+            if (!user_id) {
+                throw new Error("User ID not found in localStorage.");
+            }
+
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/getuser/${user_id}`);
+
+            if (!response.ok) {
+                throw new Error(`Unexpected response status: ${response.status}`);
+            }
+
+            const data = await response.json();
+
+            return data;
+        } catch (error) {
+
+            throw error;
+        }
+    };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getUser();
+                setUserimage(data.user.image);
+                // const set=localStorage.setItem("image", data.user.image);
+
+                // console.log("set", data.user.image);
+                // Set initial meal status from user data if available
+
+            } catch (err) {
+                setError(err.message);
+            }
+        };
+
+        fetchData();
+    }, []);
+
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const data = await getUserPackageAndMenu();
                 setMembership(data?.data?.user_package || null);
-                console.log(data?.data?.user_package);
+                // console.log(data?.data?.user_package);
             } catch (err) {
                 setError(err.message);
             }
@@ -111,7 +156,8 @@ const WalletPage = () => {
                         }}
                     >
                         <img
-                            src={`${process.env.REACT_APP_PROFILE_IMAGE_GET}/${image}`}
+                            src={image ? `${process.env.REACT_APP_PROFILE_IMAGE_GET}/${imageu}` : "/meal.png"}
+                            // src={`${process.env.REACT_APP_PROFILE_IMAGE_GET}/${image}`}
                             alt="Profile"
                             className="rounded-circle"
                             style={{

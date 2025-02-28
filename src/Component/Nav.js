@@ -6,7 +6,7 @@ const Nav = () => {
   const navigate = useNavigate();
   const user_id = localStorage.getItem("id");
   if (!user_id) {
-    navigate('/login');
+    navigate('/');
   }
 
   return (
@@ -16,7 +16,7 @@ const Nav = () => {
           <li className="nav-item">
             <NavLink
               className={({ isActive }) => `nav-link text-center text-color`}
-              to="/"
+              to="/home"
             >
               {({ isActive }) => (
                 <>

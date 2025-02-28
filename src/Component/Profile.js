@@ -11,7 +11,7 @@ const Profile = () => {
   const navigate = useNavigate();
   const user_id = localStorage.getItem("id");
 
-  console.log(user_id);
+  // console.log(user_id);
   const getUser = async () => {
     try {
       if (!user_id) {
@@ -38,9 +38,9 @@ const Profile = () => {
       try {
         const data = await getUser();
         setUserData(data.user);
-        // set ("User Data", data.user.image);
+        // const set=localStorage.setItem("image", data.user.image);
         
-        // console.log("set", set);
+        // console.log("set", data.user.image);
         // Set initial meal status from user data if available
 
       } catch (err) {
@@ -64,7 +64,7 @@ const Profile = () => {
           style={{ borderRadius: '0 0 25px 25px' }}
         >
           <div className="d-flex justify-content-between align-items-center mx-3">
-            <ChevronLeft size={24} onClick={() => { navigate('/') }} />
+            <ChevronLeft size={24} onClick={() => { navigate('/home') }} />
             <div className=" h-7 w-7 d-flex justify-content-center aling-item-center rounded">
               {/* <img src="/nav/Translate.png" alt="PacknD" className="h-6" loading="lazy" /> */}
             </div>
@@ -95,7 +95,9 @@ const Profile = () => {
                 }}
               >
                 <img
-                  src={`${process.env.REACT_APP_PROFILE_IMAGE_GET}/${UserData?.image}`}
+                 
+                  src={UserData?.image?`${process.env.REACT_APP_PROFILE_IMAGE_GET}/${UserData?.image}`:"/meal.png"}
+
                   alt="Profile"
                   className="w-100 h-100 object-fit-cover"
                   style={{ objectFit: "cover" }}
@@ -171,7 +173,7 @@ const Profile = () => {
               className='mt-2 w-100'
               onClick={() => {
                 localStorage.removeItem('id');
-                window.location.href = '/login';
+                window.location.href = '/';
               }}
             >
               Logout

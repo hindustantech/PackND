@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { sendTokenToServer } from '../firebase-notification';
 // import { GoogleLogin } from '@react-oauth/google';
 import {
   signInWithGoogle,
@@ -68,7 +69,9 @@ const Login = () => {
       if (response.ok) {
         toast(response.message)
         localStorage.setItem("id", id);
-        navigate('/');
+        const token = localStorage.getItem("token")
+        sendTokenToServer(token, id);
+        navigate('/home');
 
       } else {
         setError(result.message || 'Login failed. Please try again.');
@@ -82,13 +85,9 @@ const Login = () => {
   // Login With Google
 
 
-  useEffect(() => {
-    // Check if user is already authenticated
-    const token = authStateService.getAuthState()?.token;
-    if (token) {
-      navigate('/');
-      return;
-    }
+  useEffect( () => {
+  
+  
 
     const handleRedirect = async () => {
       if (hasPendingSignIn()) {
@@ -142,9 +141,14 @@ const Login = () => {
       );
 
       if (response.status === 200 || response.status === 201) {
-        const { token, user_id } = response.data;
-        console.log("response.data",response.data);
-          localStorage.setItem("id",user_id);
+        const { user_id } = response.data;
+        console.log("response.data", response.data);
+        localStorage.setItem("id", user_id);
+
+        const token = localStorage.getItem("token")
+        console.log("token",token);
+        sendTokenToServer(token, user_id);
+
         // Try to store auth details with fallback
         // navigate('/')
         try {
@@ -165,7 +169,7 @@ const Login = () => {
           navigate("/user");
         } else {
           toast.success("Login Successful!");
-          navigate("/");
+          navigate("/home");
         }
       } else {
         throw new Error("Login failed. Please try again.");

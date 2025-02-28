@@ -40,6 +40,17 @@ const Register = () => {
     fetchUser();
   }, []);
 
+  const verifyreferal = async () => {
+    try {
+      const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/registercheck/?referral_id=${formData.sponcer_id}`);
+      toast(res.data.status);
+    } catch (error) {
+      // console.log(error.message)
+    }
+
+  }
+
+
 
 
   const calculateAge = (birthDate) => {
@@ -142,7 +153,7 @@ const Register = () => {
           navigate("/user"); // Navigate to /user for registration success
         } else if (response.status === 200) {
           toast.success("Login Successful!");
-          navigate("/"); // Navigate to home for login success
+          navigate("/home"); // Navigate to home for login success
         }
       } else {
         throw new Error("Login failed. Please try again.");
@@ -234,7 +245,7 @@ const Register = () => {
         formData
       );
       toast.success(response.data.message);
-      navigate('/login');
+      navigate('/');
     } catch (err) {
       setError(err.response?.data?.message || 'An error occurred while registering. Please try again.');
       toast.error(err.response?.data?.message || 'Registration failed. Please try again.');
@@ -393,6 +404,7 @@ const Register = () => {
                   placeholder="Referral Code"
                   value={formData.sponcer_id}
                   onChange={handleChange}
+                  onBlur={verifyreferal}
                 />
               </div>
             </div>
@@ -458,7 +470,7 @@ const Register = () => {
 
           <div className="text-center mt-2">
             <span className="text-muted">Already have an account?</span>
-            <Link to="/login" className="text-red-600 text-decoration-none ms-2">
+            <Link to="/" className="text-red-600 text-decoration-none ms-2">
               Sign in
             </Link>
           </div>

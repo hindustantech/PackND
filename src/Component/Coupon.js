@@ -12,7 +12,7 @@ const Coupon = () => {
     const fetchBanners = async () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/appBanners`);
-        console.log("response coupen", response.data);
+        // console.log("response coupen", response.data);
         setBanners(response.data); // Store the raw data directly
       } catch (err) {
         setError(err.message);

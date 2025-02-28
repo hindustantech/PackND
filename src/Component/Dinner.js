@@ -479,17 +479,7 @@ sm:min-w-[50px] md:min-w-[60px] lg:min-w-[70px]`}>
                         ) : (
                             <>
                                 <div className="space-y-6">
-                                    <MealSection
-                                        title="Bread"
-                                        description="Select your bread preference"
-                                        options={mealOptions.bread.data}
-                                        category="bread"
-                                        img='/meal/Bread.png'
-                                        selectedOption={selectedMeals.bread}
-                                        onSelect={handleMealSelection}
-                                        isLoading={mealOptions.bread.isLoading}
-                                        error={mealOptions.bread.error}
-                                    />
+
 
                                     <MealSection
                                         title="Sabji 1"
@@ -518,6 +508,18 @@ sm:min-w-[50px] md:min-w-[60px] lg:min-w-[70px]`}>
                                             error={mealOptions.sabji2.error}
                                         />
                                     )}
+
+                                    <MealSection
+                                        title="Bread"
+                                        description="Select your bread preference"
+                                        options={mealOptions.bread.data}
+                                        category="bread"
+                                        img='/meal/Bread.png'
+                                        selectedOption={selectedMeals.bread}
+                                        onSelect={handleMealSelection}
+                                        isLoading={mealOptions.bread.isLoading}
+                                        error={mealOptions.bread.error}
+                                    />
 
                                 </div>
                                 <h5 className='text-center mt-3 text-danger'>

@@ -12,6 +12,7 @@ const LoadingPlaceholder = () => (
 
 const ExistingOrderDisplay = ({ order }) => {
     if (!order) return null;
+    console.log(order)
 
     return (
         <div className="max-w-2xl mx-auto rounded-lg shadow-sm overflow-hidden mb-4">
@@ -40,7 +41,7 @@ const ExistingOrderDisplay = ({ order }) => {
                         {/* Bread Section - Only show if bread_name exists */}
                         {order.bread_name && (
                             <div className='d-flex'>
-                                <img src='/meal.png' className='w-20 h-20 rounded mx-2' alt="bread" />
+                                <img src={`https://projectdemo.ukvalley.com/public/menu_items/${order?.bread_image}`} className='w-20 h-20 rounded mx-2' alt="bread" />
                                 <div className="bg-gray-50 rounded-lg p-1 shadow-sm w-100">
                                     <div className="flex mt-1 gap-2 mb-2">
                                         <p className="text-sm font-medium text-gray-700">{order.bread_name}</p>
@@ -53,7 +54,7 @@ const ExistingOrderDisplay = ({ order }) => {
                         {/* Sabji1 Section - Only show if sabji1_name exists */}
                         {order.sabji1_name && (
                             <div className='d-flex'>
-                                <img src='/meal.png' className='w-20 h-20 rounded mx-2' alt="sabji1" />
+                                <img src={`https://projectdemo.ukvalley.com/public/menu_items/${order.sabji1_image}`} className='w-20 h-20 rounded mx-2' alt="sabji1" />
                                 <div className="bg-gray-50 rounded-lg p-1 shadow-sm w-100">
                                     <div className="flex mt-1 gap-2 mb-2">
                                         <p className="text-sm font-medium text-gray-700">{order.sabji1_name}</p>
@@ -64,9 +65,10 @@ const ExistingOrderDisplay = ({ order }) => {
                         )}
 
                         {/* Sabji2 Section - Only show if sabji2_name exists */}
+
                         {order.sabji2_name && (
                             <div className='d-flex'>
-                                <img src='/meal.png' className='w-20 h-20 rounded mx-2' alt="sabji2" />
+                                <img src={`https://projectdemo.ukvalley.com/public/menu_items/${order.sabji2_image}`} className='w-20 h-20 rounded mx-2' alt="sabji2" />
                                 <div className="bg-gray-50 rounded-lg p-1 shadow-sm w-100">
                                     <div className="flex mt-1 gap-2 mb-2">
                                         <p className="text-sm font-medium text-gray-700">{order.sabji2_name}</p>
@@ -211,6 +213,8 @@ const Lunch = ({ membeship }) => {
         sabji1: [],
         sabji2: null
     });
+
+    // console.log("existingOrder",);
 
 
     const [mealOptions, setMealOptions] = useState({
@@ -424,6 +428,7 @@ const Lunch = ({ membeship }) => {
 
             try {
                 data = JSON.parse(responseText);
+                console.log("data",data);
             } catch (e) {
                 if (responseText.includes('<!DOCTYPE html>') || responseText.includes('<html>')) {
                     throw new Error('Server returned HTML instead of JSON. This might indicate a server error.');
@@ -490,17 +495,7 @@ const Lunch = ({ membeship }) => {
                         ) : (
                             <>
                                 <div className="space-y-6">
-                                    <MealSection
-                                        title="Bread"
-                                        description="Select your bread preference"
-                                        options={mealOptions.bread.data}
-                                        category="bread"
-                                        selectedOption={selectedMeals.bread}
-                                        img='/meal/Bread.png'
-                                        onSelect={handleMealSelection}
-                                        isLoading={mealOptions.bread.isLoading}
-                                        error={mealOptions.bread.error}
-                                    />
+
 
                                     <MealSection
                                         title="Sabji 1"
@@ -529,6 +524,18 @@ const Lunch = ({ membeship }) => {
                                             error={mealOptions.sabji2.error}
                                         />
                                     )}
+
+                                    <MealSection
+                                        title="Bread"
+                                        description="Select your bread preference"
+                                        options={mealOptions.bread.data}
+                                        category="bread"
+                                        selectedOption={selectedMeals.bread}
+                                        img='/meal/Bread.png'
+                                        onSelect={handleMealSelection}
+                                        isLoading={mealOptions.bread.isLoading}
+                                        error={mealOptions.bread.error}
+                                    />
 
 
                                 </div>

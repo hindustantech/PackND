@@ -117,7 +117,7 @@ const Referral = () => {
         >
 
           <div className="d-flex   ">
-            <ChevronLeft className="w-10 h-10 mr-2 text-white" onClick={() => navigate('/')} />
+            <ChevronLeft className="w-10 h-10 mr-2 text-white" onClick={() => navigate('/home')} />
 
 
           </div>
