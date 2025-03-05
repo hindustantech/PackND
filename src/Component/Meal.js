@@ -4,10 +4,11 @@ import Nav from './Nav';
 import { Package, Gift, Sun, Moon, Award, User } from 'lucide-react';
 import Lunch from './Lunch';
 import Dinner from './Dinner';
-// import TrailMeal from './TrailMeal';
+import TrailMeal from './TrailMeal';
 import { NavLink } from 'react-router-dom';
 // import Coupon from './Coupon';
 import axios from 'axios';
+import PauseMeal from './PuseMeal';
 
 
 
@@ -15,7 +16,7 @@ const Meal = () => {
     const [mealTime, setMealTime] = useState('lunch');
     const [UserData, setUserData] = useState([]);
     const [isPaused, setIsPaused] = useState(false);
-    const [Pausedtime, setIsPausedtime] = useState(false);
+
     const [Membership, setMembership] = useState(null);
     const [error, setError] = useState(null);
     const [banners, setBanners] = useState([]);
@@ -28,8 +29,9 @@ const Meal = () => {
     const today = new Date();
 
 
-    const shouldShowLunch = !(isPaused && Pausedtime === "Morning");
-    const shouldShowDinner = !(isPaused && Pausedtime === "Evening");
+
+    console.log("isPaused", isPaused);
+
 
 
     const fetchBanners = async () => {
@@ -109,8 +111,6 @@ const Meal = () => {
                 const data = await getUser();
                 setUserData(data.user);
                 setIsPaused(data.user.meal_status)
-                setIsPausedtime(data.user.meal_time)
-                console.log("data.user.meal_time", data.user.meal_time);
                 fetchBanners();
 
             } catch (err) {
@@ -218,59 +218,49 @@ const Meal = () => {
 
 
 
-    // Main Component Render
     // Correctly implementing the conditional logic
-    const MealComponent = ({ isPaused, Pausedtime, mealTime, Membership }) => {
+
+    const MealComponent = () => {
         // First determine if we should show lunch
-        const showLunch = !(isPaused && Pausedtime === 'Morning') && mealTime === 'lunch';
 
-        // Then determine if we should show dinner
-        const showDinner = !(isPaused && Pausedtime === 'Evening') && mealTime === 'dinner';
-
-        // Check if meal is paused based on the current mealTime
-        const isMealPaused = (isPaused && Pausedtime === 'Morning' && mealTime === 'lunch') ||
-            (isPaused && Pausedtime === 'Evening' && mealTime === 'dinner');
 
         return (
             <div>
                 {/* Show paused message when meal is paused */}
-                {isMealPaused && (
-                    <div className="p-6 bg-white rounded-lg shadow-sm mb-4  mt-3">
-                        <div className="text-center">
-                            <div className="mb-3">
-                                <svg
-                                    className="w-12 h-12 mx-auto text-yellow-500"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-                                    />
-                                </svg>
-                            </div>
-                            <h3 className="text-lg font-medium text-gray-900 mb-2">
-                                Meal Service Paused
-                            </h3>
-                            <p className="text-gray-600">
-                                Your  meal service is temporarily paused<br />
-                               
-                            </p>
+                (
+                <div className="p-6 bg-white rounded-lg shadow-sm mb-4 mt-3">
+                    <div className="text-center">
+                        <div className="mb-3">
+                            <svg
+                                className="w-12 h-12 mx-auto text-yellow-500"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                                />
+                            </svg>
                         </div>
+                        <h3 className="text-lg font-medium text-gray-900 mb-2">
+                            Meal Service Paused
+                        </h3>
+                        <p className="text-gray-600">
+                            Your meal service is temporarily paused<br />
+                        </p>
                     </div>
-                )}
+                </div>
+                )
 
-                {/* Only render Lunch if showLunch is true */}
-                {showLunch && <Lunch membeship={Membership} />}
 
-                {/* Only render Dinner if showDinner is true */}
-                {showDinner && <Dinner membeship={Membership} />}
+
             </div>
         );
     };
+
 
 
 
@@ -403,7 +393,7 @@ const Meal = () => {
                     </div>
 
                     {/* Membership Section */}
-                    <h6 className="text-danger text-center mb-3" style={{ fontWeight: 'bold' }}>Your Membership Meal</h6>
+                    <h6 className="text-danger text-center mb-2" style={{ fontWeight: 'bold' }}>Your Membership Meal</h6>
                     {Membership ? (
                         <div className="d-flex">
                             <div style={{ minWidth: '80px' }} className="d-flex align-items-start px-2 ">
@@ -457,10 +447,8 @@ const Meal = () => {
                     ) : (
 
                         <>
-                            {/* {mealTime === 'lunch' && <TrailMeal mealTime='morning' />}
-                            {mealTime === 'dinner' && <TrailMeal mealTime='evening' />} */}
-
-                            <div> Trail Meal </div>
+                            {mealTime === 'lunch' && <TrailMeal mealTime='morning' />}
+                            {mealTime === 'dinner' && <TrailMeal mealTime='evening' />}
                         </>
 
                     )}
@@ -468,16 +456,14 @@ const Meal = () => {
                     {/* Meal Components */}
                     {Membership && (
                         <>
+                            <PauseMeal />
+
+
+                            {mealTime === 'lunch' && <Lunch mealTime='morning' />}
+                            {mealTime === 'dinner' && <Dinner mealTime='evening' />}
 
 
 
-
-                            <MealComponent
-                                isPaused={isPaused}
-                                Pausedtime={Pausedtime}
-                                mealTime={mealTime}
-                                Membership={Membership}
-                            />
 
                         </>
                     )}

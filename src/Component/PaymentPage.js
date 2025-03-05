@@ -13,6 +13,10 @@ const CustomSelect = ({ options, value, onChange, placeholder }) => {
     setSelectedOption(selected);
   }, [value, options]);
 
+
+
+
+
   return (
     <div className="relative">
       <div
@@ -64,6 +68,8 @@ const PaymentPage = () => {
     tiffin_quantity: '30', // Default to 30
   });
 
+
+  console.log("qrDetails", qrDetails);
   const user_id = localStorage.getItem("id");
 
   const getDinerMeal = async () => {
@@ -107,6 +113,7 @@ const PaymentPage = () => {
         ]);
         setMeals(mealsData);
         setQrDetails(qrData);
+        console.log("qrData",qrData)
         setUserData(userData.user);
       } catch (err) {
         setError(err.message);
@@ -147,7 +154,7 @@ const PaymentPage = () => {
       formDataToSend.append('user_id', user_id);
       formDataToSend.append('receipt', formData.receipt);
       formDataToSend.append('package_id', selectedMeal.id);
-      
+
       formDataToSend.append('tiffin_quantity', formData.tiffin_quantity);
       setLoding(true);
       const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/make_deposite`, {
@@ -261,7 +268,7 @@ const PaymentPage = () => {
                 ))}
               </div>
 
-              <div className="mb-4">  
+              <div className="mb-4">
                 <h5>Total: ₹{totalPrice}</h5> {/* Display the total price */}
               </div>
 
@@ -281,7 +288,7 @@ const PaymentPage = () => {
                 <div className="mb-4">
                   <label className="form-label">Quantity of Tiffins</label>
                   <ul className="list-unstyled">
-                    
+
                     <li>
                       <input
                         type="radio"
@@ -309,7 +316,7 @@ const PaymentPage = () => {
                   </ul>
                 </div>
 
-               
+
 
                 <div className="mb-4">
                   <label className="form-label">Upload Payment Screenshot</label>

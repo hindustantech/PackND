@@ -21,7 +21,7 @@ const MealCard = ({ meal, isLast }) => (
         </span>
       </div>
       <p className="text-gray-500 text-xs mx-2">
-        {meal.sabji1_name}, {meal.sabji2_name}, {meal.bread_name},
+        {meal.sabji1_name}, {meal.sabji1a_name}, {meal.bread_name},
       </p>
     </div>
   </div>

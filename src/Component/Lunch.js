@@ -1,7 +1,7 @@
+
 import { Plus, Minus } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import PuseMeal from './PuseMeal';
 
 const LoadingPlaceholder = () => (
     <div className="animate-pulse grid grid-cols-2 gap-3">
@@ -12,7 +12,6 @@ const LoadingPlaceholder = () => (
 
 const ExistingOrderDisplay = ({ order }) => {
     if (!order) return null;
-    console.log(order)
 
     return (
         <div className="max-w-2xl mx-auto rounded-lg shadow-sm overflow-hidden mb-4">
@@ -63,9 +62,21 @@ const ExistingOrderDisplay = ({ order }) => {
                                 </div>
                             </div>
                         )}
+                        
+                        {order.sabji1a_name && (
+                            <div className='d-flex'>
+                                <img src={`https://projectdemo.ukvalley.com/public/menu_items/${order.sabji1a_image}`} className='w-20 h-20 rounded mx-2' alt="sabji1" />
+                                <div className="bg-gray-50 rounded-lg p-1 shadow-sm w-100">
+                                    <div className="flex mt-1 gap-2 mb-2">
+                                        <p className="text-sm font-medium text-gray-700">{order.sabji1a_name}</p>
+                                    </div>
+                                    <span className='mt-2'></span>
+                                </div>
+                            </div>
+                        )}
 
                         {/* Sabji2 Section - Only show if sabji2_name exists */}
-
+                        
                         {order.sabji2_name && (
                             <div className='d-flex'>
                                 <img src={`https://projectdemo.ukvalley.com/public/menu_items/${order.sabji2_image}`} className='w-20 h-20 rounded mx-2' alt="sabji2" />
@@ -81,7 +92,6 @@ const ExistingOrderDisplay = ({ order }) => {
                 </div>
             </div>
 
-
             {/* Footer Section */}
             <div className="px-6 py-3 border-t text-center">
                 <div className="flex justify-center items-center gap-2">
@@ -93,24 +103,20 @@ const ExistingOrderDisplay = ({ order }) => {
                 </div>
             </div>
         </div>
-
-
-
     );
 };
 
-const MealOption = ({ option, isSelected, onSelect, category, image }) => (
+const MealOption = ({ option, isSelected, onSelect, category, membership }) => (
     <div
         className={`w-full h-full p-2 cursor-pointer rounded-lg transition-all duration-200 
       ${isSelected ? 'ring-2 ring-red-500 bg-red-50' : 'hover:bg-gray-50'}`}
-        onClick={() => onSelect(category, option.id)}
+        onClick={() => onSelect(category, option.id, membership)}
     >
         <div className="flex gap-2 items-center">
             <img
                 src={option.image
                     ? `https://projectdemo.ukvalley.com/public/menu_items/${option.image}`
                     : "/meal.png"}
-
                 alt={option.name}
                 className="w-12 h-12 rounded-lg object-cover"
             />
@@ -122,7 +128,7 @@ const MealOption = ({ option, isSelected, onSelect, category, image }) => (
     </div>
 );
 
-const MealSection = ({ title, description, options = [], category, selectedOption, onSelect, isLoading, error, allowMultiple = false, img }) => (
+const MealSection = ({ title, description, options = [], category, selectedOption, onSelect, isLoading, error, allowMultiple = false, img, membership }) => (
     <div className="mb-6">
         <div className="flex items-center gap-2 mb-2">
             <img
@@ -134,7 +140,7 @@ const MealSection = ({ title, description, options = [], category, selectedOptio
                 <h6 className="text-sm font-bold">{title}</h6>
                 <p className="text-xs text-gray-500">
                     {description}
-                    {allowMultiple && " (You can select up to 2 options)"}
+                    {category === "sabji1" && membership === "Gold" && " (You can select up to 2 options)"}
                 </p>
             </div>
         </div>
@@ -149,9 +155,10 @@ const MealSection = ({ title, description, options = [], category, selectedOptio
                 <div className="grid grid-cols-2 gap-3">
                     {options.map((option) => (
                         <MealOption
-                            key={option.id}
+                            key={`${category}-${option.id}`}
                             option={option}
                             category={category}
+                            membership={membership}
                             isSelected={Array.isArray(selectedOption)
                                 ? selectedOption.includes(option.id)
                                 : selectedOption === option.id}
@@ -203,7 +210,7 @@ const QuantitySelector = ({ quantity, onIncrease, onDecrease }) => (
 
 const Lunch = ({ membeship }) => {
     const [selectedDate, setSelectedDate] = useState(null);
-    const [checkmembership, SetcheckMembership] = useState(membeship.package_name)
+    const [checkmembership, setCheckMembership] = useState(membeship?.package_name || '');
     const [weekOffset, setWeekOffset] = useState(0);
     const [quantity, setQuantity] = useState(1);
     const [isConfirming, setIsConfirming] = useState(false);
@@ -213,9 +220,7 @@ const Lunch = ({ membeship }) => {
         sabji1: [],
         sabji2: null
     });
-
-    // console.log("existingOrder",);
-
+    console.log("existingOrder",existingOrder)
 
     const [mealOptions, setMealOptions] = useState({
         bread: { data: [], isLoading: true, error: null },
@@ -223,7 +228,6 @@ const Lunch = ({ membeship }) => {
         sabji2: { data: [], isLoading: true, error: null },
         daily_menu_id: null
     });
-
 
     useEffect(() => {
         const today = new Date();
@@ -254,16 +258,13 @@ const Lunch = ({ membeship }) => {
             const dateStr = `${selectedDate.year}-${selectedDate.month}-${selectedDate.day}`;
             const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/getTodayMenu/${userid}/${dateStr}`);
 
-            console.log("Respons", response.data)
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
 
             const jsonData = await response.json();
 
-
             if (jsonData.status === 'success') {
-
                 // Check for existing order first
                 if (jsonData.data?.existing_orders?.morning?.[0]) {
                     setExistingOrder(jsonData.data.existing_orders.morning[0]);
@@ -277,7 +278,6 @@ const Lunch = ({ membeship }) => {
                     // No existing order, show available options
                     setExistingOrder(null);
                     const morningMenu = jsonData.data.menu.morning[0];
-                    console.log("morningMenu", morningMenu)
 
                     setMealOptions({
                         bread: { data: morningMenu.bread_options || [], isLoading: false, error: null },
@@ -295,13 +295,12 @@ const Lunch = ({ membeship }) => {
             const errorMessage = error.message || 'Failed to fetch meal options';
             setMealOptions(prev => ({
                 bread: { data: [], isLoading: false, error: errorMessage },
-                sabji1: prev.sabji1 !== null ? { data: [], isLoading: false, error: errorMessage } : null,
+                sabji1: { data: [], isLoading: false, error: errorMessage },
                 sabji2: { data: [], isLoading: false, error: errorMessage },
                 daily_menu_id: null
             }));
         }
     };
-
 
     useEffect(() => {
         if (selectedDate) {
@@ -340,26 +339,35 @@ const Lunch = ({ membeship }) => {
         setWeekOffset((prev) => prev + direction);
     };
 
-    const handleMealSelection = (category, optionId) => {
+    const handleMealSelection = (category, optionId, membership) => {
         if (category === 'sabji1') {
             setSelectedMeals(prev => {
-                const currentSelections = prev.sabji1;
+                const currentSelections = prev.sabji1 || [];
                 let newSelections;
-
+                
+                // Determine max selections based on membership type
+                const maxSelections = checkmembership === 'Gold' ? 2 : 1;
+                
+                // Handle item toggle (if already selected, remove it)
                 if (currentSelections.includes(optionId)) {
                     newSelections = currentSelections.filter(id => id !== optionId);
-                } else if (currentSelections.length < 1) {
+                }
+                // If under the max limit, simply add the new selection
+                else if (currentSelections.length < maxSelections) {
                     newSelections = [...currentSelections, optionId];
-                } else {
+                }
+                // If at the limit, implement FIFO - remove oldest and add new one
+                else {
                     newSelections = [...currentSelections.slice(1), optionId];
                 }
-
+                
                 return {
                     ...prev,
                     sabji1: newSelections
                 };
             });
         } else {
+            // For all other categories, use simple single-selection behavior
             setSelectedMeals(prev => ({
                 ...prev,
                 [category]: optionId
@@ -401,6 +409,7 @@ const Lunch = ({ membeship }) => {
             const user_id = validateMealSelection();
             const menu_date = `${selectedDate.year}-${selectedDate.month}-${selectedDate.day}`;
 
+            // Prepare payload with primary sabji
             const payload = {
                 menu_date,
                 sabji1_id: selectedMeals.sabji1[0] || null,
@@ -411,6 +420,12 @@ const Lunch = ({ membeship }) => {
                 quantity: quantity.toString(),
                 meal_time: 'morning'
             };
+            console.log(payload);
+
+            // Add secondary sabji for Gold members if selected
+            if (checkmembership === 'Gold' && selectedMeals.sabji1.length > 1) {
+                payload.sabji1_additional_id = selectedMeals.sabji1[1];
+            }
 
             setIsConfirming(true);
 
@@ -428,7 +443,6 @@ const Lunch = ({ membeship }) => {
 
             try {
                 data = JSON.parse(responseText);
-                console.log("data",data);
             } catch (e) {
                 if (responseText.includes('<!DOCTYPE html>') || responseText.includes('<html>')) {
                     throw new Error('Server returned HTML instead of JSON. This might indicate a server error.');
@@ -452,38 +466,29 @@ const Lunch = ({ membeship }) => {
 
     const dates = getWeekDates(weekOffset);
 
-
-    //  console.log("existingOrder",existingOrder.sabji2_name);
-
     return (
         <>
             <div className="max-w-2xl mx-auto p-4">
                 <div className="mb-6">
                     <h6 className="text-red-500 text-center font-bold text-sm mb-1">Morning Meals</h6>
                     <p className="text-gray-500 text-center text-xs mb-4">Prepare your week meal today</p>
-                    <PuseMeal meal_time="Morning" />
                     <div className="flex justify-conten-center items-center">
-
-
                         <div className="grid grid-cols-7 gap-4 sm:grid-cols-5 md:grid-cols-7">
-                            {dates.map((date) => (
+                            {dates.map((date, index) => (
                                 <div
-                                    key={date.day}
+                                    key={`${date.day}-${index}`}
                                     onClick={() => handleDateClick(date)}
                                     className={`min-w-[40px] p-2 text-center cursor-pointer transition-all duration-200 rounded
-          ${selectedDate?.day === date.day
-                                            ? 'border border-black rounded'
-                                            : 'bg-white hover:bg-gray-50 shadow-sm'}
-          sm:min-w-[50px] md:min-w-[60px] lg:min-w-[70px]`}>
+                                    ${selectedDate?.day === date.day
+                                        ? 'border border-black rounded'
+                                        : 'bg-white hover:bg-gray-50 shadow-sm'}
+                                    sm:min-w-[50px] md:min-w-[60px] lg:min-w-[70px]`}>
                                     <span className="block text-xs sm:text-sm md:text-base">{date.day}</span>
                                     <span className="text-xs sm:text-sm md:text-base">{date.weekday}</span>
                                 </div>
                             ))}
                         </div>
-
-
                     </div>
-
                 </div>
 
                 {existingOrder ? (
@@ -495,8 +500,6 @@ const Lunch = ({ membeship }) => {
                         ) : (
                             <>
                                 <div className="space-y-6">
-
-
                                     <MealSection
                                         title="Sabji 1"
                                         description="Select your first sabji"
@@ -507,23 +510,8 @@ const Lunch = ({ membeship }) => {
                                         img='/meal/Sabji1.png'
                                         isLoading={mealOptions.sabji1.isLoading}
                                         error={mealOptions.sabji1.error}
-
+                                        membership={checkmembership}
                                     />
-
-                                    {(checkmembership !== "Bronze" && checkmembership !== "Silver") && (
-                                        <MealSection
-                                            title="Sabji 2"
-                                            description="Select your second sabji"
-                                            options={mealOptions.sabji2.data}
-                                            category="sabji2"
-                                            img="/meal/Sabji2.png"
-                                            image=""
-                                            selectedOption={selectedMeals.sabji2}
-                                            onSelect={handleMealSelection}
-                                            isLoading={mealOptions.sabji2.isLoading}
-                                            error={mealOptions.sabji2.error}
-                                        />
-                                    )}
 
                                     <MealSection
                                         title="Bread"
@@ -535,9 +523,8 @@ const Lunch = ({ membeship }) => {
                                         onSelect={handleMealSelection}
                                         isLoading={mealOptions.bread.isLoading}
                                         error={mealOptions.bread.error}
+                                        membership={checkmembership}
                                     />
-
-
                                 </div>
                                 <h5 className='text-center mt-3 text-danger'>
                                     Selected Date for Lunch  {selectedDate ? `${selectedDate.day} ${new Date(`${selectedDate.month} 1`).toLocaleString('en-US', { month: 'short' })}, ${selectedDate.year}` : ''}

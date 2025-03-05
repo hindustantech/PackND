@@ -1,773 +1,501 @@
-// import { Plus, Minus } from 'lucide-react';
-// import React, { useState, useEffect } from 'react';
-// import { toast } from 'react-toastify';
-
-// const LoadingPlaceholder = () => (
-//     <div className="animate-pulse grid grid-cols-2 gap-3">
-//         <div className="h-16 bg-gray-200 rounded-lg"></div>
-//         <div className="h-16 bg-gray-200 rounded-lg"></div>
-//     </div>
-// );
-
-// const ExistingOrderDisplay = ({ order }) => {
-//     if (!order) return null;
-
-//     return (
-//         <div className="max-w-2xl mx-auto rounded-lg shadow-sm overflow-hidden mb-4">
-//             {/* Header Section */}
-//             <div className="px-6 py-4 border-b text-center">
-//                 <div className="flex justify-center items-center gap-3">
-//                     <div className="p-2 rounded-full">
-//                         {/* Optionally, use an icon or text instead of the image */}
-//                         <span className="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center text-red-600 text-xs">🍽️</span>
-//                     </div>
-//                     <div>
-//                         <h6 className="text-red-600 font-bold text-xs">Your Existing Order</h6>
-//                         <p className="text-red-500/70 text-xs mt-0.5">
-//                             Order confirmed  {order.menu_date}
-//                         </p>
-//                     </div>
-//                 </div>
-//             </div>
-
-//             {/* Order Details Grid Section */}
-//             <div className="max-w-md mx-auto p-6">
-//                 <div className="">
-//                     <h2 className="text-lg font-semibold text-gray-800 text-center mb-4">Order Summary</h2>
-
-//                     <div className="grid grid-cols-1 gap-3">
-//                         {/* Bread Section - Only show if bread_name exists */}
-//                         {order.bread_name && (
-//                             <div className='d-flex'>
-//                                 <img src='/meal.png' className='w-20 h-20 rounded mx-2' alt="bread" />
-//                                 <div className="bg-gray-50 rounded-lg p-1 shadow-sm w-100">
-//                                     <div className="flex mt-1 gap-2 mb-2">
-//                                         <p className="text-sm font-medium text-gray-700">{order.bread_name}</p>
-//                                     </div>
-//                                     <span className='mt-2'></span>
-//                                 </div>
-//                             </div>
-//                         )}
-
-//                         {/* Sabji1 Section - Only show if sabji1_name exists */}
-//                         {order.sabji1_name && (
-//                             <div className='d-flex'>
-//                                 <img src='/meal.png' className='w-20 h-20 rounded mx-2' alt="sabji1" />
-//                                 <div className="bg-gray-50 rounded-lg p-1 shadow-sm w-100">
-//                                     <div className="flex mt-1 gap-2 mb-2">
-//                                         <p className="text-sm font-medium text-gray-700">{order.sabji1_name}</p>
-//                                     </div>
-//                                     <span className='mt-2'></span>
-//                                 </div>
-//                             </div>
-//                         )}
-
-//                         {/* Sabji2 Section - Only show if sabji2_name exists */}
-//                         {order.sabji2_name && (
-//                             <div className='d-flex'>
-//                                 <img src='/meal.png' className='w-20 h-20 rounded mx-2' alt="sabji2" />
-//                                 <div className="bg-gray-50 rounded-lg p-1 shadow-sm w-100">
-//                                     <div className="flex mt-1 gap-2 mb-2">
-//                                         <p className="text-sm font-medium text-gray-700">{order.sabji2_name}</p>
-//                                     </div>
-//                                     <span className='mt-2'></span>
-//                                 </div>
-//                             </div>
-//                         )}
-//                     </div>
-//                 </div>
-//             </div>
-
-
-//             {/* Footer Section */}
-//             <div className="px-6 py-3 border-t text-center">
-//                 <div className="flex justify-center items-center gap-2">
-//                     <p className="text-xs text-gray-500">Order ID: #{order.id || 'N/A'}</p>
-//                     <div className="flex items-center gap-2">
-//                         <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-//                         <span className="text-xs font-medium text-green-600">Confirmed</span>
-//                     </div>
-//                 </div>
-//             </div>
-//         </div>
-
-
-
-//     );
-// };
-
-// const MealOption = ({ option, isSelected, onSelect, category, image }) => (
-//     <div
-//         className={`w-full h-full p-2 cursor-pointer rounded-lg transition-all duration-200 
-//       ${isSelected ? 'ring-2 ring-red-500 bg-red-50' : 'hover:bg-gray-50'}`}
-//         onClick={() => onSelect(category, option.id)}
-//     >
-//         <div className="flex gap-2 items-center">
-//             <img
-//                 src={image || "/meal.png"}
-//                 alt={option.name}
-//                 className="w-12 h-12 rounded-lg object-cover"
-//             />
-//             <div>
-//                 <div style={{ fontSize: '9px' }}>{option.name}</div>
-//                 <div className="text-xs text-gray-500" style={{ fontSize: '9px' }}>Qty: {option.quantity || 1}</div>
-//             </div>
-//         </div>
-//     </div>
-// );
-
-// const MealSection = ({ title, description, options = [], category, selectedOption, onSelect, isLoading, error, allowMultiple = false, img }) => (
-//     <div className="mb-6">
-//         <div className="flex items-center gap-2 mb-2">
-//             <img
-//                 src={img || '/meal.png'}
-//                 alt=""
-//                 className="w-5 h-5 rounded-full"
-//             />
-//             <div>
-//                 <h6 className="text-sm font-bold">{title}</h6>
-//                 <p className="text-xs text-gray-500">
-//                     {description}
-//                     {allowMultiple && " (You can select up to 2 options)"}
-//                 </p>
-//             </div>
-//         </div>
-//         <div className="px-4">
-//             {isLoading ? (
-//                 <LoadingPlaceholder />
-//             ) : error ? (
-//                 <div className="text-gray-500 text-sm text-center py-4">
-//                     {error}
-//                 </div>
-//             ) : (
-//                 <div className="grid grid-cols-2 gap-3">
-//                     {options.map((option) => (
-//                         <MealOption
-//                             key={option.id}
-//                             option={option}
-//                             category={category}
-//                             isSelected={Array.isArray(selectedOption)
-//                                 ? selectedOption.includes(option.id)
-//                                 : selectedOption === option.id}
-//                             onSelect={onSelect}
-//                         />
-//                     ))}
-//                 </div>
-//             )}
-//         </div>
-//     </div>
-// );
-
-// const NoMenuDisplay = ({ error }) => (
-//     <div className="text-center p-8 bg-gray-50 rounded-lg mb-4">
-//         <div className="text-lg font-medium text-gray-600 mb-2">
-//             Menu Not Updated
-//         </div>
-//         <p className="text-sm text-gray-500">
-//             {error === 'Menu not Updated for selected date'
-//                 ? 'The menu for this date has not been updated yet. Please check back later.'
-//                 : error}
-//         </p>
-//     </div>
-// );
-
-// const QuantitySelector = ({ quantity, onIncrease, onDecrease }) => (
-//     <div className="flex items-center justify-center px-2">
-//         <button
-//             onClick={onDecrease}
-//             className="flex flex-col border border-red-500 items-center bg-red-500 bg-opacity-30 py-2 px-1 rounded-lg"
-//             aria-label="Decrease quantity"
-//         >
-//             <Minus className="w-6 h-6" />
-//         </button>
-//         <div className="flex flex-col items-center rounded-lg p-2">
-//             <span className=" font-extrabold text-gray-800 select-none">
-//                 {quantity}
-//             </span>
-//         </div>
-//         <button
-//             onClick={onIncrease}
-//             className="flex flex-col items-center bg-red-500 bg-opacity-30 rounded-lg px-1 py-2 border border-red-500"
-//             aria-label="Increase quantity"
-//         >
-//             <Plus className="w-6 h-6" />
-//         </button>
-//     </div>
-// );
-
-// const TrailMeal = ({ mealTime }) => {
-//     const [selectedDate, setSelectedDate] = useState(null);
-//     const [weekOffset, setWeekOffset] = useState(0);
-//     const [quantity, setQuantity] = useState(1);
-//     const [isConfirming, setIsConfirming] = useState(false);
-//     const [existingOrder, setExistingOrder] = useState(null);
-//     const [selectedMeals, setSelectedMeals] = useState({
-//         bread: null,
-//         sabji1: [],
-//         sabji2: null
-//     });
-
-//     const [mealOptions, setMealOptions] = useState({
-//         bread: { data: [], isLoading: true, error: null },
-//         sabji1: { data: [], isLoading: true, error: null },
-//         sabji2: { data: [], isLoading: true, error: null },
-//         daily_menu_id: null
-//     });
-
-//     useEffect(() => {
-//         const today = new Date();
-//         const defaultDate = {
-//             day: today.getDate().toString().padStart(2, '0'),
-//             month: (today.getMonth() + 1).toString().padStart(2, '0'),
-//             year: today.getFullYear(),
-//             weekday: today.toLocaleDateString('en-US', { weekday: 'short' })
-//         };
-//         setSelectedDate(defaultDate);
-//     }, []);
-
-//     const fetchMealOptions = async () => {
-//         const userid = localStorage.getItem('id');
-//         try {
-//             if (!userid) {
-//                 throw new Error('User ID not found. Please log in again.');
-//             }
-
-//             setMealOptions(prev => ({
-//                 bread: { ...prev.bread, isLoading: true, error: null },
-//                 sabji1: { ...prev.sabji1, isLoading: true, error: null },
-//                 sabji2: { ...prev.sabji2, isLoading: true, error: null },
-//                 daily_menu_id: null
-//             }));
-
-//             const dateStr = `${selectedDate.year}-${selectedDate.month}-${selectedDate.day}`;
-//             const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/getTodayMenu/${userid}/${dateStr}`);
-
-//             // console.log(response);
-//             if (!response.ok) {
-//                 throw new Error(`HTTP error! status: ${response.status}`);
-
-//             }
-
-//             const jsonData = await response.json();
-
-//             if (jsonData.status === 'success') {
-//                 // Check for existing order first
-//                 if (jsonData.data?.existing_orders?.morning?.[0]) {
-//                     setExistingOrder(jsonData.data.existing_orders.morning[0]);
-//                     setMealOptions(prev => ({
-//                         ...prev,
-//                         bread: { data: [], isLoading: false, error: null },
-//                         sabji1: { data: [], isLoading: false, error: null },
-//                         sabji2: { data: [], isLoading: false, error: null }
-//                     }));
-//                 } else if (jsonData.data?.menu?.morning?.[0]) {
-//                     // No existing order, show available options
-//                     setExistingOrder(null);
-//                     const morningMenu = jsonData.data.menu.morning[0];
-//                     setMealOptions({
-//                         bread: { data: morningMenu.bread_options || [], isLoading: false, error: null },
-//                         sabji1: { data: morningMenu.sabji1_options || [], isLoading: false, error: null },
-//                         sabji2: { data: morningMenu.sabji2_options || [], isLoading: false, error: null },
-//                         daily_menu_id: morningMenu.id
-//                     });
-//                 } else {
-//                     throw new Error('Menu not found for selected date');
-//                 }
-//             } else {
-//                 throw new Error('Menu not found for selected date');
-//             }
-//         } catch (error) {
-//             const errorMessage = error.message || 'Failed to fetch meal options';
-//             setMealOptions(prev => ({
-//                 bread: { data: [], isLoading: false, error: errorMessage },
-//                 sabji1: { data: [], isLoading: false, error: errorMessage },
-//                 sabji2: { data: [], isLoading: false, error: errorMessage },
-//                 daily_menu_id: null
-//             }));
-
-//         }
-//     };
-
-//     useEffect(() => {
-//         if (selectedDate) {
-//             fetchMealOptions();
-//         }
-//     }, [selectedDate]);
-
-//     const getWeekDates = (offset) => {
-//         const today = new Date();
-//         today.setDate(today.getDate() + offset * 7);
-
-//         return Array.from({ length: 7 }, (_, i) => {
-//             const date = new Date(today);
-//             date.setDate(today.getDate() + i);
-//             return {
-//                 day: date.getDate().toString().padStart(2, '0'),
-//                 weekday: date.toLocaleDateString('en-US', { weekday: 'short' }),
-//                 month: (date.getMonth() + 1).toString().padStart(2, '0'),
-//                 year: date.getFullYear()
-//             };
-//         });
-//     };
-
-//     const handleDateClick = (date) => {
-//         setSelectedDate(date);
-//         setSelectedMeals({
-//             bread: null,
-//             sabji1: [],
-//             sabji2: null
-//         });
-//         setQuantity(1);
-//         setExistingOrder(null);
-//     };
-
-//     const handleWeekChange = (direction) => {
-//         setWeekOffset((prev) => prev + direction);
-//     };
-
-//     const handleMealSelection = (category, optionId) => {
-//         if (category === 'sabji1') {
-//             setSelectedMeals(prev => {
-//                 const currentSelections = prev.sabji1;
-//                 let newSelections;
-
-//                 if (currentSelections.includes(optionId)) {
-//                     newSelections = currentSelections.filter(id => id !== optionId);
-//                 } else if (currentSelections.length < 1) {
-//                     newSelections = [...currentSelections, optionId];
-//                 } else {
-//                     newSelections = [...currentSelections.slice(1), optionId];
-//                 }
-
-//                 return {
-//                     ...prev,
-//                     sabji1: newSelections
-//                 };
-//             });
-//         } else {
-//             setSelectedMeals(prev => ({
-//                 ...prev,
-//                 [category]: optionId
-//             }));
-//         }
-//     };
-
-//     const increaseQuantity = () => {
-//         setQuantity((prev) => prev + 1);
-//     };
-
-//     const decreaseQuantity = () => {
-//         setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
-//     };
-
-//     const validateMealSelection = () => {
-//         if (!selectedDate) {
-//             throw new Error('Please select a date first');
-//         }
-
-//         if (!selectedMeals.bread || !selectedMeals.sabji1[0]) {
-//             throw new Error('Please select required options for each category');
-//         }
-
-//         if (!mealOptions.daily_menu_id) {
-//             throw new Error('Menu information not found');
-//         }
-
-//         const user_id = localStorage.getItem("id");
-//         if (!user_id) {
-//             throw new Error('User ID not found. Please log in again.');
-//         }
-
-//         return user_id;
-//     };
-
-//     const confirmTodayMeal = async () => {
-//         try {
-//             const user_id = validateMealSelection();
-//             const menu_date = `${selectedDate.year}-${selectedDate.month}-${selectedDate.day}`;
-
-//             const payload = {
-//                 menu_date,
-//                 sabji1_id: selectedMeals.sabji1[0] || null,
-//                 sabji2_id: selectedMeals.sabji2,
-//                 bread_id: selectedMeals.bread,
-//                 user_id,
-//                 daily_menu_id: mealOptions.daily_menu_id,
-//                 quantity: quantity.toString(),
-//                 meal_time: mealTime
-//             };
-
-//             setIsConfirming(true);
-
-//             const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/trialMeal`, {
-//                 method: 'POST',
-//                 headers: {
-//                     'Content-Type': 'application/json',
-//                     'Accept': 'application/json'
-//                 },
-//                 body: JSON.stringify(payload),
-//             });
-
-//             // console.log("response", response);
-//             const responseText = await response.text();
-//             let data;
-
-//             try {
-//                 data = JSON.parse(responseText);
-//             } catch (e) {
-//                 if (responseText.includes('<!DOCTYPE html>') || responseText.includes('<html>')) {
-//                     throw new Error('Server returned HTML instead of JSON. This might indicate a server error.');
-//                 }
-//                 throw new Error(`Invalid response format: ${responseText.substring(0, 100)}...`);
-//             }
-
-//             if (response.ok) {
-//                 toast.success('Meal confirmed successfully!');
-//                 fetchMealOptions(); // Refresh to show the new order
-//             } else {
-//                 throw new Error(data?.message || 'Failed to confirm meal');
-//             }
-//         } catch (error) {
-//             toast.error(error.message || 'An error occurred while confirming the meal');
-//             console.error('Error confirming meal:', error);
-//         } finally {
-//             setIsConfirming(false);
-//         }
-//     };
-
-//     const dates = getWeekDates(weekOffset);
-
-
-//     //  console.log("existingOrder",existingOrder.sabji2_name);
-
-//     return (
-//         <>
-//             <div className="max-w-2xl mx-auto p-4">
-//                 <div className="mb-6">
-//                     <h6 className="text-red-500 text-center font-bold text-sm mb-1 text-capitalize">{mealTime} Meals</h6>
-//                     <p className="text-gray-500 text-center text-xs mb-4">Prepare your week meal today</p>
-
-//                     <div className="flex justify-between items-center">
-
-
-//                         <div className="grid grid-cols-7 gap-4 sm:grid-cols-5 md:grid-cols-7">
-//                             {dates.map((date) => (
-//                                 <div
-//                                     key={date.day}
-//                                     onClick={() => handleDateClick(date)}
-//                                     className={`min-w-[40px] p-2 text-center cursor-pointer transition-all duration-200 rounded
-//             ${selectedDate?.day === date.day
-//                                             ? 'border border-black rounded'
-//                                             : 'bg-white hover:bg-gray-50 shadow-sm'}
-//             sm:min-w-[50px] md:min-w-[60px] lg:min-w-[70px]`}>
-//                                     <span className="block text-xs sm:text-sm md:text-base">{date.day}</span>
-//                                     <span className="text-xs sm:text-sm md:text-base">{date.weekday}</span>
-//                                 </div>
-//                             ))}
-//                         </div>
-
-
-//                     </div>
-
-//                 </div>
-
-//                 {existingOrder ? (
-//                     <ExistingOrderDisplay order={existingOrder} />
-//                 ) : (
-//                     <>
-//                         {mealOptions.bread.error ? (
-//                             <NoMenuDisplay error={mealOptions.bread.error} />
-//                         ) : (
-//                             <>
-//                                 <div className="space-y-6">
-//                                     <MealSection
-//                                         title="Bread"
-//                                         description="Select your bread preference"
-//                                         options={mealOptions.bread.data}
-//                                         category="bread"
-//                                         selectedOption={selectedMeals.bread}
-//                                         img='/meal/Bread.png'
-//                                         onSelect={handleMealSelection}
-//                                         isLoading={mealOptions.bread.isLoading}
-//                                         error={mealOptions.bread.error}
-//                                     />
-
-//                                     <MealSection
-//                                         title="Sabji 1"
-//                                         description="Select your first sabji"
-//                                         options={mealOptions.sabji1.data}
-//                                         category="sabji1"
-//                                         selectedOption={selectedMeals.sabji1}
-//                                         onSelect={handleMealSelection}
-//                                         img='/meal/Sabji1.png'
-//                                         isLoading={mealOptions.sabji1.isLoading}
-//                                         error={mealOptions.sabji1.error}
-
-//                                     />
-
-//                                     <MealSection
-//                                         title="Sabji 2"
-//                                         description="Select your second sabji"
-//                                         options={mealOptions.sabji2.data}
-//                                         category="sabji2"
-//                                         img='/meal/Sabji2.png'
-//                                         image=''
-//                                         selectedOption={selectedMeals.sabji2}
-//                                         onSelect={handleMealSelection}
-//                                         isLoading={mealOptions.sabji2.isLoading}
-//                                         error={mealOptions.sabji2.error}
-//                                     />
-//                                 </div>
-//                                 <h5 className='text-center mt-3 text-danger'>
-//                                     Selected Date for Trial Meal  {selectedDate ? `${selectedDate.day} ${new Date(`${selectedDate.month} 1`).toLocaleString('en-US', { month: 'short' })}, ${selectedDate.year}` : ''}
-//                                 </h5>
-//                                 <div className="mt-4 flex items-center border px-2 py-2 rounded-lg mb-4 w-full">
-//                                     {/* <QuantitySelector
-//                                         quantity={quantity}
-//                                         onIncrease={increaseQuantity}
-//                                         onDecrease={decreaseQuantity}
-//                                     /> */}
-//                                     <button
-//                                         className="flex-1 bg-red-500 text-white px-2 py-2 rounded-lg font-medium text-sm hover:bg-red-600 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-//                                         onClick={confirmTodayMeal}
-//                                         disabled={!selectedDate || isConfirming || mealOptions.bread.error}
-//                                         style={{ fontSize: '1rem' }}
-//                                     >
-//                                         {isConfirming ? (
-//                                             <div className="flex items-center justify-center gap-2">
-//                                                 <span>Confirming...</span>
-//                                             </div>
-//                                         ) : selectedDate ? (
-//                                             `Confirm Trial Meal `
-//                                         ) : (
-//                                             'Select a date '
-//                                         )}
-//                                     </button>
-//                                 </div>
-//                             </>
-//                         )}
-//                     </>
-//                 )}
-//             </div>
-//         </>
-//     );
-// };
-
-// export default TrailMeal
-
-
-
-import { Plus, Minus } from 'lucide-react';
+import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
+export const MealForm = ({ selectedMeal, onSubmit, onClose }) => {
+    const [imagePreview, setImagePreview] = useState(null);
+    const [qrCodeImage, setQrCodeImage] = useState('/meal.png'); // Default fallback
+    const [loading, setLoading] = useState(false);
+    const [formData, setFormData] = useState({
+        Thash: '', // Transaction ID
+        receipt: null, // Payment receipt file
+        tiffin_quantity: '1', // Default quantity
+        meal_time: '', // Empty string by default
+    });
 
-const LoadingPlaceholder = () => (
-    <div className="animate-pulse grid grid-cols-2 gap-3">
-        <div className="h-16 bg-gray-200 rounded-lg"></div>
-        <div className="h-16 bg-gray-200 rounded-lg"></div>
-    </div>
-);
+    // console.log("qrCodeImage", qrCodeImage);
 
-
-const TrailMeal = ({ mealTime }) => {
-    const [selectedDate, setSelectedDate] = useState(null);
-    const [weekOffset, setWeekOffset] = useState(0);
-    const [quantity, setQuantity] = useState(1);
-    const [isConfirming, setIsConfirming] = useState(false);
-    
-
-
-    useEffect(() => {
-        const today = new Date();
-        const defaultDate = {
-            day: today.getDate().toString().padStart(2, '0'),
-            month: (today.getMonth() + 1).toString().padStart(2, '0'),
-            year: today.getFullYear(),
-            weekday: today.toLocaleDateString('en-US', { weekday: 'short' })
-        };
-        setSelectedDate(defaultDate);
-    }, []);
-
-    const fetchMealOptions = async () => {
-        const userid = localStorage.getItem('id');
+    // Function to get QR code from API
+    const getQr = async () => {
         try {
-            if (!userid) {
-                throw new Error('User ID not found. Please log in again.');
-            }
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/qr_image`);
+            if (response.ok) {
+                const data = await response.json();
 
-           
+                // console.log("Data",);
+                setQrCodeImage(data?.[0]);
 
-            const dateStr = `${selectedDate.year}-${selectedDate.month}-${selectedDate.day}`;
-            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/getTodayMenu/${userid}/${dateStr}`);
-
-            // console.log(response);
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-
-            }
-
-            const jsonData = await response.json();
-
-            if (jsonData.status === 'success') {
-                // Check for existing order first
-                    // toast.success('SUCCESS');
-            } else {
-                throw new Error('Menu not found for selected date');
             }
         } catch (error) {
-            const errorMessage = error.message || 'Failed to fetch meal options';
-           
-
+            console.error("Error fetching QR code:", error);
+            // Keep using the default QR code
         }
     };
 
     useEffect(() => {
-        if (selectedDate) {
-            fetchMealOptions();
-        }
-    }, [selectedDate]);
+        // Reset form fields when component mounts
+        setFormData({
+            Thash: '',
+            receipt: null,
+            tiffin_quantity: '1',
+            meal_time: '', // Reset meal time
+        });
+        setImagePreview(null);
 
-    const getWeekDates = (offset) => {
-        const today = new Date();
-        today.setDate(today.getDate() + offset * 7);
+        // Fetch QR code
+        getQr();
 
-        return Array.from({ length: 7 }, (_, i) => {
-            const date = new Date(today);
-            date.setDate(today.getDate() + i);
-            return {
-                day: date.getDate().toString().padStart(2, '0'),
-                weekday: date.toLocaleDateString('en-US', { weekday: 'short' }),
-                month: (date.getMonth() + 1).toString().padStart(2, '0'),
-                year: date.getFullYear()
-            };
+        // Control body scrolling
+        document.body.style.overflow = 'hidden';
+        return () => {
+            document.body.style.overflow = 'auto';
+        };
+    }, []);
+
+    // Handle form field changes
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [name]: value
         });
     };
 
-    const handleDateClick = (date) => {
-        setSelectedDate(date);
-        
-        setQuantity(1);
-            };
-
-    const handleWeekChange = (direction) => {
-        setWeekOffset((prev) => prev + direction);
+    // Handle meal time radio selection
+    const handleMealTimeChange = (e) => {
+        setFormData({
+            ...formData,
+            meal_time: e.target.value
+        });
     };
 
-   
-
-    const increaseQuantity = () => {
-        setQuantity((prev) => prev + 1);
-    };
-
-    const decreaseQuantity = () => {
-        setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
-    };
-
-    const validateMealSelection = () => {
-        if (!selectedDate) {
-            throw new Error('Please select a date first');
-        }
-
-        
-
-        const user_id = localStorage.getItem("id");
-        if (!user_id) {
-            throw new Error('User ID not found. Please log in again.');
-        }
-
-        return user_id;
-    };
-
-    const confirmTodayMeal = async () => {
-        try {
-            const user_id = validateMealSelection();
-            const menu_date = `${selectedDate.year}-${selectedDate.month}-${selectedDate.day}`;
-
-            const payload = {
-                menu_date,
-                user_id,
-                quantity: quantity.toString(),
-                meal_time: mealTime
-            };
-
-            setIsConfirming(true);
-
-            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/trialMeal`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify(payload),
+    // Handle file upload
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            // Set file for submission
+            setFormData({
+                ...formData,
+                receipt: file
             });
 
-            // console.log("response", response);
-            const responseText = await response.text();
-            let data;
-
-            try {
-                data = JSON.parse(responseText);
-            } catch (e) {
-                if (responseText.includes('<!DOCTYPE html>') || responseText.includes('<html>')) {
-                    throw new Error('Server returned HTML instead of JSON. This might indicate a server error.');
-                }
-                throw new Error(`Invalid response format: ${responseText.substring(0, 100)}...`);
-            }
-
-            if (response.ok) {
-                toast.success('Meal confirmed successfully!');
-                fetchMealOptions(); // Refresh to show the new order
-            } else {
-                throw new Error(data?.message || 'Failed to confirm meal');
-            }
-        } catch (error) {
-            toast.error(error.message || 'An error occurred while confirming the meal');
-            console.error('Error confirming meal:', error);
-        } finally {
-            setIsConfirming(false);
+            // Create preview
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImagePreview(reader.result);
+            };
+            reader.readAsDataURL(file);
         }
     };
 
-    const dates = getWeekDates(weekOffset);
+    // Form submission handler
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
+        try {
+            // Get user ID from local storage or context
+            const user_id = localStorage.getItem('id');
+            // console.log("Userid", user_id)
 
-    //  console.log("existingOrder",existingOrder.sabji2_name);
+            if (!user_id) throw new Error('User ID not found. Please login again.');
+            if (!selectedMeal) throw new Error('Please select a meal package.');
+            if (!formData.Thash) throw new Error('Please enter transaction ID.');
+            if (!formData.receipt) throw new Error('Please upload payment receipt.');
+            if (!formData.meal_time) throw new Error('Please select a meal time (morning or evening).');
+
+            // Create FormData object for API submission
+            const formDataToSend = new FormData();
+            formDataToSend.append('Thash', formData.Thash);
+            formDataToSend.append('user_id', user_id);
+            formDataToSend.append('receipt', formData.receipt);
+            formDataToSend.append('package_id', selectedMeal.id);
+            formDataToSend.append('tiffin_quantity', formData.tiffin_quantity);
+            formDataToSend.append('meal_time', formData.meal_time);
+
+            // Set loading state
+            setLoading(true);
+
+            // Send API request
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/make_deposite`, {
+                method: 'POST',
+                body: formDataToSend,
+            });
+
+            // console.log(response)
+            // Check response type
+            const contentType = response.headers.get('content-type');
+
+            if (!response.ok) {
+                const errorData = contentType?.includes('application/json')
+                    ? await response.json()
+                    : await response.text();
+                throw new Error(errorData.error || errorData);
+            }
+
+            // Handle success
+            const result = await response.json();
+            toast.success(result.message || 'Payment submitted successfully!');
+            setLoading(false);
+
+            // Navigate to home after success
+            window.location.href = '/home';
+        } catch (error) {
+            setLoading(false);
+            toast.error(error.message || 'An error occurred. Please try again.');
+        }
+    };
+
+    if (!selectedMeal) return null;
+
+    // console.log("selectedMeal",);
+    // Get package name and description safely
+    const price=selectedMeal?.price
+    const packageName = selectedMeal?.package_name || selectedMeal;
+    const packageDesc = selectedMeal?.description ||
+        (packageName === 'Gold' ? 'Premium Selection' : 'Quality Selection');
+    const isGold = packageName === 'Gold';
 
     return (
-        <>
-            <div className="max-w-2xl mx-auto p-4">
-                <div className="mb-6">
-                    <h6 className="text-red-500 text-center font-bold text-sm mb-1 text-capitalize">{mealTime} Meals</h6>
-                    <p className="text-gray-500 text-center text-xs mb-4">Prepare your week meal today</p>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="relative bg-white w-full max-w-2xl mx-auto rounded-lg shadow-xl max-h-screen overflow-y-auto">
+                {/* Close button in the top right corner */}
+                <button
+                    onClick={onClose}
+                    className="absolute top-3 right-3 z-10 p-2 rounded-full bg-red-50 hover:bg-red-100 transition-colors"
+                    aria-label="Close"
+                >
+                    <svg className="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
 
-                    <div className="flex justify-between items-center">
+                <div className="p-5 md:p-6">
+                    <h1 className="text-xl font-bold text-red-600 mb-6 text-center">
+                        Confirm {packageName} Meal
+                    </h1>
 
-
-                        <div className="grid grid-cols-7 gap-4 sm:grid-cols-5 md:grid-cols-7">
-                            {dates.map((date) => (
-                                <div
-                                    key={date.day}
-                                    onClick={() => handleDateClick(date)}
-                                    className={`min-w-[40px] p-2 text-center cursor-pointer transition-all duration-200 rounded
-            ${selectedDate?.day === date.day
-                                            ? 'border border-black rounded'
-                                            : 'bg-white hover:bg-gray-50 shadow-sm'}
-            sm:min-w-[50px] md:min-w-[60px] lg:min-w-[70px]`}>
-                                    <span className="block text-xs sm:text-sm md:text-base">{date.day}</span>
-                                    <span className="text-xs sm:text-sm md:text-base">{date.weekday}</span>
+                    <div className="bg-white rounded-xl border-t-4 border-red-600 p-4 md:p-6 shadow-sm">
+                        {/* Meal Selection Display */}
+                        <div className="mb-6">
+                            {isGold ? (
+                                <div className="p-3 md:p-4 rounded-lg bg-gradient-to-r from-yellow-100 to-yellow-50 border-2 border-yellow-400 flex items-center shadow-md">
+                                    <div className="w-full">
+                                        <p className="font-bold text-yellow-800 text-sm md:text-lg">Gold Meal</p>
+                                        <p className="text-yellow-700 text-xs md:text-sm">{packageDesc}</p>
+                                        <p className="text-yellow-700 text-xs md:text-sm mt-2">Price {price}</p>
+                                    </div>
                                 </div>
-                            ))}
+                            ) : (
+                                <div className="p-3 md:p-4 rounded-lg bg-gradient-to-r from-gray-100 to-white border-2 border-gray-400 flex items-center shadow-md">
+                                    <div className="w-full">
+                                        <p className="font-bold text-gray-800 text-sm md:text-lg">Silver Meal</p>
+                                        <p className="text-gray-700 text-xs md:text-sm">{packageDesc}</p>
+                                    </div>
+                                </div>
+                            )}
                         </div>
 
+                        {/* Form with appropriate spacing */}
+                        <form onSubmit={handleSubmit} className="space-y-4 md:space-y-5">
+                            <div>
+                                <label className="block text-sm font-medium mb-1 md:mb-2 text-red-600">Meal Time</label>
+                                <div className="flex items-center space-x-4">
+                                    <div className="flex items-center">
+                                        <input
+                                            type="radio"
+                                            id="morning"
+                                            name="meal_time"
+                                            value="morning"
+                                            className="h-4 w-4 text-red-500 focus:ring-red-500 border-red-300"
+                                            checked={formData.meal_time === 'morning'}
+                                            onChange={handleMealTimeChange}
+                                            required
+                                        />
+                                        <label htmlFor="morning" className="ml-2 text-sm md:text-base text-gray-700">
+                                            Morning
+                                        </label>
+                                    </div>
 
+                                    <div className="flex items-center">
+                                        <input
+                                            type="radio"
+                                            id="evening"
+                                            name="meal_time"
+                                            value="evening"
+                                            className="h-4 w-4 text-red-500 focus:ring-red-500 border-red-300"
+                                            checked={formData.meal_time === 'evening'}
+                                            onChange={handleMealTimeChange}
+                                            required
+                                        />
+                                        <label htmlFor="evening" className="ml-2 text-sm md:text-base text-gray-700">
+                                            Evening
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium mb-1 md:mb-2 text-red-600">QR Code for Payment</label>
+                                <div className="flex justify-center  rounded-lg border border-gray-200">
+                                    <img
+                                        src={`https://projectdemo.ukvalley.com/public/qrcode/${qrCodeImage.qr}`}
+                                        alt="QR Code"
+                                        className="h-50 md:h-40 object-contain"
+                                    />
+                                </div>
+                                
+                                <p className="text-center text-xs md:text-sm text-gray-500 mt-1 md:mt-2">Scan this QR code to make payment</p>
+                                <p className="text-center text-xs md:text-sm text-gray-500 mt-1 md:mt-2">{qrCodeImage.address}</p>
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium mb-1 md:mb-2 text-red-600">Enter Transaction ID</label>
+                                <input
+                                    type="text"
+                                    name="Thash"
+                                    value={formData.Thash}
+                                    onChange={handleInputChange}
+                                    className="w-full px-3 py-2 md:px-4 md:py-3 border-2 border-red-200 rounded-lg focus:border-red-500 focus:ring-1 focus:ring-red-500 outline-none transition-all text-sm md:text-base"
+                                    placeholder="Enter transaction ID from your payment"
+                                    required
+                                />
+                            </div>
+
+                            <div className="bg-red-50 p-3 md:p-4 rounded-lg border border-red-100">
+                                <label className="block text-sm font-medium mb-1 md:mb-2 text-red-600">Upload Payment Receipt</label>
+                                <div className="border-2 border-dashed border-red-300 rounded-lg p-3 md:p-4 bg-white flex flex-col items-center justify-center">
+                                    {!imagePreview ? (
+                                        <>
+                                            <div className="text-center mb-2 md:mb-3">
+                                                <svg className="mx-auto h-8 w-8 md:h-10 md:w-10 text-red-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                                </svg>
+                                                <p className="text-red-500 text-xs md:text-sm mt-1 md:mt-2">Drag and drop or click to upload</p>
+                                                <p className="text-gray-500 text-xs mt-1">JPG, PNG or GIF (max. 5MB)</p>
+                                            </div>
+                                            <input
+                                                type="file"
+                                                accept="image/*"
+                                                onChange={handleImageChange}
+                                                className="w-full text-xs md:text-sm"
+                                                id="image-upload"
+                                                required
+                                            />
+                                        </>
+                                    ) : (
+                                        <div className="relative w-full">
+                                            <img
+                                                src={imagePreview}
+                                                alt="Preview"
+                                                className="h-24 md:h-32 w-full object-contain rounded-md"
+                                            />
+                                            <button
+                                                type="button"
+                                                onClick={() => {
+                                                    setImagePreview(null);
+                                                    setFormData({
+                                                        ...formData,
+                                                        receipt: null
+                                                    });
+                                                }}
+                                                className="absolute top-2 right-2 bg-red-600 text-white rounded-full w-5 h-5 md:w-6 md:h-6 flex items-center justify-center text-xs"
+                                                aria-label="Remove image"
+                                            >
+                                                ✕
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Hidden tiffin quantity field with default value */}
+                            <input
+                                type="hidden"
+                                name="tiffin_quantity"
+                                value={formData.tiffin_quantity}
+                            />
+
+                            {/* Submit button within the form */}
+                            <button
+                                type="submit"
+                                disabled={loading}
+                                className={`w-full mb-5 py-2 mt-4 ${loading ? 'bg-red-400' : 'bg-red-600 hover:bg-red-700'} text-white font-medium text-sm md:text-lg rounded-lg transition duration-300 shadow-md flex items-center justify-center`}
+                            >
+                                {loading ? (
+                                    <>
+                                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                        <span>Processing...</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <span className="mr-2">Confirm Selection</span>
+                                        <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                                        </svg>
+                                    </>
+                                )}
+                            </button>
+                        </form>
                     </div>
-
                 </div>
-
-                
             </div>
-        </>
+        </div>
     );
 };
 
-export default TrailMeal
+const TrailMeal = ({ mealTime = "Daily" }) => {
+    const [selectedMeal, setSelectedMeal] = useState(null);
+    const [showMealForm, setShowMealForm] = useState(false);
+    const [submittedData, setSubmittedData] = useState(null);
+    const [packages, setPackages] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    const handleMealSelect = (mealPackage) => {
+        setSelectedMeal(mealPackage);
+    };
+
+    const handleSubmit = () => {
+        if (selectedMeal) {
+            setShowMealForm(true);
+        } else {
+            alert('Please select a meal option before submitting');
+        }
+    };
+
+    const handleFormSubmit = (data) => {
+        setSubmittedData(data);
+        setShowMealForm(false);
+        // console.log('Submitted data:', data);
+        // Here you would typically send this data to your backend
+    };
+
+    const fetchPackages = async () => {
+        try {
+            setLoading(true);
+            const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/getTrialPackage`);
+
+            if (res.data && Array.isArray(res.data)) {
+                setPackages(res.data);
+            } else {
+                // Handle case where API doesn't return an array
+                setError("Invalid data format received from server");
+                setPackages([]);
+            }
+            setLoading(false);
+        } catch (error) {
+            console.error("Error fetching packages:", error.message || "Something Went Wrong");
+            setError("Failed to load meal packages. Please try again later.");
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchPackages();
+    }, []);
+
+    // If showing meal form, render as a full page
+    if (showMealForm) {
+        return (
+            <MealForm
+                selectedMeal={selectedMeal}
+                onSubmit={handleFormSubmit}
+                onClose={() => setShowMealForm(false)}
+            />
+        );
+    }
+
+    // Otherwise show the meal selection page
+    return (
+        <div className="max-w-2xl mx-auto p-4">
+            <div className="mb-2">
+                <h6 className="text-red-500 text-center font-bold text-sm mb-1 text-capitalize">{mealTime} Meal</h6>
+                <p className="text-gray-500 text-center text-xs mb-4">Prepare your week meal today</p>
+            </div>
+
+            <div className="w-full max-w-md mx-auto p-4 bg-white rounded-lg shadow-lg border-t-4 border-red-600 mb-3">
+                <h2 className="text-2xl font-bold text-center mb-6 text-red-600">Trail Meal</h2>
+
+                {loading ? (
+                    <div className="flex justify-center items-center py-8">
+                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-red-600"></div>
+                    </div>
+                ) : error ? (
+                    <div className="bg-red-50 p-4 rounded-md text-red-500 text-center">
+                        {error}
+                    </div>
+                ) : (
+                    <div className="flex gap-2 mb-6">
+                        {packages && packages.length > 0 ? (
+                            packages.map((p, index) => {
+                                // Determine if this is Gold or Silver package
+                                const isGold = p?.package_name === 'Gold';
+                                const isSilver = p?.package_name === 'Silver';
+
+                                return (
+                                    <div
+                                        key={index}
+                                        className={`w-1/2 p-2 rounded-lg border-2 cursor-pointer transition-all duration-300 hover:shadow-lg ${selectedMeal && selectedMeal.package_name === p.package_name
+                                            ? isGold
+                                                ? 'border-yellow-400 bg-gradient-to-r from-yellow-50 to-yellow-100 shadow-md transform scale-105'
+                                                : 'border-gray-400 bg-gradient-to-r from-gray-50 to-gray-100 shadow-md transform scale-105'
+                                            : isGold
+                                                ? 'border-gray-200 hover:border-yellow-300 bg-white'
+                                                : 'border-gray-200 hover:border-gray-300 bg-white'
+                                            }`}
+                                        onClick={() => handleMealSelect(p)}
+                                    >
+                                        <div className="flex flex-col items-center">
+                                            <p className={`font-bold ${isGold ? 'text-yellow-800' : 'text-gray-800'}`}>
+                                                {p?.package_name}
+                                            </p>
+                                            <p className={`text-xs ${isGold ? 'text-yellow-700' : 'text-gray-600'} text-center mt-1`}>
+                                                {p?.description || (isGold ? 'Premium Selection' : 'Quality Selection')}
+                                            </p>
+                                        </div>
+                                    </div>
+                                );
+                            })
+                        ) : (
+                            <div className="w-full text-center py-4 text-gray-500">
+                                No meal packages available at this time
+                            </div>
+                        )}
+                    </div>
+                )}
+
+                <button
+                    onClick={handleSubmit}
+                    disabled={loading || !packages?.length || !selectedMeal}
+                    className={`w-full py-2 bg-red-600 text-white font-bold rounded-lg transition-all duration-300 shadow-md flex items-center justify-center
+                        ${(loading || !packages?.length || !selectedMeal) ? 'opacity-50 cursor-not-allowed' : 'hover:bg-red-700'}`}
+                >
+                    <span>Book Your Meal</span>
+                    <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                    </svg>
+                </button>
+            </div>
+
+            {/* Success message if data was submitted */}
+            {submittedData && (
+                <div className="mt-4 p-4 bg-red-50 border-l-4 border-red-500 rounded-lg shadow-md">
+                    <div className="flex items-center">
+                        <div className="flex-shrink-0">
+                            <svg className="h-6 w-6 text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                        </div>
+                        <div className="ml-3">
+                            <p className="text-red-800 font-medium">Your {submittedData.selectedMeal} meal has been successfully booked!</p>
+                            <p className="text-red-600 text-sm mt-1">Thank you for your selection, {submittedData.name}!</p>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+};
+
+export default TrailMeal;

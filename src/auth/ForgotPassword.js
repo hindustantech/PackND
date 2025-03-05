@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { ChevronLeft } from 'lucide-react';
+import { ChevronLeft, Pointer } from 'lucide-react';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
@@ -107,7 +107,7 @@ const ForgotPassword = () => {
               'Change Password'
             )}
           </button>
-          <div className=' text-center mt-2 d-flex justify-content-center' onClick={() => { navigate('/') }}> Back to <p className='text-red-600'> Sign in</p> </div>
+          <div className=' text-center mt-2 d-flex justify-content-center' > Back to <p className='text-red-600 mx-2 cursor-pointer' onClick={() => { navigate('/') }}> Sign in</p> </div>
         </form>
       </div>
     </>
