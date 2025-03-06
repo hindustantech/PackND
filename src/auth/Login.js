@@ -69,7 +69,7 @@ const Login = () => {
       setLoading(false);
 
       if (response.ok) {
-        toast(response.message)
+        toast(response.message||"Login Success")
         localStorage.setItem("id", id);
         const token = localStorage.getItem("token")
         sendTokenToServer(token, id);
@@ -307,12 +307,12 @@ const Login = () => {
               {loading ? "Logging in..." : "Login"}
             </button>
 
-            <div className="position-relative my-4">
+            {/* <div className="position-relative my-4">
               <hr className="my-0" />
               <div className="position-absolute top-50 start-50 translate-middle bg-white px-3">
                 <span className="text-muted">OR</span>
               </div>
-            </div>
+            </div> */}
           </form>
           {/* <button
                         type="submit"
@@ -332,7 +332,7 @@ const Login = () => {
 
                     </button> */}
 
-          <button
+          {/* <button
             className="btn w-100 mb-3 d-flex align-items-center justify-content-center"
             onClick={handleGoogleLogin}
           >
@@ -343,7 +343,7 @@ const Login = () => {
               style={{ height: "24px", width: "24px" }}
               alt="Google Login"
             />
-          </button>
+          </button> */}
 
           <p className="text-center text-muted mb-0">
             Don't have an account?{" "}

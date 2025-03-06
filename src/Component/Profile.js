@@ -173,7 +173,7 @@ const Profile = () => {
               className='mt-2 w-100'
               onClick={() => {
                 localStorage.removeItem('id');
-                window.location.href = '/';
+                window.location.href = '/login';
               }}
             >
               Logout
