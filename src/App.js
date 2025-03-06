@@ -20,6 +20,8 @@ import ForgotPassword from "./auth/ForgotPassword";
 import OTP from "./auth/OTP";
 import ChangePassword from "./auth/ChangePassword";
 import { requestPermission, listenForMessages } from "./firebase-notification";
+import OtpLogin from "./auth/OtpLogin";
+import OTPPage from "./auth/OTPPage";
 const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
 function App() {
@@ -54,6 +56,9 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/OTP" element={<OTP />} />
           <Route path="/ChangePassword" element={<ChangePassword />} />
+          <Route path="/OtpLogin" element={<OtpLogin />} />
+          <Route path="/OtpLogin" element={<OtpLogin />} />
+          <Route path="/OTPPage" element={<OTPPage />} />
         </Routes>
       </Router>
     </div>
