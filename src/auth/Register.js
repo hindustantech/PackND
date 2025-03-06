@@ -445,7 +445,7 @@ const Register = () => {
           </form>
 
 
-          <button
+          {/* <button
             className="btn w-100 mb-3 d-flex align-items-center justify-content-center"
             onClick={handleGoogleLogin}
           >
@@ -456,7 +456,7 @@ const Register = () => {
               style={{ height: "24px", width: "24px" }}
               alt="Google Login"
             />
-          </button>
+          </button> */}
           <p className="text-center text-muted small">
             By creating an account, you agree to our{' '}
             <Link to="https://sites.google.com/view/packndterms" target="_blank" rel="noopener noreferrer" className="text-danger text-decoration-none">
