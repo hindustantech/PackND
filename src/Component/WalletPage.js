@@ -17,7 +17,7 @@ const WalletPage = () => {
 
     const image = localStorage.getItem("image")
     // console.log("image)
-    console.log("image 232:", image)
+    console.log("image 232:", Bonus)
 
     const getUserPackageAndMenu = async () => {
         try {
@@ -84,7 +84,6 @@ const WalletPage = () => {
                 const data = await getUserPackageAndMenu();
                 setMembership(data?.data?.user_package || null);
                 setBonus(data?.data?.bonusAmount)
-                console.log("datsa bonus",data.data)
             } catch (err) {
                 setError(err.message);
             }
@@ -293,7 +292,7 @@ const WalletPage = () => {
                                 }}>
                                     REWARDS
                                     <span className="earning-box px-3">
-                                        Your Earning : {amount?.Bonus}
+                                        Your Earning : {Bonus}
                                     </span>
                                 </h2>
                             </div>
