@@ -1,12 +1,17 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import Cookies from "js-cookie";
 
 const Nav = () => {
   const navigate = useNavigate();
   const user_id = localStorage.getItem("id");
+  const allCookies = Cookies.get("id");
+  console.log("All Cookies:", allCookies);
+  console.log(document.cookie);
+
   if (!user_id) {
-    navigate('/');
+    navigate('/login');
   }
 
   return (
@@ -16,7 +21,7 @@ const Nav = () => {
           <li className="nav-item">
             <NavLink
               className={({ isActive }) => `nav-link text-center text-color`}
-              to="/home"
+              to="/"
             >
               {({ isActive }) => (
                 <>
@@ -28,7 +33,7 @@ const Nav = () => {
                       marginBottom: '0', // Ensure no extra space below the image
                     }}
                   />
-                  <span style={{ fontSize: '12px',fontWeight: isActive ? 'bold' : 'normal' }}>Home</span>
+                  <span style={{ fontSize: '12px', fontWeight: isActive ? 'bold' : 'normal' }}>Home</span>
                 </>
               )}
             </NavLink>
@@ -48,7 +53,7 @@ const Nav = () => {
                       marginBottom: '0', // Ensure no extra space below the image
                     }}
                   />
-                  <span style={{ fontSize: '12px',fontWeight: isActive ? 'bold' : 'normal' }}>Wallet</span>
+                  <span style={{ fontSize: '12px', fontWeight: isActive ? 'bold' : 'normal' }}>Wallet</span>
                 </>
               )}
             </NavLink>
@@ -73,7 +78,7 @@ const Nav = () => {
               )}
             </NavLink>
           </li>
-          
+
         </ul>
       </div>
     </nav>

@@ -42,20 +42,7 @@ const Referral = () => {
   const referralCode = userData.email; // Assuming email is used as referral code
 
 
-  const data = `🥗 Get Fresh, Homemade Meals with Tiffit! 🍛    
-  🚀 Delicious, Healthy Tiffins Delivered to Your Doorstep!    
-  Craving homemade food? Tiffit brings you fresh, tasty, and nutritious tiffins at unbeatable prices!        
-  
-  ✨ Exclusive Offer Just for You! ✨    
-  Use Promo Code: 👉 ${userData.email} 👈 to get ₹100 OFF on your first order! 🎉        
-  
-  📲 Download Now & Claim Your Discount!    
-  👉 Install Now: https://play.google.com/store/apps/details?id=com.packndtiffin.app
-  
-  🍽 Healthy | Tasty | Affordable    
-  🚀 Fast Delivery | Customizable Meals        
-  
-  Hurry! Offer valid for a limited time! 🎊`;
+  const data = `${userData.email} `;
 
   const copyToClipboard = async () => {
     try {
@@ -105,8 +92,6 @@ const Referral = () => {
   }, []);
 
 
-
-
   return (
     <>
       <div className="min-h-screen bg-gray-100 mb-3">
@@ -117,7 +102,7 @@ const Referral = () => {
         >
 
           <div className="d-flex   ">
-            <ChevronLeft className="w-10 h-10 mr-2 text-white" onClick={() => navigate('/home')} />
+            <ChevronLeft className="w-10 h-10 mr-2 text-white" onClick={() => navigate('/')} />
 
 
           </div>
@@ -143,12 +128,12 @@ const Referral = () => {
               </svg>
             </div>
             <div className="text-center">
-              <h1 className="text-3xl font-bold text-yellow-500">Earn ₹200</h1>
+              <h1 className="text-3xl font-bold text-yellow-500">Earn ₹100</h1>
               <p className="text-lg font-medium text-red-500">
                 for every friend you refer
               </p>
               <p className="text-sm text-gray-400">
-                Earn ₹1000 for the first 5 referrals
+                Earn ₹500 for the first 5 referrals
               </p>
             </div>
           </div>

@@ -107,7 +107,7 @@ const Register = () => {
           toast.success("Login Successful!");
         }
 
-        navigate('/');
+        navigate('/login');
       } else {
         toast.error("Something went wrong. Please try again.");
       }

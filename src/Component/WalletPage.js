@@ -9,6 +9,7 @@ const WalletPage = () => {
     const navigate = useNavigate();
     const [membership, setMembership] = useState(null);
     const [amount, setAmount] = useState(null);
+    const [Bonus, setBonus] = useState(0);
     const [error, setError] = useState(null);
     const [imageu, setUserimage] = useState(null)
     const user_id = localStorage.getItem("id");
@@ -25,7 +26,7 @@ const WalletPage = () => {
             }
 
             const response = await axios.get(`${BASE_URL}/getUserPackageAndMenu/${user_id}`);
-            
+
             return response.data;
 
         } catch (error) {
@@ -82,7 +83,8 @@ const WalletPage = () => {
             try {
                 const data = await getUserPackageAndMenu();
                 setMembership(data?.data?.user_package || null);
-                // console.log(data?.data?.user_package);
+                setBonus(data?.data?.bonusAmount)
+                console.log("datsa bonus",data.data)
             } catch (err) {
                 setError(err.message);
             }
@@ -112,7 +114,7 @@ const WalletPage = () => {
             try {
                 const data = await getUserPackageHistory();
                 setAmount(data?.data[0]);
-
+                console.log("data.data.[0]",data?.data)
             } catch (err) {
                 setError(err.message);
             }
@@ -272,26 +274,36 @@ const WalletPage = () => {
                     </div>
                 </div>
 
-                {/* <div className="bg-light p-3 rounded mx-3 mt-3" style={{ backgroundColor: "#FFFFFF" }}>
-                    <div className="d-flex justify-content-between align-items-center">
-                        <span>Change</span>
-                        <ChevronRight className="text-muted" size={20} />
-                    </div>
-                </div> */}
+
 
 
 
                 <div className="text-start px-3 mx-1 mt-4" style={{ backgroundColor: "#FFFFFF" }}>
 
-
                     <div className="mb-4" style={{ backgroundColor: "#FFFFFF" }}>
                         <div className=" p-2 rounded bg-light">
-                            <h2 className="h6 mb-3" style={{ fontSize: '14px', fontWeight: 'bold', fontFamily: 'Rethink Sans' }}>
-                                REWARDS
-                            </h2>
+                            <div>
+                                <h2 className="h6 mb-3" style={{
+                                    fontSize: '14px',
+                                    fontWeight: 'bold',
+                                    fontFamily: 'Rethink Sans',
+                                    display: 'flex',  // Flexbox use kar rahe hain
+                                    justifyContent: 'space-between',  // Text ko dono side spread karne ke liye
+                                    alignItems: 'center'  // Vertical alignment ke liye
+                                }}>
+                                    REWARDS
+                                    <span className="earning-box px-3">
+                                        Your Earning : {amount?.Bonus}
+                                    </span>
+                                </h2>
+                            </div>
+
+
+
                             <div>
                                 <div className="d-flex justify-content-between align-items-center mx-2 mb-3" onClick={() => { navigate('/ref') }}>
                                     <span style={{ fontSize: '10px' }}>Refer a friend</span>
+
                                     <ChevronRight className="text-muted" size={20} />
                                 </div>
                                 <div className="d-flex justify-content-between align-items-center mx-2 mb-3">

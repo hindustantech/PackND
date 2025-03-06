@@ -4,6 +4,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { sendTokenToServer } from '../firebase-notification';
 // import { GoogleLogin } from '@react-oauth/google';
+import Cookies from "js-cookie";
+
 import {
   signInWithGoogle,
   handleRedirectResult,
@@ -71,7 +73,7 @@ const Login = () => {
         localStorage.setItem("id", id);
         const token = localStorage.getItem("token")
         sendTokenToServer(token, id);
-        navigate('/home');
+        navigate('/');
 
       } else {
         setError(result.message || 'Login failed. Please try again.');
@@ -85,9 +87,9 @@ const Login = () => {
   // Login With Google
 
 
-  useEffect( () => {
-  
-  
+  useEffect(() => {
+
+
 
     const handleRedirect = async () => {
       if (hasPendingSignIn()) {
@@ -144,13 +146,15 @@ const Login = () => {
         const { user_id } = response.data;
         console.log("response.data", response.data);
         localStorage.setItem("id", user_id);
+        Cookies.set("id", user_id, { expires: 365, path: "/", secure: true, sameSite: "Lax" });
+
 
         const token = localStorage.getItem("token")
-        console.log("token",token);
+        console.log("token", token);
         sendTokenToServer(token, user_id);
 
         // Try to store auth details with fallback
-        // navigate('/')
+
         try {
           authStateService.setAuthState({
             token,
@@ -166,10 +170,10 @@ const Login = () => {
         // Show success message and navigate
         if (response.status === 201) {
           toast.success("Registration Successful!");
-          navigate("/user");
+          navigate("/");
         } else {
           toast.success("Login Successful!");
-          navigate("/home");
+          navigate("/");
         }
       } else {
         throw new Error("Login failed. Please try again.");

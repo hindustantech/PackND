@@ -250,20 +250,37 @@
 }
 
 /* Switch ON state */
-input:checked + .slider {
+input:checked+.slider {
   background-color: #4caf50;
 }
 
-input:checked + .slider:before {
+input:checked+.slider:before {
   transform: translateX(26px);
 }
 
 /* Disabled state */
-input:disabled + .slider {
+input:disabled+.slider {
   background-color: #bbb;
   cursor: not-allowed;
 }
 
-input:disabled + .slider:before {
+input:disabled+.slider:before {
   background-color: #e0e0e0;
+}
+
+.earning-box {
+  background-color: #d4edda;
+  /* Light Green Background */
+  color: green;
+  /* Text Color */
+  padding: 0 3px;
+  /* Padding for better look */
+  border: 1px solid green;
+  /* Green Border */
+  border-radius: 5px;
+  /* Rounded Corners */
+  display: flex;
+  justify-content: flex-end;
+  /* Text ko right end par move karne ke liye */
+  /* Full width */
 }

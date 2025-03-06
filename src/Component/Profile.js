@@ -64,7 +64,7 @@ const Profile = () => {
           style={{ borderRadius: '0 0 25px 25px' }}
         >
           <div className="d-flex justify-content-between align-items-center mx-3">
-            <ChevronLeft size={24} onClick={() => { navigate('/home') }} />
+            <ChevronLeft size={24} onClick={() => { navigate('/') }} />
             <div className=" h-7 w-7 d-flex justify-content-center aling-item-center rounded">
               {/* <img src="/nav/Translate.png" alt="PacknD" className="h-6" loading="lazy" /> */}
             </div>
