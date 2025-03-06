@@ -337,7 +337,7 @@ const Meal = () => {
                                     Welcome {UserData?.first_name}!
                                 </div>
                                 <div
-                                    className="text-muted"
+                                    className="text-muted truncate-1-lines"
                                     style={{ fontSize: '9px', color: '#6F6F6F' }}
                                 >
                                     {UserData?.address}
