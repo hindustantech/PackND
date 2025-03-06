@@ -39,7 +39,7 @@ const Profile = () => {
         const data = await getUser();
         setUserData(data.user);
         // const set=localStorage.setItem("image", data.user.image);
-        
+
         // console.log("set", data.user.image);
         // Set initial meal status from user data if available
 
@@ -95,8 +95,8 @@ const Profile = () => {
                 }}
               >
                 <img
-                 
-                  src={UserData?.image?`${process.env.REACT_APP_PROFILE_IMAGE_GET}/${UserData?.image}`:"/meal.png"}
+
+                  src={UserData?.image ? `${process.env.REACT_APP_PROFILE_IMAGE_GET}/${UserData?.image}` : "/meal.png"}
 
                   alt="Profile"
                   className="w-100 h-100 object-fit-cover"

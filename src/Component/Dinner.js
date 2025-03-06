@@ -467,6 +467,7 @@ const Dinner = ({ membeship }) => {
                 <div className="mb-6">
                     <h6 className="text-red-500 text-center font-bold text-sm mb-1">Evening Meals</h6>
                     <p className="text-gray-500 text-center text-xs mb-4">Prepare your week meal today</p>
+                    
 
                     <div className="flex justify-between items-center">
                         <div className="grid grid-cols-7 gap-4 sm:grid-cols-5 md:grid-cols-7">

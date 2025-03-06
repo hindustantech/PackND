@@ -21,6 +21,8 @@ const Meal = () => {
     const [error, setError] = useState(null);
     const [banners, setBanners] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [mealStatus, setMealStatus] = useState(localStorage.getItem("mealStatus") === "true");
+
     const [showMembershipModal, setShowMembershipModal] = useState(false);
     const [showBalance, setShowBalance] = useState(false);
     const user_id = localStorage.getItem("id");
@@ -29,10 +31,23 @@ const Meal = () => {
     const today = new Date();
 
 
+    useEffect(() => {
+        // Check immediately on component mount
+        const initialStatus = localStorage.getItem("mealStatus") === "true";
+        setMealStatus(initialStatus);
 
-    console.log("isPaused", isPaused);
+        // Set up polling interval (every 2 seconds)
+        const pollingInterval = setInterval(() => {
+            const currentStatus = localStorage.getItem("mealStatus") === "true";
+            // Only update state if the value has changed
+            if (currentStatus !== mealStatus) {
+                setMealStatus(currentStatus);
+            }
+        }, 2000); // Poll every 2 seconds
 
-
+        // Clean up interval on component unmount
+        return () => clearInterval(pollingInterval);
+    }, [mealStatus]);
 
     const fetchBanners = async () => {
         try {
@@ -110,7 +125,7 @@ const Meal = () => {
             try {
                 const data = await getUser();
                 setUserData(data.user);
-                setIsPaused(data.user.meal_status)
+                setIsPaused(data?.user?.meal_status)
                 fetchBanners();
 
             } catch (err) {
@@ -226,8 +241,7 @@ const Meal = () => {
 
         return (
             <div>
-                {/* Show paused message when meal is paused */}
-                (
+
                 <div className="p-6 bg-white rounded-lg shadow-sm mb-4 mt-3">
                     <div className="text-center">
                         <div className="mb-3">
@@ -253,7 +267,7 @@ const Meal = () => {
                         </p>
                     </div>
                 </div>
-                )
+
 
 
 
@@ -395,55 +409,58 @@ const Meal = () => {
                     {/* Membership Section */}
                     <h6 className="text-danger text-center mb-2" style={{ fontWeight: 'bold' }}>Your Membership Meal</h6>
                     {Membership ? (
-                        <div className="d-flex">
-                            <div style={{ minWidth: '80px' }} className="d-flex align-items-start px-2 ">
-                                <img
-                                    src={`https://projectdemo.ukvalley.com/public/package_image/${Membership.image}`}
-                                    alt="Full Meal"
-                                    className="rounded object-fit-cover"
-                                    style={{ width: '110px', height: '110px' }}
-                                />
-                            </div>
+                        <>
+                            <PauseMeal />
+                            <div className="d-flex">
+                                <div style={{ minWidth: '80px' }} className="d-flex align-items-start px-2 ">
+                                    <img
+                                        src={`https://projectdemo.ukvalley.com/public/package_image/${Membership.image}`}
+                                        alt="Full Meal"
+                                        className="rounded object-fit-cover"
+                                        style={{ width: '110px', height: '110px' }}
+                                    />
+                                </div>
 
-                            <div className="card-body p-2 p-sm-3 bg-light rounded rounded-xl ">
-                                <div className="d-flex gap-2 gap-sm-3">
-                                    <div className="flex-grow-1">
-                                        <div className="mb-1 d-flex">
-                                            <h6 className="mb-1" style={{ fontSize: '0.9rem' }}>
-                                                {Membership.package_name}
-                                            </h6>
-                                            <span className="text-dark ms-auto"
-                                                style={{ fontSize: '0.5rem' }}>
-                                                Pure veg
-                                            </span>
-                                        </div>
-                                        <div className="d-flex align-items-center flex-wrap gap-1 mb-4">
-                                            <small className="text-muted "
-                                                style={{ fontSize: '0.5rem' }}>
-                                                {Membership.description}
-                                            </small>
-                                        </div>
-                                        <hr className="my-2" />
-                                        <div className="d-flex flex-column gap-2">
-                                            <div className="d-flex align-items-center flex-wrap">
-                                                <div className="d-flex align-items-center me-2">
-                                                    <img src='/nav/gift.png' className='h-2' />
-                                                    <span className="text-dark ms-1" style={{ fontSize: '0.2rem' }}>
-                                                        Surprise Item Today!
-                                                    </span>
-                                                </div>
-                                                <div className="d-flex align-items-center">
-                                                    <img src='/nav/discount.png' className='h-2' />
-                                                    <span className="text-dark ms-1" style={{ fontSize: '0.2rem' }}>
-                                                        Complete 5 non-stop orders and get 1 free
-                                                    </span>
+                                <div className="card-body p-2 p-sm-3 bg-light rounded rounded-xl ">
+                                    <div className="d-flex gap-2 gap-sm-3">
+                                        <div className="flex-grow-1">
+                                            <div className="mb-1 d-flex">
+                                                <h6 className="mb-1" style={{ fontSize: '0.9rem' }}>
+                                                    {Membership.package_name}
+                                                </h6>
+                                                <span className="text-dark ms-auto"
+                                                    style={{ fontSize: '0.5rem' }}>
+                                                    Pure veg
+                                                </span>
+                                            </div>
+                                            <div className="d-flex align-items-center flex-wrap gap-1 mb-4">
+                                                <small className="text-muted "
+                                                    style={{ fontSize: '0.5rem' }}>
+                                                    {Membership.description}
+                                                </small>
+                                            </div>
+                                            <hr className="my-2" />
+                                            <div className="d-flex flex-column gap-2">
+                                                <div className="d-flex align-items-center flex-wrap">
+                                                    <div className="d-flex align-items-center me-2">
+                                                        <img src='/nav/gift.png' className='h-2' />
+                                                        <span className="text-dark ms-1" style={{ fontSize: '8px' }}>
+                                                            Surprise Item Today!
+                                                        </span>
+                                                    </div>
+                                                    <div className="d-flex align-items-center">
+                                                        <img src='/nav/discount.png' className='h-2' />
+                                                        <span className="text-dark ms-1" style={{ fontSize: '8px' }}>
+                                                            Complete 5 non-stop orders and get 1 free
+                                                        </span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </>
                     ) : (
 
                         <>
@@ -453,20 +470,21 @@ const Meal = () => {
 
                     )}
 
-                    {/* Meal Components */}
+
                     {Membership && (
-                        <>
-                            <PauseMeal />
-
-
-                            {mealTime === 'lunch' && <Lunch mealTime='morning' />}
-                            {mealTime === 'dinner' && <Dinner mealTime='evening' />}
-
-
-
-
-                        </>
+                        mealStatus ? (
+                            <MealComponent />
+                        ) : (
+                            <>
+                                {mealTime === 'lunch' && <Lunch mealTime="morning" membeship={Membership} />}
+                                {mealTime === 'dinner' && <Dinner mealTime="evening" membeship={Membership} />}
+                            </>
+                        )
                     )}
+
+
+
+
                 </div>
             </div>
 

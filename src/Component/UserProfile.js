@@ -338,8 +338,8 @@ const UserProfile = () => {
           {renderFormField('mobile', 'Mobile Number')}
           {renderFormField('email', 'Email')}
           {renderFormField('dob', 'Date of Birth')}
-          {renderFormField('address', 'Address')}
-          {renderFormField('address1', 'Address Line 2')}
+          {renderFormField('address', 'Morning Address')}
+          {renderFormField('address1', 'Evening Address')}
         </div>
 
         {/* Submit Button */}

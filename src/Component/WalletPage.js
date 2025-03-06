@@ -25,7 +25,9 @@ const WalletPage = () => {
             }
 
             const response = await axios.get(`${BASE_URL}/getUserPackageAndMenu/${user_id}`);
+            
             return response.data;
+
         } catch (error) {
             console.error("Error fetching user data:", error.message);
             throw error;
@@ -206,64 +208,63 @@ const WalletPage = () => {
             </div>
 
             <div className="mt-2" >
-                <div className="px-3 mt-n2" style={{ backgroundColor: "#FFFFFF" }}>
+                <div className="container-fluid p-3 bg-white">
                     <div className="row g-3">
-                        <div
-                            className="col-6"
-                            style={{ fontSize: "10px", cursor: "pointer" }}
-                            onClick={navigateToPaymentPage}
-                        >
-                            <div className="bg-light p-3 rounded">
-                                <div className="d-flex align-items-center gap-2">
+                        {/* Membership Card */}
+                        <div className="col-6">
+                            <div
+                                className="bg-light p-3 rounded h-100"
+                                style={{ cursor: "pointer" }}
+                                onClick={navigateToPaymentPage}
+                            >
+                                <div className="d-flex align-items-center gap-2 mb-1">
                                     <img
                                         src={
                                             membership?.package_name
                                                 ? `/m/${membership.package_name.toLowerCase()[0]}.png`
-                                                : `/m/default.png`  // Fallback image when package name is not found
+                                                : `/m/default.png`
                                         }
-                                        className="h-4 "
+                                        className="img-fluid"
+                                        style={{ height: "1.25rem" }}
                                         alt={`${membership?.package_name || "Default"} Membership`}
                                     />
-                                    <span className="fw-semibold">Membership</span>
+                                    <span className="fw-semibold small">Membership</span>
                                 </div>
                                 <div
-                                    className="fw-bold text-black mx-2"
-                                    style={{ fontSize: "1.2rem" }}
+                                    className="fw-bold text-black mb-1"
+                                    style={{ fontSize: "1rem" }}
                                 >
                                     {membership?.package_name || "N/A"}
                                 </div>
-                                <small className="mx-1" style={{ fontSize: "0.2rem" }}>
+                                <small className="text-muted d-block" style={{ fontSize: "0.7rem" }}>
                                     Change Membership on Next Renewal
                                 </small>
                             </div>
                         </div>
 
-
+                        {/* Wallet Card */}
                         <div className="col-6">
-                            <div className="bg-light p-3 rounded">
+                            <div className="bg-light p-3 rounded h-100">
                                 <div className="d-flex align-items-center justify-content-between mb-1">
                                     <div className="d-flex align-items-center gap-2">
                                         <div
                                             className="bg-danger rounded-circle d-flex align-items-center justify-content-center"
                                             style={{ width: "20px", height: "20px" }}
                                         >
-                                            <Wallet className="text-white" style={{ width: "14px", height: "14px" }} />
+                                            <Wallet className="text-white" style={{ width: "12px", height: "12px" }} />
                                         </div>
                                         <span className="fw-semibold small">Wallet</span>
                                     </div>
-                                    {/* <Plus className="text-secondary" size={16} /> */}
                                 </div>
-                                <div className="fs-5 fw-bold mb-0">
-                                    <span className="text-black mx-1 " style={{ fontSize: "1rem" }}>
-                                        ₹ {Math.trunc(amount?.balance_amount || 0)}/
-
+                                <div className="d-flex align-items-baseline mb-1">
+                                    <span className="text-black fw-bold" style={{ fontSize: "1rem" }}>
+                                        ₹ {Math.trunc(amount?.balance_amount || 0)}
                                     </span>
-                                    <span className="text-secondary" style={{ fontSize: "0.5rem" }}>
-                                        ₹{Math.trunc(amount?.total_amount || 0)}
-
+                                    <span className="text-secondary ms-1" style={{ fontSize: "0.75rem" }}>
+                                        / ₹{Math.trunc(amount?.total_amount || 0)}
                                     </span>
                                 </div>
-                                <p className=" mb-0 text-center" style={{ fontSize: "0.2rem", color: '#3FB500' }}>
+                                <p className="text-success mb-0" style={{ fontSize: "0.7rem" }}>
                                     Available Balance
                                 </p>
                             </div>
@@ -284,7 +285,7 @@ const WalletPage = () => {
 
 
                     <div className="mb-4" style={{ backgroundColor: "#FFFFFF" }}>
-                        <div className=" p-3 rounded bg-light">
+                        <div className=" p-2 rounded bg-light">
                             <h2 className="h6 mb-3" style={{ fontSize: '14px', fontWeight: 'bold', fontFamily: 'Rethink Sans' }}>
                                 REWARDS
                             </h2>

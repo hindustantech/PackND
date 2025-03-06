@@ -39,7 +39,7 @@ const ContactUs = () => {
         <h2 className="text-3xl font-bold text-gray-800 text-center mb-6">Contact Us</h2>
         <p className="text-center text-gray-600 mb-8">
           We'd love to hear from you! Fill out the form below and we'll get back to you as soon as possible.<br/>
-          If you have any queries, feel free to contact us at 9939934004 .
+          If you have any queries, feel free to contact us at 9939934004 or  info@packnd.com
         </p>
         <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="flex flex-col">

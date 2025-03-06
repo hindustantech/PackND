@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronRight, ChevronLeft ,User} from 'lucide-react';
+import { ChevronRight, ChevronLeft, User } from 'lucide-react';
 import Nav from './Nav';
 import { NavLink } from 'react-router-dom';
 
@@ -21,7 +21,7 @@ const MealCard = ({ meal, isLast }) => (
         </span>
       </div>
       <p className="text-gray-500 text-xs mx-2">
-        {meal.sabji1_name}, {meal.sabji1a_name}, {meal.bread_name},
+        {meal.sabji1_name}, {meal.bread_name},{meal.sabji1a_name}
       </p>
     </div>
   </div>
@@ -188,6 +188,7 @@ const History = () => {
       }
       setUsername(data.data.summary.date_range.username)
       setMealHistory(transformedHistory);
+      console.log("transformedHistory", transformedHistory);
 
       setTotalMeals(data.data.summary.total_orders);
     } catch (err) {
