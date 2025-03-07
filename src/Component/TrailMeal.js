@@ -137,7 +137,7 @@ export const MealForm = ({ selectedMeal, onSubmit, onClose }) => {
             setLoading(false);
 
             // Navigate to home after success
-            window.location.href = '/home';
+            window.location.href = '/';
         } catch (error) {
             setLoading(false);
             toast.error(error.message || 'An error occurred. Please try again.');
