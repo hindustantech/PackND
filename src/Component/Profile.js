@@ -38,10 +38,6 @@ const Profile = () => {
       try {
         const data = await getUser();
         setUserData(data.user);
-        // const set=localStorage.setItem("image", data.user.image);
-
-        // console.log("set", data.user.image);
-        // Set initial meal status from user data if available
 
       } catch (err) {
         setError(err.message);

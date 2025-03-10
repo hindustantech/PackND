@@ -25,7 +25,8 @@ const UserProfile = () => {
     name: '',
     mobile: '',
     address1: '',
-    dob: ''
+    dob: '',
+    address:''
   });
 
   const [previewImage, setPreviewImage] = useState('');
@@ -79,7 +80,7 @@ const UserProfile = () => {
     setUser({ ...user, [field]: value });
 
     // Validate fields that have constraints
-    if (['name', 'dob', 'mobile', 'address1'].includes(field)) {
+    if (['name', 'dob', 'mobile', 'address1','address'].includes(field)) {
       const errorMessage = validateField(field, value);
       setErrors(prev => ({ ...prev, [field]: errorMessage }));
     }
@@ -164,6 +165,7 @@ const UserProfile = () => {
       user.name !== originalUser.name ||
       user.mobile !== originalUser.mobile ||
       user.address1 !== originalUser.address1 ||
+      user.address !== originalUser.address ||
       user.dob !== originalUser.dob;
 
     // Check if new image was uploaded
@@ -190,7 +192,8 @@ const UserProfile = () => {
       name: nameError,
       dob: dobError,
       mobile: '',
-      address1: ''
+      address1: '',
+      address:''
     });
 
     // Check if there are any validation errors
@@ -236,7 +239,7 @@ const UserProfile = () => {
 
   // Render form fields with specific conditions
   const renderFormField = (field, label) => {
-    const isReadOnly = field === 'email' || field === 'address';
+    const isReadOnly = field === 'email'  || field ==='mobile';
 
     if (field === 'dob') {
       return (
@@ -352,7 +355,7 @@ const UserProfile = () => {
           Save Changes
         </button>
 
-       
+
       </div>
     </div>
   );

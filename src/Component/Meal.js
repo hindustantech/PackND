@@ -16,6 +16,7 @@ const Meal = () => {
     const [mealTime, setMealTime] = useState('lunch');
     const [UserData, setUserData] = useState([]);
     const [isPaused, setIsPaused] = useState(false);
+    const [Trail, setTrail] = useState(false);
 
     const [Membership, setMembership] = useState(null);
     const [error, setError] = useState(null);
@@ -29,7 +30,7 @@ const Meal = () => {
     const BASE_URL = process.env.REACT_APP_API_BASE_URL;
     const navigate = useNavigate();
     const today = new Date();
-
+    console.log("Trail:", Trail, "Type of Trail:", typeof Trail);
 
     useEffect(() => {
         // Check immediately on component mount
@@ -125,6 +126,7 @@ const Meal = () => {
             try {
                 const data = await getUser();
                 setUserData(data.user);
+                setTrail(data.user.trial_meal);
                 setIsPaused(data?.user?.meal_status)
                 fetchBanners();
 
@@ -274,6 +276,31 @@ const Meal = () => {
             </div>
         );
     };
+    const Already = () => {
+
+        return (
+            <div className="max-w-sm mx-auto bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300 mb-4">
+                <div className="p-6">
+                    <div className="text-center">
+                        {/* <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                            All Ready Taken Trail Meal
+                        </h3> */}
+                        <p className="text-gray-600 mb-6">
+                            Purchase The Package
+                        </p>
+
+                        <button
+                            type="button"
+                            onClick={() => navigate('/payment')}
+                            className="w-full bg-red-600 hover:bg-red-700 text-white font-medium py-1 px-1 rounded-lg transition duration-300 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
+                        >
+                            Membership Plans
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+    };
 
 
 
@@ -407,9 +434,10 @@ const Meal = () => {
                     </div>
 
                     {/* Membership Section */}
-                    <h6 className="text-danger text-center mb-2" style={{ fontWeight: 'bold' }}>Your Membership Meal</h6>
                     {Membership ? (
                         <>
+                            <h6 className="text-danger text-center mb-3" style={{ fontWeight: 'bold' }}>Your Membership Meal</h6>
+
                             <PauseMeal />
                             <div className="d-flex">
                                 <div style={{ minWidth: '80px' }} className="d-flex align-items-start px-2 ">
@@ -464,8 +492,19 @@ const Meal = () => {
                     ) : (
 
                         <>
-                            {mealTime === 'lunch' && <TrailMeal mealTime='morning' />}
-                            {mealTime === 'dinner' && <TrailMeal mealTime='evening' />}
+                            {Trail === 1 ? (
+                                <Already
+                                    onSubscribe={handleSubscribe}
+                                />
+                            ) : (
+                                <>
+                                    {mealTime === 'lunch' && <TrailMeal mealTime='morning' />}
+                                    {mealTime === 'dinner' && <TrailMeal mealTime='evening' />}
+                                </>
+                            )}
+
+
+
                         </>
 
                     )}
@@ -493,6 +532,7 @@ const Meal = () => {
                 isOpen={showMembershipModal}
                 onClose={() => setShowMembershipModal(false)}
                 onSubscribe={handleSubscribe}
+
             />
 
             {/* Fixed Navigation */}

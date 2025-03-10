@@ -83,6 +83,7 @@ const WalletPage = () => {
             try {
                 const data = await getUserPackageAndMenu();
                 setMembership(data?.data?.user_package || null);
+                console.log("data?.data?", data?.data);
                 setBonus(data?.data?.bonusAmount)
             } catch (err) {
                 setError(err.message);
@@ -113,7 +114,7 @@ const WalletPage = () => {
             try {
                 const data = await getUserPackageHistory();
                 setAmount(data?.data[0]);
-                console.log("data.data.[0]",data?.data)
+                console.log("data.data.[0]", data?.data)
             } catch (err) {
                 setError(err.message);
             }
@@ -268,15 +269,19 @@ const WalletPage = () => {
                                 <p className="text-success mb-0" style={{ fontSize: "0.7rem" }}>
                                     Available Balance
                                 </p>
+                                <button
+                                    className="px-2  bg-green-600 text-white rounded-md text-sm hover:bg-green-700 transition duration-200 cursor-pointer border-none
+             md:w-auto md:inline-block"
+                                    style={{ fontSize: "0.875rem" }}  // Adjusting font size slightly
+                                    onClick={() => navigate('/list_upcoming')}
+                                >
+                                    Upcoming
+                                </button>
+
                             </div>
                         </div>
                     </div>
                 </div>
-
-
-
-
-
                 <div className="text-start px-3 mx-1 mt-4" style={{ backgroundColor: "#FFFFFF" }}>
 
                     <div className="mb-4" style={{ backgroundColor: "#FFFFFF" }}>
