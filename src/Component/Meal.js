@@ -22,7 +22,7 @@ const Meal = () => {
     const [error, setError] = useState(null);
     const [banners, setBanners] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [mealStatus, setMealStatus] = useState(localStorage.getItem("mealStatus") === "true");
+    const [mealStatus, setMealStatus] = useState(false);
 
     const [showMembershipModal, setShowMembershipModal] = useState(false);
     const [showBalance, setShowBalance] = useState(false);
@@ -33,22 +33,26 @@ const Meal = () => {
     console.log("Trail:", Trail, "Type of Trail:", typeof Trail);
 
     useEffect(() => {
-        // Check immediately on component mount
-        const initialStatus = localStorage.getItem("mealStatus") === "true";
-        setMealStatus(initialStatus);
-
-        // Set up polling interval (every 2 seconds)
-        const pollingInterval = setInterval(() => {
-            const currentStatus = localStorage.getItem("mealStatus") === "true";
-            // Only update state if the value has changed
-            if (currentStatus !== mealStatus) {
-                setMealStatus(currentStatus);
+        const fetchMealStatus = async () => {
+            setIsLoading(true); // If you have a loading state
+            try {
+                const response = await fetch(`${BASE_URL}/getuser/${user_id}`);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                const status = data.user.meal_status == 1;
+                setMealStatus(status);
+            } catch (error) {
+                console.error('Error fetching meal status:', error);
+                setMealStatus(false);
+            } finally {
+                setIsLoading(false);
             }
-        }, 2000); // Poll every 2 seconds
+        };
 
-        // Clean up interval on component unmount
-        return () => clearInterval(pollingInterval);
-    }, [mealStatus]);
+        fetchMealStatus();
+    }, [user_id]);
 
     const fetchBanners = async () => {
         try {
@@ -438,7 +442,7 @@ const Meal = () => {
                         <>
                             <h6 className="text-danger text-center mb-3" style={{ fontWeight: 'bold' }}>Your Membership Meal</h6>
 
-                            <PauseMeal />
+                            <PauseMeal isPause = {isPaused} />
                             <div className="d-flex">
                                 <div style={{ minWidth: '80px' }} className="d-flex align-items-start px-2 ">
                                     <img

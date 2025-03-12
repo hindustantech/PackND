@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 
-const PauseMeal = () => {
-    const [isPaused, setIsPaused] = useState(false);
+const PauseMeal = ({isPause}) => {
+    
+    const [isPaused, setIsPaused] = useState(isPause);
     const [isLoading, setIsLoading] = useState(false);
+    console.log(isPause);
 
+ 
     const user_id = localStorage.getItem("id");
 
     const toggleMealStatus = async () => {
@@ -36,7 +39,7 @@ const PauseMeal = () => {
                 throw new Error(result.message || "Failed to update meal status");
             }
 
-            if (result.status === "success") {
+            if (result.status == "success") {
                 // Directly set the new status from payload
                 setIsPaused(newStatus);
 
@@ -44,6 +47,8 @@ const PauseMeal = () => {
                 localStorage.setItem('mealStatus', JSON.stringify(newStatus));
 
                 toast.success(result.message || "Meal status updated successfully");
+                window.location.reload(true);
+
             } else {
                 throw new Error(result.message || "Failed to update meal status");
             }
@@ -56,50 +61,16 @@ const PauseMeal = () => {
     };
 
     useEffect(() => {
-        const fetchUserMealStatus = async () => {
-            try {
-                if (!user_id) {
-                    throw new Error("User ID not found in localStorage.");
-                }
+        const dataset = () => {
+           if (isPause == 1) {
+            setIsPaused(true)
+           }else{
+            setIsPaused(false)
+           }
+        }
 
-                // First, check localStorage for persisted status
-                const storedStatus = localStorage.getItem('mealStatus');
-                if (storedStatus !== null) {
-                    const parsedStatus = JSON.parse(storedStatus);
-                    setIsPaused(parsedStatus);
-                    return; // Exit if we have a stored status
-                }
-
-                // If no local storage, fetch from backend
-                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/getuser/${user_id}`);
-
-                if (!response.ok) {
-                    throw new Error(`Unexpected response status: ${response.status}`);
-                }
-
-                const data = await response.json();
-
-                if (data.user && data.user.meal_status !== undefined) {
-                    // Robust conversion of status
-                    const backendStatus = data.user.meal_status;
-                    const booleanStatus = backendStatus === true ||
-                        backendStatus === 1 ||
-                        backendStatus === "true";
-
-                    setIsPaused(booleanStatus);
-                    console.log(booleanStatus);
-                    // Store in localStorage for future reloads
-                    localStorage.setItem('mealStatus', JSON.stringify(booleanStatus));
-                }
-            } catch (error) {
-                console.error('Fetch User Error:', error);
-                toast.error("Failed to load user data");
-            }
-        };
-
-        fetchUserMealStatus();
-    }, [user_id]);
-
+        dataset();
+    },[isPause]);
     return (
         <div className="p-2 mb-3 flex justify-between items-center bg-white rounded shadow-sm">
             <span className="text-sm font-medium text-gray-700">
