@@ -11,6 +11,7 @@ import Meal from "./Component/Meal";
 import Lunch from "./Component/Lunch";
 import Dinner from "./Component/Dinner";
 import Register from "./auth/Register";
+import TermsAndConditions from "./Component/TermsCondication";
 import Login from "./auth/Login";
 import PaymentPage from "./Component/PaymentPage";
 import UserProfile from "./Component/UserProfile";
@@ -62,6 +63,7 @@ function App() {
           <Route path="/OtpLogin" element={<OtpLogin />} />
           <Route path="/OTPPage" element={<OTPPage />} />
           <Route path="/list_upcoming" element={<ListUpcoming />} />
+          <Route path="/TermsAndConditions" element={<TermsAndConditions />} />
         </Routes>
       </Router>
     </div>
