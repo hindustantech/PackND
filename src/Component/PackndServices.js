@@ -1,11 +1,23 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { FiArrowLeft } from 'react-icons/fi';
 
 const PackndServices = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         {/* Header Section */}
         <header className="text-center mb-12">
+          <button
+            onClick={() => navigate(-1)}
+            className="flex items-center text-red-600 hover:text-blue-800 mb-6 transition-colors"
+          >
+            <FiArrowLeft className="mr-2" />
+            Back
+          </button>
+
           <h1 className="text-4xl font-extrabold text-red-600 mb-2">Packnd Services</h1>
           <p className="text-lg text-gray-600">Fast, reliable delivery services</p>
         </header>

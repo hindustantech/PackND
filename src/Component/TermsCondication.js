@@ -1,8 +1,19 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { FiArrowLeft } from 'react-icons/fi';
 
 const TermsAndConditions = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="max-w-4xl mx-auto p-8 font-sans">
+      <button
+        onClick={() => navigate(-1)}
+        className="flex items-center text-red-600 hover:text-blue-800 mb-6 transition-colors"
+      >
+        <FiArrowLeft className="mr-2" />
+        Back
+      </button>
       <h1 className="text-3xl font-bold text-gray-800 mb-6">Terms and Conditions</h1>
 
       <p className="text-gray-700 mb-6 leading-relaxed">

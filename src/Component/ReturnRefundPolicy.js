@@ -1,11 +1,22 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { FiArrowLeft } from 'react-icons/fi';
 
 const ReturnRefundPolicy = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
         {/* Header */}
         <div className="bg-red-600 px-6 py-4">
+          <button
+            onClick={() => navigate(-1)}
+            className="flex items-center text-red-600 hover:text-blue-800 mb-6 transition-colors"
+          >
+            <FiArrowLeft className="mr-2" />
+            Back
+          </button>
           <h1 className="text-3xl font-bold text-white">Return & Refund Policy</h1>
         </div>
 
@@ -40,7 +51,7 @@ const ReturnRefundPolicy = () => {
                 For any non-food related services such as event management or facility management, please contact our support team for detailed return and refund policies specific to those services.
               </p>
             </div>
-            
+
             {/* Policy Point 4 */}
             <div className="flex items-start">
               <span className="bg-red-100 text-red-800 font-bold rounded-full h-6 w-6 flex items-center justify-center mr-3 mt-1">4</span>

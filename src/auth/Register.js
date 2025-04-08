@@ -459,19 +459,19 @@ const Register = () => {
           </button> */}
           <p className="text-center text-muted small">
             By creating an account, you agree to our{' '}
-            <Link to="/TermsAndConditions" target="_blank" rel="noopener noreferrer" className="text-danger text-decoration-none">
+            <Link to="/TermsAndConditions"  rel="noopener noreferrer" className="text-danger text-decoration-none">
               Terms of Service
             </Link>{' '}
             and{' '}
-            <Link to="/ReturnRefundPolicy" target="_blank" rel="noopener noreferrer" className="text-danger text-decoration-none">
+            <Link to="/ReturnRefundPolicy"  rel="noopener noreferrer" className="text-danger text-decoration-none">
               Return Refund Policy ,
             </Link>{' '}
             and{' '}
-            <Link to="/PackndServices" target="_blank" rel="noopener noreferrer" className="text-danger text-decoration-none">
+            <Link to="/PackndServices"  rel="noopener noreferrer" className="text-danger text-decoration-none">
               Shipping of Service ,
             </Link>{' '}
             and{' '}
-            <Link to="https://sites.google.com/view/packndprivacy" target="_blank" rel="noopener noreferrer" className="text-danger text-decoration-none">
+            <Link to="https://sites.google.com/view/packndprivacy"  rel="noopener noreferrer" className="text-danger text-decoration-none">
               Privacy Policy
             </Link>
           </p>
