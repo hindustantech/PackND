@@ -23,6 +23,8 @@ import ChangePassword from "./auth/ChangePassword";
 import { requestPermission, listenForMessages } from "./firebase-notification";
 import OtpLogin from "./auth/OtpLogin";
 import OTPPage from "./auth/OTPPage";
+import ReturnRefundPolicy from "./Component/ReturnRefundPolicy";
+import PackndServices from "./Component/PackndServices";
 import { List } from "lucide-react";
 import ListUpcoming from "./Component/ListUpcoming";
 const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
@@ -64,6 +66,8 @@ function App() {
           <Route path="/OTPPage" element={<OTPPage />} />
           <Route path="/list_upcoming" element={<ListUpcoming />} />
           <Route path="/TermsAndConditions" element={<TermsAndConditions />} />
+          <Route path="/ReturnRefundPolicy" element={<ReturnRefundPolicy/>} />
+          <Route path="/PackndServices" element={<PackndServices/>} />
         </Routes>
       </Router>
     </div>
