@@ -25,6 +25,7 @@ import OtpLogin from "./auth/OtpLogin";
 import OTPPage from "./auth/OTPPage";
 import ReturnRefundPolicy from "./Component/ReturnRefundPolicy";
 import PackndServices from "./Component/PackndServices";
+import PrivacyPolicy from "./Component/Privacy";
 import { List } from "lucide-react";
 import ListUpcoming from "./Component/ListUpcoming";
 const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
@@ -67,7 +68,8 @@ function App() {
           <Route path="/list_upcoming" element={<ListUpcoming />} />
           <Route path="/TermsAndConditions" element={<TermsAndConditions />} />
           <Route path="/ReturnRefundPolicy" element={<ReturnRefundPolicy/>} />
-          <Route path="/PackndServices" element={<PackndServices/>} />
+          <Route path="/ShippingPolicy" element={<PackndServices/>} />
+          <Route path="/PrivacyPolicy" element={<PrivacyPolicy/>} />
         </Routes>
       </Router>
     </div>

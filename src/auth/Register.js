@@ -467,11 +467,11 @@ const Register = () => {
               Return Refund Policy ,
             </Link>{' '}
             and{' '}
-            <Link to="/PackndServices"  rel="noopener noreferrer" className="text-danger text-decoration-none">
+            <Link to="/ShippingPolicy"  rel="noopener noreferrer" className="text-danger text-decoration-none">
               Shipping of Service ,
             </Link>{' '}
             and{' '}
-            <Link to="https://sites.google.com/view/packndprivacy"  rel="noopener noreferrer" className="text-danger text-decoration-none">
+            <Link to="/PrivacyPolicy"  rel="noopener noreferrer" className="text-danger text-decoration-none">
               Privacy Policy
             </Link>
           </p>
