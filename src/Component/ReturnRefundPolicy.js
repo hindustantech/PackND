@@ -44,17 +44,10 @@ const ReturnRefundPolicy = () => {
               </p>
             </div>
 
-            {/* Policy Point 3 */}
-            <div className="flex items-start">
-              <span className="bg-red-100 text-red-800 font-bold rounded-full h-6 w-6 flex items-center justify-center mr-3 mt-1">3</span>
-              <p className="text-gray-700">
-                For any non-food related services such as event management or facility management, please contact our support team for detailed return and refund policies specific to those services.
-              </p>
-            </div>
 
             {/* Policy Point 4 */}
             <div className="flex items-start">
-              <span className="bg-red-100 text-red-800 font-bold rounded-full h-6 w-6 flex items-center justify-center mr-3 mt-1">4</span>
+              <span className="bg-red-100 text-red-800 font-bold rounded-full h-6 w-6 flex items-center justify-center mr-3 mt-1">3</span>
               <p className="text-gray-700">
                 Cancellations are allowed if made within the specified timeframe before order preparation begins.
                 Once order preparation has started, cancellations are no longer permitted.
@@ -63,7 +56,7 @@ const ReturnRefundPolicy = () => {
 
             {/* Policy Point 5 */}
             <div className="flex items-start">
-              <span className="bg-red-100 text-red-800 font-bold rounded-full h-6 w-6 flex items-center justify-center mr-3 mt-1">5</span>
+              <span className="bg-red-100 text-red-800 font-bold rounded-full h-6 w-6 flex items-center justify-center mr-3 mt-1">4</span>
               <p className="text-gray-700">
                 In case of disputes or discrepancies, Packnd reserves the right to make the final decision on returns and refunds.
               </p>
@@ -71,7 +64,7 @@ const ReturnRefundPolicy = () => {
 
             {/* Policy Point 6 */}
             <div className="flex items-start">
-              <span className="bg-red-100 text-red-800 font-bold rounded-full h-6 w-6 flex items-center justify-center mr-3 mt-1">6</span>
+              <span className="bg-red-100 text-red-800 font-bold rounded-full h-6 w-6 flex items-center justify-center mr-3 mt-1">5</span>
               <p className="text-gray-700">
                 Returns for delivered food items must be initiated within 2 hours of delivery. The replacement of the returned product will be completed within the same 2-hour window.
               </p>
@@ -83,7 +76,8 @@ const ReturnRefundPolicy = () => {
               If you have any questions or require further assistance, please contact our support team at:
             </p>
             <p className="mt-2 text-red-600 font-medium">
-              Email: <a href="mailto:info@packnd.com" className="hover:underline">info@packnd.com</a>
+              Email: <a href="mailto:info@packnd.com" className="hover:underline">info@packnd.com</a> <br/>
+              Name : ALPESH SANTOSH BHATE
             </p>
           </div>
         </div>
